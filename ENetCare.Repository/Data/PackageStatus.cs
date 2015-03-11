@@ -8,6 +8,7 @@ namespace ENetCare.Repository.Data
 {
     public enum PackageStatus
     {
+        InTransit,
         InStock,
         Distributed,
         Discarded,
