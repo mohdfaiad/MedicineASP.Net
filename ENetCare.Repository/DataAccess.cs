@@ -55,5 +55,50 @@ namespace ENetCare.Repository
                 int effected = cmd.ExecuteNonQuery();                
             }
         }
+
+        public static Package GetPackage(SqlConnection connection, int? packageId, string barcode)
+        {
+            Package package = new Package();
+            package.PackageType = new StandardPackageType();
+
+            string query = "SELECT PackageId, BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId FROM Package WHERE PackageId = ISNULL(@packageId, PackageId) AND BarCode = ISNULL(@barcode, BarCode)";
+
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+
+            cmd.Parameters.AddWithValue("@packageId", packageId.HasValue ? packageId.Value : (object)DBNull.Value);
+
+            cmd.Parameters.AddWithValue("@barcode", string.IsNullOrEmpty(barcode) ? (object)DBNull.Value : barcode);
+
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                if (reader.Read())
+                {
+                    package.PackageId = Convert.ToInt32(reader["PackageId"]);
+                    package.BarCode = (string)reader["BarCode"];
+                    package.ExpirationDate = (DateTime)reader["ExpirationDate"];
+                    package.PackageType.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
+                    if (reader["CurrentLocationCentreId"] != DBNull.Value)
+                    {
+                        package.CurrentLocation = new DistributionCentre();
+                        package.CurrentLocation.CentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
+                    }
+
+                    if (reader["CurrentStatus"] != DBNull.Value)
+                    {
+                        package.CurrentStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["CurrentStatus"]);
+                    }
+
+                    if (reader["DistributedByEmployeeId"] != DBNull.Value)
+                    {
+                        package.DistributedBy = new Employee();  
+                        package.DistributedBy.EmployeeId = Convert.ToInt32(reader["DistributedByEmployeeId"]);
+                    }
+                }
+            }
+            return package;
+        }
+
+
     }
 }
