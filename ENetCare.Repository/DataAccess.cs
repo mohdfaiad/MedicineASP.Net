@@ -99,6 +99,85 @@ namespace ENetCare.Repository
             return package;
         }
 
+        public static Employee GetEmployee(SqlConnection connection, int? employeeId, string username)
+        {
+            Employee employee = new Employee();
+            employee.Location = new DistributionCentre();
+            string query = "SELECT EmployeeId, UserName, Password, FullName, EmailAddress, Employee, LocationCentreId FROM Employee WHERE EmployeeId = ISNULL(@employeeId, PackageId) AND UserName = ISNULL(@username, UserName)";
 
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+
+            cmd.Parameters.AddWithValue("@employeeId", employeeId.HasValue ? employeeId.Value : (object)DBNull.Value);
+
+            cmd.Parameters.AddWithValue("@username", string.IsNullOrEmpty(username) ? (object)DBNull.Value : username);
+
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                if (reader.Read())
+                {
+                    employee.EmployeeId = Convert.ToInt32(reader["EmployeeId"]);
+                    employee.UserName = (string)reader["UserName"];
+                    employee.Password = (string)reader["Password"];
+                    employee.FullName = (string)reader["FullName"];
+                    employee.EmailAddress = (string)reader["EmailAddress"];
+                    employee.EmployeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), (string)reader["EmployeeType"]);
+                    employee.Location.CentreId = Convert.ToInt32(reader["LocationCentreId"]);
+                }
+            }
+            return employee;
+        }
+
+        public static DistributionCentre GetDistributionCentre(SqlConnection connection, int centreId)
+        {
+            DistributionCentre centre = new DistributionCentre();
+            string query = "SELECT CentreId, Name, Address, Phone, IsHeadOffice FROM DistributionCentre WHERE CentreId = @centreId";
+
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+
+            cmd.Parameters.AddWithValue("@centreId", centreId);
+
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                if (reader.Read())
+                {
+                    centre.CentreId = Convert.ToInt32(reader["CentreId"]);
+                    centre.Name = (string)reader["Name"];
+                    centre.Address = (string)reader["Address"];
+                    centre.Phone = (string)reader["Phone"];
+                    centre.IsHeadOffice = (bool)reader["IsHeadOffice"];
+                }
+            }
+
+            return centre;
+        }
+
+        public static StandardPackageType GetStandardPackageType(SqlConnection connection, int packageTypeId)
+        {
+            StandardPackageType packageType = new StandardPackageType();
+            string query = "SELECT PackageTypeId, Description, NumberOfMedications, ShelfLifeUnitType, ShelfLifeUnits, TemperatureSensitive, Value FROM StandardPackageType WHERE PackageTypeId = @packageTypeId";
+
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+
+            cmd.Parameters.AddWithValue("@packageTypeId", packageTypeId);
+
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                if (reader.Read())
+                {
+                    packageType.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
+                    packageType.Description = (string)reader["Description"];
+                    packageType.NumberOfMedications = Convert.ToInt32(reader["NumberOfMedications"]);
+                    packageType.ShelfLifeUnitType = (ShelfLifeUnitType)Enum.Parse(typeof(ShelfLifeUnitType), (string)reader["ShelfLifeUnitType"]);
+                    packageType.ShelfLifeUnits = Convert.ToInt32(reader["ShelfLifeUnits"]);
+                    packageType.TemperatureSensitive = (bool)reader["TemperatureSensitive"];
+                    packageType.Value = (decimal)reader["Value"];
+                }
+            }
+
+            return packageType;
+        }
     }
 }

@@ -11,5 +11,7 @@ namespace ENetCare.Repository.Repository
     {
         int Insert(Package package);
         void Update(Package package);
+
+        Package Get(int? packageId, string barcode);
     }
 }
