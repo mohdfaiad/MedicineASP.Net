@@ -67,7 +67,7 @@ namespace ENetCare.UnitTest
             };
 
             string barCode;
-            int packageId = packageService.Register(packageType, location, DateTime.Today.AddMonths(2), out barCode);
+            var result = packageService.Register(packageType, location, DateTime.Today.AddMonths(2), out barCode);
 
             Assert.AreNotEqual<string>(string.Empty, barCode);
         }
@@ -95,7 +95,7 @@ namespace ENetCare.UnitTest
             };
 
             string barCode;
-            int packageId = packageService.Register(packageType, location, DateTime.Today.AddMonths(2), out barCode);
+            var result = packageService.Register(packageType, location, DateTime.Today.AddMonths(2), out barCode);
 
             Assert.AreNotEqual<string>(string.Empty, barCode);
         }

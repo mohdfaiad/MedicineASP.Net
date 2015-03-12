@@ -28,8 +28,13 @@ namespace ENetCare.BusinessService
                 return startDate.AddDays(packageType.ShelfLifeUnits);
         }
 
-        public int Register(StandardPackageType packageType, DistributionCentre location, DateTime expirationDate, out string barcode)
+        public Result Register(StandardPackageType packageType, DistributionCentre location, DateTime expirationDate, out string barcode)
         {
+            var result = new Result
+            {
+                Success = true
+            };
+
             Package package = new Package
             {
                 PackageType = packageType,
@@ -47,7 +52,8 @@ namespace ENetCare.BusinessService
 
             _packageRepository.Update(package);
 
-            return package.PackageId;
+            result.Id = package.PackageId;
+            return result;
         }
 
         private string GenerateBarCode(Package package)

@@ -46,6 +46,7 @@
     <Compile Include="Data\EmployeeType.cs" />
     <Compile Include="Data\Package.cs" />
     <Compile Include="Data\PackageStatus.cs" />
+    <Compile Include="Data\Result.cs" />
     <Compile Include="Data\ShelfLifeUnitType.cs" />
     <Compile Include="Data\StandardPackageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
