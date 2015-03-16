@@ -1,0 +1,14 @@
+﻿.errormessage {
+    color: red
+}
+
+/* Percentage width styles */
+.percent-10 { width:10%; }
+.percent-15 { width:15%; }
+.percent-20 { width:20%; }
+.percent-25 { width:25%; }
+.percent-33 { width:33%; }
+.percent-50 { width:50%; }
+.percent-66 { width:66%; }
+.percent-75 { width:75%; }
+.percent-100 { width:100%; }

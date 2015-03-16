@@ -1,0 +1,118 @@
+﻿.clear { clear:both; }
+
+div#cde_main_menu {
+    position:relative;
+    width:100%;
+    min-height:42px; 
+    border-top:1px solid #ccc;
+    border-bottom:1px solid #ccc;
+    background:#fff url(/public/images/menu_sub_bg.gif);
+}
+    div#cde_main_menu ul {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:21px;
+        border-bottom:1px solid #ccc;
+        background:#fff url(/public/images/menu_main_bg.gif);
+    }
+    div#cde_main_menu ul li {
+        display:inline;
+    }
+    div#cde_main_menu ul li a, 
+    div#cde_main_menu ul li span {
+        float:left;
+        padding:5px 20px 2px 0px;
+        height:14px;
+        font-weight:bold;
+        color:#000;
+        text-transform:uppercase;
+        text-decoration:none;
+        cursor:pointer;
+        border-left:1px solid #fff;
+        border-right:1px solid #ccc;
+    }
+        div#cde_main_menu ul li a:hover, 
+        div#cde_main_menu ul li span:hover { color:#333; }
+
+        div#cde_main_menu ul li span, 
+        div#cde_main_menu ul li a[disabled] { color:#999; }
+        div#cde_main_menu ul li span:hover, 
+        div#cde_main_menu ul li a[disabled]:hover { color:#999; }
+        
+        /* Remove left border on first link in list */
+        div#cde_main_menu ul > li:first-child a {
+            border-left-width:0;
+        }
+        
+        /* Selected main menu item link and hover */
+        div#cde_main_menu ul li.AspNet-TreeView-ChildSelected a, 
+        div#cde_main_menu ul li.AspNet-TreeView-Selected a, 
+        div#cde_main_menu ul li.selected a, 
+        div#cde_main_menu ul li.AspNet-TreeView-ChildSelected a:hover, 
+        div#cde_main_menu ul li.AspNet-TreeView-Selected a:hover, 
+        div#cde_main_menu ul li.selected a:hover { 
+            color:#999; 
+        }
+        
+        div#cde_main_menu ul li ul {
+            display:none;
+            position:absolute;
+            top:22px;
+            left:0;
+            width:100%;
+            height:20px;
+            background:#fff url(/public/images/menu_sub_bg.gif);
+        }
+            div#cde_main_menu ul li.AspNet-TreeView-ChildSelected ul, 
+            div#cde_main_menu ul li.AspNet-TreeView-Selected ul, 
+            div#cde_main_menu ul li.selected ul { 
+                display:inline;
+            }
+            
+        div#cde_main_menu ul li ul li { }
+               
+        div#cde_main_menu ul li.AspNet-TreeView-ChildSelected ul li span, 
+        div#cde_main_menu ul li.AspNet-TreeView-Selected ul li span, 
+        div#cde_main_menu ul li.selected ul li span, 
+        div#cde_main_menu ul li.AspNet-TreeView-ChildSelected ul li a, 
+        div#cde_main_menu ul li.AspNet-TreeView-Selected ul li a, 
+        div#cde_main_menu ul li.selected ul li a { 
+            padding:5px 15px 3px 15px;
+            height:12px;
+            font-size:10px;
+            font-weight:normal;
+            color:#000; 
+        }
+
+        /* Sub menu item hover */
+        div#cde_main_menu ul li.AspNet-TreeView-ChildSelected ul li span:hover, 
+        div#cde_main_menu ul li.AspNet-TreeView-Selected ul li span:hover, 
+        div#cde_main_menu ul li.AspNet-TreeView-ChildSelected ul li a:hover, 
+        div#cde_main_menu ul li.AspNet-TreeView-Selected ul li a:hover {
+            color:#333; 
+        }
+        
+        /* Selected sub menu item link and hover */
+        div#cde_main_menu ul li ul li.AspNet-TreeView-ChildSelected span, 
+        div#cde_main_menu ul li ul li.AspNet-TreeView-Selected span, 
+        div#cde_main_menu ul li ul li.selected span, 
+        div#cde_main_menu ul li ul li.AspNet-TreeView-Selected span:hover, 
+        div#cde_main_menu ul li ul li.selected span:hover, 
+        div#cde_main_menu ul li ul li.AspNet-TreeView-ChildSelected a, 
+        div#cde_main_menu ul li ul li.AspNet-TreeView-Selected a, 
+        div#cde_main_menu ul li ul li.selected a, 
+        div#cde_main_menu ul li ul li.AspNet-TreeView-Selected a:hover, 
+        div#cde_main_menu ul li ul li.selected a:hover { 
+            color:#999; 
+        } 
+        
+         /* Sub menu item disabled */
+        div#cde_main_menu ul li ul li span.AspNet-TreeView-ClickableNonLink { color:#999; }
+        div#cde_main_menu ul li ul li span.AspNet-TreeView-ClickableNonLink:hover { color:#999; }
+        
+        /* Hide all menu items below sub-menu */
+        div#cde_main_menu ul ul ul {
+            display:none !important;
+        }

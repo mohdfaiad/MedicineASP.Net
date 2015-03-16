@@ -1,0 +1,51 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="General.master.cs" Inherits="ENetCare.Web.MasterPages.General" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link href="/Public/Styles/enet-menu.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    
+<form id="form1" runat="server">
+    
+<asp:Image id="Image1" runat="server"
+           AlternateText="Image text"
+           ImageAlign="Top"
+           ImageUrl="~/Public/Images/ENetLogo.png"/>
+
+<br />
+
+<asp:SiteMapDataSource ID="SiteMapDataSource1" Runat="server" />
+
+<asp:Menu id="menuPrimary" 
+                runat="server" 
+                DataSourceID="SiteMapDataSource1" 
+                Orientation="Horizontal" 
+                StaticEnableDefaultPopOutImage="false"
+                StaticDisplayLevels="2"  
+                MaximumDynamicDisplayLevels="2">
+        <StaticMenuStyle CssClass="primaryStaticMenu"/>
+        <StaticMenuItemStyle CssClass="primaryStaticMenuItem"/>
+        <StaticHoverStyle CssClass="primaryStaticHover"/>   
+        <DynamicMenuStyle CssClass="primaryDynamicMenu" />     
+        <DynamicMenuItemStyle CssClass="primaryDynamicMenuItem"/>
+        <DynamicHoverStyle CssClass="primaryDynamicHover"/>
+      </asp:Menu>
+
+<br />
+<br />
+
+    <div class="belowMenu">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolderBody" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+
+</form>
+</body>
+</html>

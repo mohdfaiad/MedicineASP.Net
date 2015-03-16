@@ -13,12 +13,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ENetCare.Web</RootNamespace>
     <AssemblyName>ENetCare.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,24 +40,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Home.aspx" />
+    <Content Include="MasterPages\General.Master" />
+    <Content Include="Agency.sitemap" />
+    <Content Include="Doctor.sitemap" />
+    <Content Include="Manager.sitemap" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -66,17 +71,83 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Public\Images\ENetLogo.png" />
+    <Content Include="Public\Images\Icons\date.png" />
+    <Content Include="Public\Images\menu_main_bg.gif" />
+    <Content Include="Public\Images\menu_sub_bg.gif" />
+    <Content Include="Public\Login.aspx" />
+    <Content Include="Public\Scripts\JQuery\jquery-1.11.2.min.js" />
+    <Content Include="Public\Scripts\JQuery\jquery-ui.min.js" />
+    <Content Include="Public\Scripts\JQuery\jquery.ui.datepicker-en-GB.js" />
+    <Content Include="Public\Styles\enet-barcode-select.css" />
+    <Content Include="Public\Styles\enet-design.css" />
+    <Content Include="Public\Styles\enet-menu-simple.css" />
+    <Content Include="Public\Styles\enet-menu-treeview.css" />
+    <Content Include="Public\Styles\enet-menu.css" />
+    <Content Include="Public\Styles\jquery-ui.css" />
+    <Content Include="TestPage.html" />
+    <Content Include="Training.aspx" />
+    <Content Include="UserControl\PackageBarcode.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPages\General.Master.cs">
+      <DependentUpon>General.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPages\General.Master.designer.cs">
+      <DependentUpon>General.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Membership\EmployeeMembershipProvider.cs" />
+    <Compile Include="Membership\EmployeeMembershipUser.cs" />
+    <Compile Include="Membership\EmployeeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Public\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Public\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Training.aspx.cs">
+      <DependentUpon>Training.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Training.aspx.designer.cs">
+      <DependentUpon>Training.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\PackageBarcode.ascx.cs">
+      <DependentUpon>PackageBarcode.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControl\PackageBarcode.ascx.designer.cs">
+      <DependentUpon>PackageBarcode.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Package\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ENetCare.BusinessService\ENetCare.BusinessService.csproj">
+      <Project>{2d9a6c72-a237-448d-b7e5-2abccf05c31c}</Project>
+      <Name>ENetCare.BusinessService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENetCare.Repository\ENetCare.Repository.csproj">
+      <Project>{6e8702fa-12d2-4e08-a77a-33ac380a5793}</Project>
+      <Name>ENetCare.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

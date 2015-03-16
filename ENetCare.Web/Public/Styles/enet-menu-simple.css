@@ -1,0 +1,27 @@
+﻿body {
+}
+
+.primaryStaticMenu
+{
+}
+.primaryStaticMenuItem
+{
+   color: Blue;
+}
+.primaryStaticHover
+{
+   color: Green;
+}
+
+.primaryDynamicMenu
+{   
+}  
+.primaryDynamicMenuItem
+{
+   color: Red;
+}    
+.primaryDynamicHover
+{
+   color: Orange;
+}
+
