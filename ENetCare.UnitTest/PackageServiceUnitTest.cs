@@ -72,9 +72,10 @@ namespace ENetCare.UnitTest
             Assert.AreNotEqual<string>(string.Empty, barCode);
         }
 
-        //ADDED BY IHAB, JUST A TEST CHANGE TO SEE IF GIT IS WORKING OR NOT
+        //ADDED BY IHAB, UNIT TEST
+        //NEEDS MORE WORK
         [TestMethod]
-        public void TestRegisterPackage2()
+        public void TestRegisterPackage_Test2()
         {
             IPackageRepository packageRepository = new MockPackageRepository();
             PackageService packageService = new PackageService(packageRepository);
