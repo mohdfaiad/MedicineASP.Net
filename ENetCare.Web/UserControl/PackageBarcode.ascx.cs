@@ -1,4 +1,5 @@
 ﻿using ENetCare.BusinessService;
+using ENetCare.Repository.Data;
 using ENetCare.Repository.Repository;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,8 @@ namespace ENetCare.Web.UserControl
             IPackageRepository repository = new PackageRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             PackageService packageService = new PackageService(repository);
 
-            if (txtBarcode.Text == "1234567890")
+            Package package = packageService.Retrieve(txtBarcode.Text);
+            if (package == null)
                 barcodeNotFound = true;
 
             if (duplicateFound)
@@ -68,8 +70,8 @@ namespace ENetCare.Web.UserControl
                 dr = dt.NewRow(); // add last empty row
 
                 dr["Barcode"] = txtBarcode.Text;
-                dr["PackageType"] = "100 tablets Panadol";
-                dr["ExpirationDate"] = DateTime.Today.AddMonths(3);
+                dr["PackageType"] = package.PackageType.Description;
+                dr["ExpirationDate"] = package.ExpirationDate;
 
                 dt.Rows.Add(dr);
             }

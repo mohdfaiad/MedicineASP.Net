@@ -46,6 +46,9 @@ namespace ENetCare.Repository.Repository
                 connection.Open();
 
                 package = DataAccess.GetPackage(connection, packageId, barcode);
+                if (package == null)
+                    return null;
+
                 package.PackageType = DataAccess.GetStandardPackageType(connection, package.PackageType.PackageTypeId);
 
                 if (package.CurrentLocation != null)

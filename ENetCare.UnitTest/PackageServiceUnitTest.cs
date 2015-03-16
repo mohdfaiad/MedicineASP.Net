@@ -46,6 +46,24 @@ namespace ENetCare.UnitTest
         }
 
         [TestMethod]
+        public void TestCalculateExpirationDate3()
+        {
+            IPackageRepository packageRepository = new MockPackageRepository();
+            PackageService packageService = new PackageService(packageRepository);
+            StandardPackageType packageType = new StandardPackageType
+            {
+                PackageTypeId = 1,
+                Description = "100 Panadol Pills",
+                ShelfLifeUnitType = ShelfLifeUnitType.Day,
+                ShelfLifeUnits = 68
+            };
+
+            DateTime expirationDate = packageService.CalculateExpirationDate(packageType, DateTime.Today);
+
+            Assert.AreNotEqual<DateTime>(DateTime.Today, expirationDate);
+        }
+
+        [TestMethod]
         public void TestRegisterPackage()
         {            
             IPackageRepository packageRepository = new MockPackageRepository();

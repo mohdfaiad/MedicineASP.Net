@@ -58,8 +58,7 @@ namespace ENetCare.Repository
 
         public static Package GetPackage(SqlConnection connection, int? packageId, string barcode)
         {
-            Package package = new Package();
-            package.PackageType = new StandardPackageType();
+            Package package = null;            
 
             string query = "SELECT PackageId, BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId FROM Package WHERE PackageId = ISNULL(@packageId, PackageId) AND BarCode = ISNULL(@barcode, BarCode)";
 
@@ -74,6 +73,9 @@ namespace ENetCare.Repository
             {
                 if (reader.Read())
                 {
+                    package = new Package();
+                    package.PackageType = new StandardPackageType();                    
+
                     package.PackageId = Convert.ToInt32(reader["PackageId"]);
                     package.BarCode = (string)reader["BarCode"];
                     package.ExpirationDate = (DateTime)reader["ExpirationDate"];
@@ -84,11 +86,8 @@ namespace ENetCare.Repository
                         package.CurrentLocation.CentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
                     }
 
-                    if (reader["CurrentStatus"] != DBNull.Value)
-                    {
-                        package.CurrentStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["CurrentStatus"]);
-                    }
-
+                    package.CurrentStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["CurrentStatus"], true);
+                    
                     if (reader["DistributedByEmployeeId"] != DBNull.Value)
                     {
                         package.DistributedBy = new Employee();  
@@ -101,8 +100,8 @@ namespace ENetCare.Repository
 
         public static Employee GetEmployee(SqlConnection connection, int? employeeId, string username)
         {
-            Employee employee = new Employee();
-            employee.Location = new DistributionCentre();
+            Employee employee = null;
+            
             string query = "SELECT EmployeeId, UserName, Password, FullName, EmailAddress, Employee, LocationCentreId FROM Employee WHERE EmployeeId = ISNULL(@employeeId, PackageId) AND UserName = ISNULL(@username, UserName)";
 
             var cmd = new SqlCommand(query);
@@ -116,12 +115,15 @@ namespace ENetCare.Repository
             {
                 if (reader.Read())
                 {
+                    employee = new Employee();
+                    employee.Location = new DistributionCentre();                    
+                    
                     employee.EmployeeId = Convert.ToInt32(reader["EmployeeId"]);
                     employee.UserName = (string)reader["UserName"];
                     employee.Password = (string)reader["Password"];
                     employee.FullName = (string)reader["FullName"];
                     employee.EmailAddress = (string)reader["EmailAddress"];
-                    employee.EmployeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), (string)reader["EmployeeType"]);
+                    employee.EmployeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), (string)reader["EmployeeType"], true);
                     employee.Location.CentreId = Convert.ToInt32(reader["LocationCentreId"]);
                 }
             }
@@ -130,7 +132,7 @@ namespace ENetCare.Repository
 
         public static DistributionCentre GetDistributionCentre(SqlConnection connection, int centreId)
         {
-            DistributionCentre centre = new DistributionCentre();
+            DistributionCentre centre = null;
             string query = "SELECT CentreId, Name, Address, Phone, IsHeadOffice FROM DistributionCentre WHERE CentreId = @centreId";
 
             var cmd = new SqlCommand(query);
@@ -142,6 +144,8 @@ namespace ENetCare.Repository
             {
                 if (reader.Read())
                 {
+                    centre = new DistributionCentre();
+
                     centre.CentreId = Convert.ToInt32(reader["CentreId"]);
                     centre.Name = (string)reader["Name"];
                     centre.Address = (string)reader["Address"];
@@ -155,7 +159,7 @@ namespace ENetCare.Repository
 
         public static StandardPackageType GetStandardPackageType(SqlConnection connection, int packageTypeId)
         {
-            StandardPackageType packageType = new StandardPackageType();
+            StandardPackageType packageType = null;
             string query = "SELECT PackageTypeId, Description, NumberOfMedications, ShelfLifeUnitType, ShelfLifeUnits, TemperatureSensitive, Value FROM StandardPackageType WHERE PackageTypeId = @packageTypeId";
 
             var cmd = new SqlCommand(query);
@@ -167,10 +171,12 @@ namespace ENetCare.Repository
             {
                 if (reader.Read())
                 {
+                    packageType = new StandardPackageType();
+
                     packageType.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
                     packageType.Description = (string)reader["Description"];
                     packageType.NumberOfMedications = Convert.ToInt32(reader["NumberOfMedications"]);
-                    packageType.ShelfLifeUnitType = (ShelfLifeUnitType)Enum.Parse(typeof(ShelfLifeUnitType), (string)reader["ShelfLifeUnitType"]);
+                    packageType.ShelfLifeUnitType = (ShelfLifeUnitType)Enum.Parse(typeof(ShelfLifeUnitType), (string)reader["ShelfLifeUnitType"], true);
                     packageType.ShelfLifeUnits = Convert.ToInt32(reader["ShelfLifeUnits"]);
                     packageType.TemperatureSensitive = (bool)reader["TemperatureSensitive"];
                     packageType.Value = (decimal)reader["Value"];

@@ -56,6 +56,14 @@ namespace ENetCare.BusinessService
             return result;
         }
 
+        public Package Retrieve(string barcode)
+        {
+            if (string.IsNullOrEmpty(barcode))
+                return null;
+
+            return _packageRepository.Get(null, barcode);
+        }
+
         private string GenerateBarCode(Package package)
         {
             if (package.PackageType == null)
