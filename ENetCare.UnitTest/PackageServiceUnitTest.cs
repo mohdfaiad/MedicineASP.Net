@@ -118,5 +118,35 @@ namespace ENetCare.UnitTest
 
             Assert.AreNotEqual<string>(string.Empty, barCode);
         }
+
+
+
+        [TestMethod]
+        public void TestRegisterPackage_3()    // This is just a copy of the first testRegister method 
+        {
+            IPackageRepository packageRepository = new MockPackageRepository();
+            PackageService packageService = new PackageService(packageRepository);
+            StandardPackageType packageType = new StandardPackageType
+            {
+                PackageTypeId = 1,
+                Description = "100 Panadol Pills",
+                ShelfLifeUnitType = ShelfLifeUnitType.Month,
+                ShelfLifeUnits = 4
+            };
+
+            DistributionCentre location = new DistributionCentre
+            {
+                CentreId = 27,
+                Name = "North Centre",
+                Address = "Up the river",
+                IsHeadOffice = false
+            };
+
+            string barCode;
+            var result = packageService.Register(packageType, location, DateTime.Today.AddMonths(2), out barCode);
+
+            Assert.AreNotEqual<string>(string.Empty, barCode);
+        }
+
     }
 }
