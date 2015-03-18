@@ -102,7 +102,7 @@ namespace ENetCare.Repository
         {
             Employee employee = null;
             
-            string query = "SELECT EmployeeId, UserName, Password, FullName, EmailAddress, Employee, LocationCentreId FROM Employee WHERE EmployeeId = ISNULL(@employeeId, PackageId) AND UserName = ISNULL(@username, UserName)";
+            string query = "SELECT EmployeeId, UserName, Password, FullName, EmailAddress, EmployeeType, LocationCentreId FROM Employee WHERE EmployeeId = ISNULL(@employeeId, EmployeeId) AND UserName = ISNULL(@username, UserName)";
 
             var cmd = new SqlCommand(query);
             cmd.Connection = connection;

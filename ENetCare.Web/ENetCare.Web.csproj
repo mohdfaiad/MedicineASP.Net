@@ -80,6 +80,7 @@
     <Content Include="Public\Scripts\JQuery\jquery-ui.min.js" />
     <Content Include="Public\Scripts\JQuery\jquery.ui.datepicker-en-GB.js" />
     <Content Include="Public\Styles\enet-barcode-select.css" />
+    <Content Include="Public\Styles\enet-common.css" />
     <Content Include="Public\Styles\enet-design.css" />
     <Content Include="Public\Styles\enet-menu-simple.css" />
     <Content Include="Public\Styles\enet-menu-treeview.css" />

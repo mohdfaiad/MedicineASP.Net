@@ -37,10 +37,12 @@ namespace ENetCare.Web.UserControl
                 Literal litBarcode = gvr.FindControl("litBarcode") as Literal;
                 Literal litPackageType = gvr.FindControl("litPackageType") as Literal;
                 Literal litExpirationDate = gvr.FindControl("litExpirationDate") as Literal;
+                Literal litPackageId = gvr.FindControl("litPackageId") as Literal;
 
                 dr["Barcode"] = litBarcode.Text;
                 dr["PackageType"] = litPackageType.Text;
                 dr["ExpirationDate"] = DateTime.Parse(litExpirationDate.Text);
+                dr["PackageId"] = int.Parse(litPackageId.Text);
 
                 dt.Rows.Add(dr); // add grid values in to row and add row to the blank table
 
@@ -72,6 +74,7 @@ namespace ENetCare.Web.UserControl
                 dr["Barcode"] = txtBarcode.Text;
                 dr["PackageType"] = package.PackageType.Description;
                 dr["ExpirationDate"] = package.ExpirationDate;
+                dr["PackageId"] = package.PackageId;
 
                 dt.Rows.Add(dr);
             }
@@ -93,12 +96,14 @@ namespace ENetCare.Web.UserControl
                 Literal litBarcode = gvr.FindControl("litBarcode") as Literal;
                 Literal litPackageType = gvr.FindControl("litPackageType") as Literal;
                 Literal litExpirationDate = gvr.FindControl("litExpirationDate") as Literal;
+                Literal litPackageId = gvr.FindControl("litPackageId") as Literal;
 
                 dr = dt.NewRow();
 
                 dr["Barcode"] = litBarcode.Text;
                 dr["PackageType"] = litPackageType.Text;
                 dr["ExpirationDate"] = DateTime.Parse(litExpirationDate.Text);
+                dr["PackageId"] = int.Parse(litPackageId.Text);
 
                 dt.Rows.Add(dr); // add grid values in to row and add row to the blank table
             }
@@ -113,6 +118,7 @@ namespace ENetCare.Web.UserControl
             table.Columns.Add("Barcode", typeof(string));
             table.Columns.Add("PackageType", typeof(string));
             table.Columns.Add("ExpirationDate", typeof(DateTime));
+            table.Columns.Add("PackageId", typeof(int));
             return table;
         }
 
