@@ -13,7 +13,7 @@
           <siteMapNode title="Distribute" url="~/Package/Distribute.aspx" />
         </siteMapNode>
         <siteMapNode title="Account">
-          <siteMapNode title="Edit" url="~/EditEmployee.aspx" />
+          <siteMapNode title="Edit Employee" url="~/EditEmployee.aspx" />
         </siteMapNode>      
         <siteMapNode title="Utilities">
             <siteMapNode title="Types" url="~/PackageTypes.aspx" />

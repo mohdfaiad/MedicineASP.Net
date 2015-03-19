@@ -59,10 +59,10 @@ namespace ENetCare.Repository
         public static void UpdateEmployee(SqlConnection connection, Employee employee)
         {
             string cmdStr = "UPDATE dbo.Employee SET Password = @Password, " +
-                                "FullName = @FullName " +
-                                "EmailAddress = @EmailAddress " +
+                                "FullName = @FullName, " +
+                                "EmailAddress = @EmailAddress, " +
                                 "LocationCentreId = @LocationCentreId, " +
-                                "EmployeeType = @EmployeeType, " +                                
+                                "EmployeeType = @EmployeeType " +                                
                                 "WHERE EmployeeId = @EmployeeId";
 
             using (var cmd = new SqlCommand(cmdStr, connection))
@@ -207,5 +207,33 @@ namespace ENetCare.Repository
 
             return packageType;
         }
+
+        public static List<DistributionCentre> GetAllDistributionCentres(SqlConnection connection)
+        {
+            var centres = new List<DistributionCentre>();
+            string query = "SELECT CentreId, Name, Address, Phone, IsHeadOffice FROM DistributionCentre ORDER BY CentreId";
+
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+            
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while (reader.Read())
+                {
+                    var centre = new DistributionCentre();
+
+                    centre.CentreId = Convert.ToInt32(reader["CentreId"]);
+                    centre.Name = (string)reader["Name"];
+                    centre.Address = (string)reader["Address"];
+                    centre.Phone = (string)reader["Phone"];
+                    centre.IsHeadOffice = (bool)reader["IsHeadOffice"];
+
+                    centres.Add(centre);
+                }
+            }
+
+            return centres;
+        }
+
     }
 }

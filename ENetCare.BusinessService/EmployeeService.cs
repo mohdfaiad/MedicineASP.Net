@@ -130,5 +130,10 @@ namespace ENetCare.BusinessService
             result.Id = employee.EmployeeId;
             return result;
         }
+
+        public List<DistributionCentre> GetAllDistributionCentres()
+        {
+            return _employeeRepository.GetAllDistributionCentres();
+        }
     }
 }

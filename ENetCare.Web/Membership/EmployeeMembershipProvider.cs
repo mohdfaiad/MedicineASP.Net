@@ -119,7 +119,7 @@ namespace ENetCare.Web.Membership
                 -1,
                 string.Empty,
                 null,
-                string.Empty,
+                employee.FullName,
                 true, false,
                 DateTime.Today.AddDays(-1),
                 DateTime.Today.AddDays(-1),

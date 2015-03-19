@@ -18,7 +18,13 @@ namespace ENetCare.Repository.Repository
         }
         public void Update(Employee employee)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                DataAccess.UpdateEmployee(connection, employee);
+            }
+            return;
         }
 
         public Employee Get(int? employeeId, string username)
@@ -34,6 +40,18 @@ namespace ENetCare.Repository.Repository
                     employee.Location = DataAccess.GetDistributionCentre(connection, employee.Location.CentreId);
             }
             return employee;
+        }
+
+        public List<DistributionCentre> GetAllDistributionCentres()
+        {
+            List<DistributionCentre> centres = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                centres = DataAccess.GetAllDistributionCentres(connection);
+            }
+            return centres;
         }
     }
 }

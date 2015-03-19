@@ -10,7 +10,7 @@
         <siteMapNode title="Receive" url="~/Package/Receive.aspx" />
       </siteMapNode>
       <siteMapNode title="Account">
-        <siteMapNode title="Edit" url="~/EditEmployee.aspx" />
+        <siteMapNode title="Edit Employee" url="~/EditEmployee.aspx" />
       </siteMapNode>
     </siteMapNode>
 </siteMap>
