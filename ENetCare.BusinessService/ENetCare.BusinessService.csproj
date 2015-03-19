@@ -39,7 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="EmployeeResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EmployeeService.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PackageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

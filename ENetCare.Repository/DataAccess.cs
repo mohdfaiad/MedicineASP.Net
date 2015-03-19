@@ -56,6 +56,28 @@ namespace ENetCare.Repository
             }
         }
 
+        public static void UpdateEmployee(SqlConnection connection, Employee employee)
+        {
+            string cmdStr = "UPDATE dbo.Employee SET Password = @Password, " +
+                                "FullName = @FullName " +
+                                "EmailAddress = @EmailAddress " +
+                                "LocationCentreId = @LocationCentreId, " +
+                                "EmployeeType = @EmployeeType, " +                                
+                                "WHERE EmployeeId = @EmployeeId";
+
+            using (var cmd = new SqlCommand(cmdStr, connection))
+            {                
+                cmd.Parameters.AddWithValue("@Password", employee.Password);
+                cmd.Parameters.AddWithValue("@FullName", employee.FullName);
+                cmd.Parameters.AddWithValue("@EmailAddress", employee.EmailAddress);
+                cmd.Parameters.AddWithValue("@EmployeeType", employee.EmployeeType.ToString().ToUpper());
+                cmd.Parameters.AddWithValue("@LocationCentreId", employee.Location.CentreId);
+                cmd.Parameters.AddWithValue("@EmployeeId", employee.EmployeeId);
+
+                int effected = cmd.ExecuteNonQuery();
+            }
+        }
+
         public static Package GetPackage(SqlConnection connection, int? packageId, string barcode)
         {
             Package package = null;            
