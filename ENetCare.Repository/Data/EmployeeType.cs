@@ -8,7 +8,7 @@ namespace ENetCare.Repository.Data
 {
     public enum EmployeeType
     {
-        Agency,
+        Agent,
         Doctor,
         Manager
     }

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using ENetCare.BusinessService;
+using ENetCare.Repository.Repository;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -9,15 +12,14 @@ namespace ENetCare.Web.Membership
 {
     public class EmployeeMembershipProvider : MembershipProvider
     {
-        private static Tuple<string, string, EmployeeType, int>[] Employees =
-            new Tuple<string, string, EmployeeType, int>[]
-            {
-                new Tuple<string, string, EmployeeType, int>("fsmith", "password", EmployeeType.Doctor, 1),
-                new Tuple<string, string, EmployeeType, int>("jbrown", "password", EmployeeType.Agent, 1),
-                new Tuple<string, string, EmployeeType, int>("hrogers", "password", EmployeeType.Manager, 1)
-            };
-
         private string _applicationName;
+        private EmployeeService _employeeService;
+
+        public EmployeeMembershipProvider()
+        {
+            IEmployeeRepository repository = new EmployeeRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
+            _employeeService = new EmployeeService(repository);            
+        }
 
         public override void Initialize(string name, NameValueCollection config)
         {
@@ -29,21 +31,19 @@ namespace ENetCare.Web.Membership
         /// </summary>
         public override bool ValidateUser(string username, string password)
         {
-            var employee = Employees.FirstOrDefault(e => e.Item1 == username && e.Item2 == password);
-
-            return employee == null ? false : true;
+            var employee = _employeeService.Retrieve(username);
+            
+            return employee == null || employee.Password != password ? false : true;
         }
 
         /// <summary>
         /// Change password
         /// </summary>
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
-        {
-            if (!ValidateUser(username, oldPassword))
-                return false;
-
-            var employee = Employees.FirstOrDefault(e => e.Item1 == username);
-            return true;
+        {            
+            var result = _employeeService.ChangePassword(username, oldPassword, newPassword, newPassword);
+            
+            return result.Success;
         }
 
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
@@ -98,8 +98,9 @@ namespace ENetCare.Web.Membership
         /// </summary>
         public override string GetPassword(string username, string answer)
         {
-            var employee = Employees.FirstOrDefault(e => e.Item1 == username);
-            return employee == null ? null : employee.Item2;
+            var employee = _employeeService.Retrieve(username);
+            
+            return employee == null ? null : employee.Password;
         }
 
         /// <summary>
@@ -110,11 +111,11 @@ namespace ENetCare.Web.Membership
         /// <returns>Membership user</returns>
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            var employee = Employees.FirstOrDefault(e => e.Item1 == username);
+            var employee = _employeeService.Retrieve(username);           
 
             EmployeeMembershipUser user = new EmployeeMembershipUser(
                 this.Name, 
-                employee.Item1,
+                employee.UserName,
                 -1,
                 string.Empty,
                 null,
@@ -125,8 +126,8 @@ namespace ENetCare.Web.Membership
                 DateTime.MinValue,
                 DateTime.MinValue,
                 DateTime.MinValue,
-                employee.Item3,
-                employee.Item4);
+                employee.EmployeeType,
+                employee.Location.CentreId);
 
             return user;
         }
@@ -148,7 +149,7 @@ namespace ENetCare.Web.Membership
         /// <returns>Membership user</returns>
         public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
         {
-            return GetUser(Employees[0].Item1, true);
+            throw new NotImplementedException("The method or operation is not implemented.");
         }
 
         public override bool UnlockUser(string userName)

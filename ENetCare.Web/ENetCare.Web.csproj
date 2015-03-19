@@ -111,7 +111,6 @@
     </Compile>
     <Compile Include="Membership\EmployeeMembershipProvider.cs" />
     <Compile Include="Membership\EmployeeMembershipUser.cs" />
-    <Compile Include="Membership\EmployeeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Public\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

@@ -29,7 +29,9 @@ namespace ENetCare.Repository.Repository
                 connection.Open();
 
                 employee = DataAccess.GetEmployee(connection, employeeId, username);
-                employee.Location = DataAccess.GetDistributionCentre(connection, employee.Location.CentreId);
+
+                if (employee != null)
+                    employee.Location = DataAccess.GetDistributionCentre(connection, employee.Location.CentreId);
             }
             return employee;
         }

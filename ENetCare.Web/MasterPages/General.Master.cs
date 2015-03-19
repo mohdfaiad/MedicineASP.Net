@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ENetCare.Web.Membership;
+using ENetCare.Repository.Data;
 
 namespace ENetCare.Web.MasterPages
 {
