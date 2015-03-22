@@ -41,17 +41,50 @@ namespace ENetCare.Repository.Repository
             }
             return employee;
         }
+   
 
-        public List<DistributionCentre> GetAllDistributionCentres()
-        {
-            List<DistributionCentre> centres = null;
+
+        public List<Employee> GetAllEmployees()
+        {                                                                    // added by Pablo on 23-03-15
+            List<Employee> allEmployees = null;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
-                centres = DataAccess.GetAllDistributionCentres(connection);
+                allEmployees = DataAccess.GetAllEmployees(connection);
             }
-            return centres;
+            return allEmployees;
         }
+
+
+        public Employee getEmployeeById(int id)
+        {                                                                      // Added by Pablo on 23-03-15
+            List<Employee> allEmployees = this.GetAllEmployees();
+            foreach(Employee e in allEmployees) { if(e.EmployeeId==id) return e; }
+            return null;
+        }
+
+
+        public List<Employee> getEmployeesAtCentre(DistributionCentre xCentre)
+        {                                                                 // Added by pablo on 23-03-15
+            List<Employee> allEmployees = this.GetAllEmployees();         // get all employees
+            List<Employee> myEmployees = new List<Employee>();            // create empty list 
+            foreach (Employee e in allEmployees)
+                { if (e.Location.CentreId==xCentre.CentreId) myEmployees.Add(e); }  // add the ones at centre
+            return myEmployees;                                          // return subset of employees
+        }
+
+        public List<Employee> getEmployeesByType(EmployeeType xType)
+        {                                                                 // Added by pablo on 23-03-15
+            List<Employee> allEmployees = this.GetAllEmployees();         // get all employees
+            List<Employee> myEmployees = new List<Employee>();            // create empty list 
+            foreach (Employee e in allEmployees)
+            { if (e.GetType()==xType.GetType()) myEmployees.Add(e); }    // add accordingly (doctors agents or mans)
+            return myEmployees;                                          // return subset of employees
+        }
+
+
+
+
+
     }
 }
