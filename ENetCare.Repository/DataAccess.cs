@@ -158,16 +158,16 @@ namespace ENetCare.Repository
 
 
 
-        public static Package GetAllPackages(SqlConnection connection)
+        public static List<Package> GetAllPackages(SqlConnection connection)
         {                                                          // Added by Pablo on 23-03-15
             Package package = null;
             string query = "SELECT PackageId, BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId FROM Package ";
             var cmd = new SqlCommand(query);
+            List<Package> allPackages = new List<Package>();
             cmd.Connection = connection;
-            cmd.Parameters.AddWithValue("@barcode", string.IsNullOrEmpty(barcode) ? (object)DBNull.Value : barcode);
             using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
             {
-                if (reader.Read())
+                while (reader.Read())
                 {
                     package = new Package();
                     package.PackageType = new StandardPackageType();
@@ -186,9 +186,10 @@ namespace ENetCare.Repository
                         package.DistributedBy = new Employee();
                         package.DistributedBy.EmployeeId = Convert.ToInt32(reader["DistributedByEmployeeId"]);
                     }
+                    allPackages.Add(package);
                 }
             }
-            return package;
+            return allPackages;
         }
 
 
