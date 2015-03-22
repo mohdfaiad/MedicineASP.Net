@@ -72,5 +72,55 @@ namespace ENetCare.BusinessService
             return string.Format("{0:D5}{1:yyyyMMdd}{2:D5}", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
         }
 
+
+
+
+        public Result Send(string barCode, DistributionCentre senderCentre, DateTime date )
+        {                                                   // Created by Pablo on 22-03-15
+            Result sendResult = new Result();
+            Package package;
+            //package = _packageRepository.G
+            package = _packageRepository.Get(barCode);
+            if (package == null)                         // Case: not found
+                {
+                    sendResult.ErrorMessage = "Bar Code not found";
+                    sendResult.Success = false;
+                    return sendResult;
+                }
+            if(package.CurrentLocation!=senderCentre)    //  Case: not in this centre
+                {
+                    sendResult.ErrorMessage = "Package appears as located elsewhere";
+                    sendResult.Success = false;
+                    return sendResult;                    
+                }
+            if (package.CurrentStatus!=PackageStatus.InStock )  // Case: not in stock 
+            {                                               
+                sendResult.ErrorMessage = "Package appears not to be in Stock";
+                sendResult.Success = false;
+                return sendResult;
+            }
+            if (package.CurrentLocation==senderCentre)          // Case:  Desitiny = Sending Centre
+            {
+                sendResult.ErrorMessage = "Package appears as being already at the Destination Centre";
+                sendResult.Success = false;
+                return sendResult;
+            }
+            package.CurrentStatus = PackageStatus.InTransit;        // Proceed to set it as intransit
+            package.CurrentLocation = null;                         // Remove current location 
+            _packageRepository.Update(package);                     // Update package
+                                                                    // Add transit
+            sendResult.Success = true;
+            return sendResult;
+        }
+
+
+        public Result Receive(string barCode, DistributionCentre senderCentre, DateTime date)
+        {                                                   // Created by Pablo on 22-03-15
+            Result receiveResult = new Result();
+
+
+            return receiveResult;
+        }
+
     }
 }
