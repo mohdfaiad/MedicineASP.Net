@@ -80,7 +80,7 @@ namespace ENetCare.BusinessService
             Result sendResult = new Result();
             Package package;
             //package = _packageRepository.G
-            package = _packageRepository.Get(barCode);
+            package = _packageRepository.Get(barCode);   
             if (package == null)                         // Case: not found
                 {
                     sendResult.ErrorMessage = "Bar Code not found";
@@ -114,11 +114,37 @@ namespace ENetCare.BusinessService
         }
 
 
-        public Result Receive(string barCode, DistributionCentre senderCentre, DateTime date)
+        public Result Receive(string barCode, DistributionCentre receiverCentre, DateTime date)
         {                                                   // Created by Pablo on 22-03-15
             Result receiveResult = new Result();
-
-
+            Package package = _packageRepository.Get(barCode);
+            if (package == null)                         // Case: not found
+            {
+                receiveResult.ErrorMessage = "Bar Code not found";
+                receiveResult.Success = false;
+                return receiveResult;
+            }
+            PackageTransitRepository _transitRepository = new PackageTransitRepository("");
+            List<PackageTransit> activeTransits = _transitRepository.GetActiveTransitsByPackage(package); 
+            if (activeTransits.Count() == 0)                         // Case: not found
+            {
+                receiveResult.ErrorMessage = "Transit not found";
+                receiveResult.Success = false;
+                return receiveResult;
+            }
+            if (activeTransits.Count() >1 )                         // Case: many found
+            {
+                receiveResult.ErrorMessage = "More than one transit exist for that package";
+                receiveResult.Success = false;
+                return receiveResult;
+            }
+            PackageTransit transit = activeTransits.ElementAt(0);   // get the only item found
+            transit.DateReceived = DateTime.Today;                  // set transit as received
+            _transitRepository.Update(transit);                     // update transits DB
+            package.CurrentStatus=PackageStatus.InStock;            // set packagestatus
+            package.CurrentLocation=receiverCentre;                 // set package location
+            _packageRepository.Update(package);                     // update packages DB
+            receiveResult.Success = true;
             return receiveResult;
         }
 
