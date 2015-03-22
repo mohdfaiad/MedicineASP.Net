@@ -82,7 +82,15 @@ namespace ENetCare.Repository.Repository
             return myEmployees;                                          // return subset of employees
         }
 
-
+        public List<DistributionCentre> GetAllDistributionCentres()
+            // C A U T I O N
+            // Pablo added this method because the class "EmployeeService" was giving him a headache
+            // this method needs to be removed at some point
+            // The actual method for getting centres is located in the distCentreRepo class  
+            {
+            DistributionCentreRepository eRepo = new DistributionCentreRepository(_connectionString);
+            return eRepo.GetAllDistributionCentres();
+            }
 
 
 
