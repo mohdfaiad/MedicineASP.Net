@@ -11,10 +11,18 @@ namespace ENetCare.BusinessService
     public class PackageService
     {
         private IPackageRepository _packageRepository;
+        private IPackageTransitRepository _transitRepository;
+
+        public PackageService(IPackageRepository packageRepository, IPackageTransitRepository transitRepository)
+        {   // added by Pablo - Trying to unknothimself out of a mess
+            _packageRepository = packageRepository;
+            _transitRepository = transitRepository;
+        }
 
         public PackageService(IPackageRepository packageRepository)
         {
             _packageRepository = packageRepository;
+            _transitRepository = null;
         }
 
         public DateTime CalculateExpirationDate(StandardPackageType packageType, DateTime startDate)
@@ -124,7 +132,7 @@ namespace ENetCare.BusinessService
                 receiveResult.Success = false;
                 return receiveResult;
             }
-            PackageTransitRepository _transitRepository = new PackageTransitRepository("");
+            //PackageTransitRepository _transitRepository = new PackageTransitRepository("");
             List<PackageTransit> activeTransits = _transitRepository.GetActiveTransitsByPackage(package); 
             if (activeTransits.Count() == 0)                         // Case: not found
             {
@@ -134,7 +142,7 @@ namespace ENetCare.BusinessService
             }
             if (activeTransits.Count() >1 )                         // Case: many found
             {
-                receiveResult.ErrorMessage = "More than one transit exist for that package";
+                receiveResult.ErrorMessage = "More than one active transit exists for that package";
                 receiveResult.Success = false;
                 return receiveResult;
             }
