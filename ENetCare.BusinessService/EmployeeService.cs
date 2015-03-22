@@ -131,9 +131,6 @@ namespace ENetCare.BusinessService
             return result;
         }
 
-        public List<DistributionCentre> GetAllDistributionCentres()
-        {
-            return _employeeRepository.GetAllDistributionCentres();
-        }
+       
     }
 }
