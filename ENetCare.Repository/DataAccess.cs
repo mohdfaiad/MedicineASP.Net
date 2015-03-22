@@ -120,6 +120,81 @@ namespace ENetCare.Repository
             return package;
         }
 
+
+        public static Package GetPackage(SqlConnection connection, string barcode)
+        {                                               // Added by Pablo on 22-03-15
+            Package package = null;
+            string query = "SELECT PackageId, BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId FROM Package WHERE PackageId = ISNULL(@packageId, PackageId) AND BarCode = ISNULL(@barcode, BarCode)";
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+            cmd.Parameters.AddWithValue("@barcode", string.IsNullOrEmpty(barcode) ? (object)DBNull.Value : barcode);
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                if (reader.Read())
+                {
+                    package = new Package();
+                    package.PackageType = new StandardPackageType();
+                    package.PackageId = Convert.ToInt32(reader["PackageId"]);
+                    package.BarCode = (string)reader["BarCode"];
+                    package.ExpirationDate = (DateTime)reader["ExpirationDate"];
+                    package.PackageType.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
+                    if (reader["CurrentLocationCentreId"] != DBNull.Value)
+                    {
+                        package.CurrentLocation = new DistributionCentre();
+                        package.CurrentLocation.CentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
+                    }
+                    package.CurrentStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["CurrentStatus"], true);
+                    if (reader["DistributedByEmployeeId"] != DBNull.Value)
+                    {
+                        package.DistributedBy = new Employee();
+                        package.DistributedBy.EmployeeId = Convert.ToInt32(reader["DistributedByEmployeeId"]);
+                    }
+                }
+            }
+            return package;
+        }
+
+
+
+
+
+        public static Package GetAllPackages(SqlConnection connection)
+        {                                                          // Added by Pablo on 23-03-15
+            Package package = null;
+            string query = "SELECT PackageId, BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId FROM Package ";
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+            cmd.Parameters.AddWithValue("@barcode", string.IsNullOrEmpty(barcode) ? (object)DBNull.Value : barcode);
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                if (reader.Read())
+                {
+                    package = new Package();
+                    package.PackageType = new StandardPackageType();
+                    package.PackageId = Convert.ToInt32(reader["PackageId"]);
+                    package.BarCode = (string)reader["BarCode"];
+                    package.ExpirationDate = (DateTime)reader["ExpirationDate"];
+                    package.PackageType.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
+                    if (reader["CurrentLocationCentreId"] != DBNull.Value)
+                    {
+                        package.CurrentLocation = new DistributionCentre();
+                        package.CurrentLocation.CentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
+                    }
+                    package.CurrentStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["CurrentStatus"], true);
+                    if (reader["DistributedByEmployeeId"] != DBNull.Value)
+                    {
+                        package.DistributedBy = new Employee();
+                        package.DistributedBy.EmployeeId = Convert.ToInt32(reader["DistributedByEmployeeId"]);
+                    }
+                }
+            }
+            return package;
+        }
+
+
+
+
+
         public static Employee GetEmployee(SqlConnection connection, int? employeeId, string username)
         {
             Employee employee = null;
@@ -240,6 +315,35 @@ namespace ENetCare.Repository
 
 
 
+
+        public static List<Employee> GetAllEmployees(SqlConnection connection)
+        {                                                   // Added by Pablo on 23-03-15
+            var allEmployees = new List<Employee>();
+            string query = "SELECT CentreId, Name, Address, Phone, IsHeadOffice FROM DistributionCentre ORDER BY CentreId";
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while (reader.Read())
+                {
+                    var employee = new Employee();
+                    employee.EmailAddress = (string)reader["EmailAddress"];
+                    employee.EmployeeId = Convert.ToInt32(reader["EmployeeId"]);
+                    employee.EmployeeType =(EmployeeType)reader["EmployeeType"];
+                    employee.FullName = (string)reader["FullName"];
+                    employee.Location = DataAccess.GetDistributionCentre(connection, Convert.ToInt32(reader["EmployeeId"]));
+                    employee.Password = (string)reader["Password"];
+                    employee.UserName = (string)reader["UserName"];
+                    allEmployees.Add(employee);
+                }
+            }
+            return allEmployees;
+        }
+
+
+
+
+
         public static int InsertPackageTransit(SqlConnection connection, PackageTransit packageT)
         {
             // define INSERT query with parameters 
@@ -264,12 +368,16 @@ namespace ENetCare.Repository
         }
 
 
+        public static void UpdatePackageTransit(SqlConnection connection, PackageTransit transit)
+        {
+        
+        }
 
+        public static List<PackageTransit> getAllPackageTransits(SqlConnection connection)
+        {
 
-
-
-
-
+        return null;
+        }
 
 
     }
