@@ -66,8 +66,8 @@ namespace ENetCare.Repository.Repository
         }
 
 
-        public Package Get(string barcode)                    // Overload with one argument
-        {                                                             // Added by Pablo on 23-03-15 
+        public Package Get(string barcode)      // Overload with one argument
+        {
             Package package = null;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -92,50 +92,6 @@ namespace ENetCare.Repository.Repository
             }
             return package;
         }
-
-
-
-
-        public List<Package> GetAllPackages()
-        {
-            List<Package> allPackages = null;
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                allPackages = DataAccess.GetAllPackages(connection);
-            }
-            return allPackages;
-        }
-
-
-
-
-        public List<Package> getPackagesByLocation(DistributionCentre  xCentre)
-        {                                                              // Added by pablo on 23-03-15
-            List<Package> allPackages = this.GetAllPackages();         // get all packages
-            List<Package> myPackages = new List<Package>();            // create empty list 
-            foreach (Package p in allPackages)
-            { if (p.CurrentLocation==xCentre) myPackages.Add(p); }
-            return myPackages;                                          // return subset of packages
-        }
-
-
-        public List<Package> getPackagesByStatus(PackageStatus s)
-        {                                                              // Added by pablo on 23-03-15
-            List<Package> allPackages = this.GetAllPackages();         // get all packages
-            List<Package> myPackages = new List<Package>();            // create empty list 
-            foreach (Package p in allPackages)
-            { if (p.CurrentStatus.Equals(s)) myPackages.Add(p); }
-            return myPackages;                                          // return subset of packages
-        }
-
-
-        public List<Package> getPackagesInTransit()                      // added by Pablo on 23-03-15
-        {
-        return this.getPackagesByStatus(PackageStatus.InTransit)
-        }
-
-
 
 
 
