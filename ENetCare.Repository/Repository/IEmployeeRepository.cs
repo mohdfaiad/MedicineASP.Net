@@ -12,10 +12,7 @@ namespace ENetCare.Repository.Repository
         void Update(Employee employee);
 
         Employee Get(int? employeeId, string username);
-        List<DistributionCentre> GetAllDistributionCentres();        // * * * *
-        List<Employee> GetAllEmployees();
-        Employee getEmployeeById(int id);
-        List<Employee> getEmployeesAtCentre(DistributionCentre xCentre);
-        List<Employee> getEmployeesByType(EmployeeType xType);
+
+        List<DistributionCentre> GetAllDistributionCentres();
     }
 }
