@@ -49,10 +49,5 @@ namespace ENetCare.UnitTest
             };
             return package;
         }
-
-
-        public Package Get(string id) { return null; }
-
-
     }
 }
