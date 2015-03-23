@@ -13,9 +13,7 @@ namespace ENetCare.UnitTest
         public void TestCalculateExpirationDate()
         {
             IPackageRepository packageRepository = new MockPackageRepository();
-            IPackageTransitRepository transitRepository = new MockPackageTransitRepository();
-
-            PackageService packageService = new PackageService(packageRepository, transitRepository);
+            PackageService packageService = new PackageService(packageRepository);
             StandardPackageType packageType = new StandardPackageType
             {
                 PackageTypeId = 1,
@@ -32,9 +30,8 @@ namespace ENetCare.UnitTest
         [TestMethod]
         public void TestCalculateExpirationDate2()
         {
-            IPackageTransitRepository transitRepository = new MockPackageTransitRepository();
             IPackageRepository packageRepository = new MockPackageRepository();
-            PackageService packageService = new PackageService(packageRepository, transitRepository); // new MockPackageTransitRepository();
+            PackageService packageService = new PackageService(packageRepository);
             StandardPackageType packageType = new StandardPackageType
             {
                 PackageTypeId = 1,
