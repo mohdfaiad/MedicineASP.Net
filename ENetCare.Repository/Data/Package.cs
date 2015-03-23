@@ -15,12 +15,5 @@ namespace ENetCare.Repository.Data
         public DistributionCentre CurrentLocation { get; set; }
         public PackageStatus CurrentStatus { get; set; }
         public Employee DistributedBy { get; set; }
-
     }
-
-
-     
-
-
-
 }
