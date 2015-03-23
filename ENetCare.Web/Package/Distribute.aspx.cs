@@ -27,12 +27,16 @@ namespace ENetCare.Web
                 barcodeListText.Append(barcodes[i]);
             }
 
-            litBarcodeList.Text = barcodeListText.ToString();
+            Page.ClientScript.RegisterStartupScript(
+                Page.GetType(),
+                "MessageBox",
+                "<script language='javascript'>alert('" + barcodeListText.ToString() + "');</script>"
+            );
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            
+
         }
     }
 }
