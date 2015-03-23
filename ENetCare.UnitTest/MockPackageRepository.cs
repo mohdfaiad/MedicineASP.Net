@@ -49,5 +49,35 @@ namespace ENetCare.UnitTest
             };
             return package;
         }
+
+        public List<StandardPackageType> GetAllStandardPackageTypes()
+        {
+            var packageTypes = new List<StandardPackageType>();
+            packageTypes.Add(new StandardPackageType()
+            {
+                PackageTypeId = 1,
+                Description = "100 Panadol tablets",
+                ShelfLifeUnitType = ShelfLifeUnitType.Month,
+                ShelfLifeUnits = 3
+            });
+            
+            packageTypes.Add(new StandardPackageType()
+            {
+                PackageTypeId = 2,
+                Description = "25X200 Clorophin tablets",
+                ShelfLifeUnitType = ShelfLifeUnitType.Day,
+                ShelfLifeUnits = 67
+            });
+
+            packageTypes.Add(new StandardPackageType()
+            {
+                PackageTypeId = 3,
+                Description = "50 Felix Tablets",
+                ShelfLifeUnitType = ShelfLifeUnitType.Month,
+                ShelfLifeUnits = 2
+            });
+
+            return packageTypes;
+        }
     }
 }

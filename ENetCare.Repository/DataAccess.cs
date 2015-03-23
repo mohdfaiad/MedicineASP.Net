@@ -235,5 +235,35 @@ namespace ENetCare.Repository
             return centres;
         }
 
+        public static List<StandardPackageType> GetAllStandardPackageTypes(SqlConnection connection)
+        {
+            var packageTypes = new List<StandardPackageType>();            
+            string query = "SELECT PackageTypeId, Description, NumberOfMedications, ShelfLifeUnitType, ShelfLifeUnits, TemperatureSensitive, Value FROM StandardPackageType ORDER BY PackageTypeId";
+
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while(reader.Read())
+                {
+                    var packageType = new StandardPackageType();
+
+                    packageType.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
+                    packageType.Description = (string)reader["Description"];
+                    packageType.NumberOfMedications = Convert.ToInt32(reader["NumberOfMedications"]);
+                    packageType.ShelfLifeUnitType = (ShelfLifeUnitType)Enum.Parse(typeof(ShelfLifeUnitType), (string)reader["ShelfLifeUnitType"], true);
+                    packageType.ShelfLifeUnits = Convert.ToInt32(reader["ShelfLifeUnits"]);
+                    packageType.TemperatureSensitive = (bool)reader["TemperatureSensitive"];
+                    packageType.Value = (decimal)reader["Value"];
+
+                    packageTypes.Add(packageType);
+                }
+            }
+
+            return packageTypes;
+        }
+
+
     }
 }

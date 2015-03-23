@@ -64,5 +64,18 @@ namespace ENetCare.Repository.Repository
             }
             return package;
         }
+
+        public List<StandardPackageType> GetAllStandardPackageTypes()
+        {
+            List<StandardPackageType> packageTypes = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                packageTypes = DataAccess.GetAllStandardPackageTypes(connection);
+            }
+            return packageTypes;
+        }
+
     }
 }

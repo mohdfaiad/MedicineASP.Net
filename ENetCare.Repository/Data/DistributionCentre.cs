@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ENetCare.Repository.Data
 {
+    [Serializable]
     public class DistributionCentre
     {
         public int CentreId { get; set; }

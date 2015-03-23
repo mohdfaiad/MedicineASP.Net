@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BarcodeLib">
+      <HintPath>..\Bin\BarcodeLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.DynamicData" />
@@ -63,6 +66,7 @@
     <Content Include="Agency.sitemap" />
     <Content Include="Doctor.sitemap" />
     <Content Include="Manager.sitemap" />
+    <Content Include="Handler\GenerateBarcodeImage.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -72,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Package\Register.aspx" />
     <Content Include="Public\Images\ENetLogo.png" />
     <Content Include="Public\Images\Icons\date.png" />
     <Content Include="Public\Images\menu_main_bg.gif" />
@@ -103,6 +108,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handler\GenerateBarcodeImage.ashx.cs">
+      <DependentUpon>GenerateBarcodeImage.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Home.aspx.cs">
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -119,6 +127,13 @@
     </Compile>
     <Compile Include="Membership\EmployeeMembershipProvider.cs" />
     <Compile Include="Membership\EmployeeMembershipUser.cs" />
+    <Compile Include="Package\Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Package\Register.aspx.designer.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Public\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -145,7 +160,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Package\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENetCare.BusinessService\ENetCare.BusinessService.csproj">

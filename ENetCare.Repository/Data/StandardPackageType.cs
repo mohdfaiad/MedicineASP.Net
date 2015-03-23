@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ENetCare.Repository.Data
 {
+    [Serializable]
     public class StandardPackageType
     {
         public int PackageTypeId { get; set; }

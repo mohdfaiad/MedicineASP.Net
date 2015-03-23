@@ -64,12 +64,17 @@ namespace ENetCare.BusinessService
             return _packageRepository.Get(null, barcode);
         }
 
+        public List<StandardPackageType> GetAllStandardPackageTypes()
+        {
+            return _packageRepository.GetAllStandardPackageTypes();
+        }
+
         private string GenerateBarCode(Package package)
         {
             if (package.PackageType == null)
                 return string.Empty;
             
-            return string.Format("{0:D5}{1:yyyyMMdd}{2:D5}", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
+            return string.Format("{0:D5}{1:yyMMdd}{2:D5}", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
         }
 
     }

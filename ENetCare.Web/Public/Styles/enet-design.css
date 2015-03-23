@@ -1,14 +1,7 @@
-﻿body {
-    font-family:arial,verdana,geneva,helvetica,sans-serif;font-size:11px;color:#000;background-color:#fff;
-}
-
-p, span { font-size:11px; }
-input { font-size:11px; }
-
-/* Date picker */
+﻿/* Date picker */
 .datepicker {
     width:80px;
-    background:url(/public/images/icons/date.png) no-repeat 61px 1px;
+    background:url(/public/images/icons/date.png) no-repeat 71px 1px;
     background-color:#fff;
     /*font-family:arial,verdana,geneva,helvetica,sans-serif;font-size:11px;color:#000;background-color:#fff; */
     cursor:pointer;
