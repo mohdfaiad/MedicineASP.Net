@@ -8,6 +8,7 @@
         <siteMapNode title="Register" url="~/Package/Register.aspx" />
         <siteMapNode title="Send" url="~/Package/Send.aspx" />
         <siteMapNode title="Receive" url="~/Package/Receive.aspx" />
+        <siteMapNode title="Distribute" url="~/Package/Distribute.aspx" />
       </siteMapNode>
       <siteMapNode title="Account">
         <siteMapNode title="Edit Employee" url="~/EditEmployee.aspx" />
