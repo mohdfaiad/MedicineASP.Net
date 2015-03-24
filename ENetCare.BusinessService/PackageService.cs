@@ -11,10 +11,13 @@ namespace ENetCare.BusinessService
     public class PackageService
     {
         private IPackageRepository _packageRepository;
+        private PackageTransitRepository _transitRepository;
 
         public PackageService(IPackageRepository packageRepository)
         {
+             
             _packageRepository = packageRepository;
+            _transitRepository = new PackageTransitRepository(packageRepository.getConnectionString());
         }
 
         public DateTime CalculateExpirationDate(StandardPackageType packageType, DateTime startDate)
@@ -113,6 +116,39 @@ namespace ENetCare.BusinessService
             return sendResult;
         }
 
+        public Result Receive(string barCode, DistributionCentre receiverCentre, DateTime date)
+        {                                                            // Created by Pablo on 24-03-15
+            Result receiveResult = new Result();
+            Package package = _packageRepository.GetPackageWidthBarCode(barCode);
+            if (package == null)                         // Case: not found
+            {
+                receiveResult.ErrorMessage = "Bar Code not found";
+                receiveResult.Success = false;
+                return receiveResult;
+            }
+            //PackageTransitRepository _transitRepository = new PackageTransitRepository("");
+            List<PackageTransit> activeTransits = _transitRepository.GetActiveTransitsByPackage(package);
+            if (activeTransits.Count() == 0)                         // Case: not found
+            {
+                receiveResult.ErrorMessage = "Transit not found";
+                receiveResult.Success = false;
+                return receiveResult;
+            }
+            if (activeTransits.Count() > 1)                         // Case: many found
+            {
+                receiveResult.ErrorMessage = "More than one active transit exists for that package";
+                receiveResult.Success = false;
+                return receiveResult;
+            }
+            PackageTransit transit = activeTransits.ElementAt(0);   // get the only item found
+            transit.DateReceived = DateTime.Today;                  // set transit as received
+            _transitRepository.Update(transit);                     // update transits DB
+            package.CurrentStatus = PackageStatus.InStock;            // set packagestatus
+            package.CurrentLocation = receiverCentre;                 // set package location
+            _packageRepository.Update(package);                     // update packages DB
+            receiveResult.Success = true;
+            return receiveResult;
+        }
 
 
 
