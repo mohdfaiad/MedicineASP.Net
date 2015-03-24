@@ -120,6 +120,9 @@ namespace ENetCare.Repository
             return package;
         }
 
+
+
+
         public static Employee GetEmployee(SqlConnection connection, int? employeeId, string username)
         {
             Employee employee = null;
@@ -264,9 +267,39 @@ namespace ENetCare.Repository
             return packageTypes;
         }
 
-
-
-
+        public static List<Package> GetAllPackages(SqlConnection connection)
+        {                                                          // Added by Pablo on 24-03-15
+            Package package = null;
+            string query = "SELECT PackageId, BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId FROM Package ";
+            var cmd = new SqlCommand(query);
+            List<Package> allPackages = new List<Package>();
+            cmd.Connection = connection;
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while (reader.Read())
+                {
+                    package = new Package();
+                    package.PackageType = new StandardPackageType();
+                    package.PackageId = Convert.ToInt32(reader["PackageId"]);
+                    package.BarCode = (string)reader["BarCode"];
+                    package.ExpirationDate = (DateTime)reader["ExpirationDate"];
+                    package.PackageType.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
+                    if (reader["CurrentLocationCentreId"] != DBNull.Value)
+                    {
+                        package.CurrentLocation = new DistributionCentre();
+                        package.CurrentLocation.CentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
+                    }
+                    package.CurrentStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["CurrentStatus"], true);
+                    if (reader["DistributedByEmployeeId"] != DBNull.Value)
+                    {
+                        package.DistributedBy = new Employee();
+                        package.DistributedBy.EmployeeId = Convert.ToInt32(reader["DistributedByEmployeeId"]);
+                    }
+                    allPackages.Add(package);
+                }
+            }
+            return allPackages;
+        }
 
 
         public static List<Employee> GetAllEmployees(SqlConnection connection)
