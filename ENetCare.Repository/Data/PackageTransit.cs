@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ENetCare.Repository.Data
 {
-    class PackageTransit
+    public class PackageTransit
     {
         public int TransitId { get; set; }
         public Package Package { get; set; }
