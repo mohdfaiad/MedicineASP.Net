@@ -97,5 +97,6 @@ namespace ENetCare.Repository.Repository
             return packageTypes;
         }
 
+        public string getConnectionString() { return _connectionString; }
     }
 }
