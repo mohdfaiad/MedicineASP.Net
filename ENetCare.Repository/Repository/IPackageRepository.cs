@@ -15,5 +15,6 @@ namespace ENetCare.Repository.Repository
         Package Get(int? packageId);
         Package GetPackageWidthBarCode(string barCode); 
         List<StandardPackageType> GetAllStandardPackageTypes();
+        string getConnectionString();
     }
 }
