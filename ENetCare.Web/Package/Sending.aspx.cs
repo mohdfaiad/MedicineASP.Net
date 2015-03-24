@@ -19,6 +19,11 @@ namespace ENetCare.Web
         {
             IPackageRepository packageRepository = new PackageRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             _packageService = new PackageService(packageRepository);
+
+            if (!Page.IsPostBack)
+            {
+                ddlDestination.DataTextField = "Choose Destination";
+            }
         }
     }
 }
