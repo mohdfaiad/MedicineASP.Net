@@ -88,6 +88,10 @@ namespace ENetCare.UnitTest
         public Package GetPackageWidthBarCode(string barCode)                           // Added by Pablo on 24-03-15
         {            return null;        }
 
-        
+
+        public string getConnectionString()
+        {           return null;         }
+
+
     }
 }
