@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Package\ReceivePackage.aspx" />
     <Content Include="Package\Register.aspx" />
     <Content Include="Public\Images\ENetLogo.png" />
     <Content Include="Public\Images\Icons\date.png" />
@@ -135,6 +136,13 @@
     </Compile>
     <Compile Include="Membership\EmployeeMembershipProvider.cs" />
     <Compile Include="Membership\EmployeeMembershipUser.cs" />
+    <Compile Include="Package\ReceivePackage.aspx.cs">
+      <DependentUpon>ReceivePackage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Package\ReceivePackage.aspx.designer.cs">
+      <DependentUpon>ReceivePackage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Package\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
