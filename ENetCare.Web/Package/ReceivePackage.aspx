@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReceivePackage.aspx.cs" Inherits="ENetCare.Web.Package.ReceivePackage" MasterPageFile="~/MasterPages/General.Master"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReceivePackage.aspx.cs" Inherits="ENetCare.Web.ReceivePackage" MasterPageFile="~/MasterPages/General.Master"%>
 
 
 <%--  [COMMENT] This is just a protoype. This page is suppose to reuse components .    (Pablo 24-03-15)      --%>

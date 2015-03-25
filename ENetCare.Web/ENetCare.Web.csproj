@@ -79,7 +79,7 @@
     <Content Include="Global.asax" />
     <Content Include="Package\ReceivePackage.aspx" />
     <Content Include="Package\Register.aspx" />
-    <Content Include="Package\Sending.aspx" />
+    <Content Include="Package\Send.aspx" />
     <Content Include="Public\Images\ENetLogo.png" />
     <Content Include="Public\Images\Icons\date.png" />
     <Content Include="Public\Images\menu_main_bg.gif" />
@@ -151,11 +151,12 @@
     <Compile Include="Package\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Package\Sending.aspx.cs">
-      <DependentUpon>Sending.aspx</DependentUpon>
+    <Compile Include="Package\Send.aspx.cs">
+      <DependentUpon>Send.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Package\Sending.aspx.designer.cs">
-      <DependentUpon>Sending.aspx</DependentUpon>
+    <Compile Include="Package\Send.aspx.designer.cs">
+      <DependentUpon>Send.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Public\Login.aspx.cs">

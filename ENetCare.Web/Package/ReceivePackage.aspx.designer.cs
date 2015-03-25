@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ENetCare.Web.Package {
+namespace ENetCare.Web {
     
     
     public partial class ReceivePackage {

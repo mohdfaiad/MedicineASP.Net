@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ENetCare.Web.Package
+namespace ENetCare.Web
 {
     public partial class ReceivePackage : System.Web.UI.Page
     {

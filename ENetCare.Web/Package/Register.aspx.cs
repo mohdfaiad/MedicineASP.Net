@@ -80,9 +80,6 @@ namespace ENetCare.Web
                 return;
             }
 
-            pnlMessage.Visible = true;
-            litMessage.Text = "Successfully saved";
-
             var packageTypes = (List<StandardPackageType>) ViewState["PackageTypes"];
             int selectedPackageTypeId = int.Parse(ddlPackageType.SelectedValue);
 
@@ -100,7 +97,22 @@ namespace ENetCare.Web
             string barcode;
 
             Result result = _packageService.Register(selectedPackageType, selectedCentre, expirationDate, out barcode);
-            
+            if (!result.Success)
+            {
+                var err = new CustomValidator();
+                err.ValidationGroup = "userDetails"; 
+                err.IsValid = false;
+                err.ErrorMessage = result.ErrorMessage;
+                Page.Validators.Add(err);
+
+                pnlErrorMessage.Visible = true;
+                litErrorMessage.Text = "There are errors";
+                return;
+            }
+
+            pnlMessage.Visible = true;
+            litMessage.Text = "Successfully saved";
+
             litBarcode.Text = barcode;
 
             string strImageURL = "~/Handler/GenerateBarcodeImage.ashx?d=" + barcode;

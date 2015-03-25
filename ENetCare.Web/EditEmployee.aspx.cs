@@ -67,9 +67,15 @@ namespace ENetCare.Web
                 litMessage.Text = "Successfully saved";
             }
             else
-            {
+            {                
+                var err = new CustomValidator();
+                err.ValidationGroup = "userDetails";
+                err.IsValid = false;
+                err.ErrorMessage = result.ErrorMessage;
+                Page.Validators.Add(err);
+
                 pnlErrorMessage.Visible = true;
-                litErrorMessage.Text = "There are errors";
+                litErrorMessage.Text = "There are errors";                              
             }
         }
 
