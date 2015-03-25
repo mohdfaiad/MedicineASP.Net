@@ -46,6 +46,7 @@
     <Compile Include="Data\EmployeeType.cs" />
     <Compile Include="Data\Package.cs" />
     <Compile Include="Data\PackageStatus.cs" />
+    <Compile Include="Data\PackageTransit.cs" />
     <Compile Include="Data\Result.cs" />
     <Compile Include="Data\ShelfLifeUnitType.cs" />
     <Compile Include="Data\StandardPackageType.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Repository\IEmployeeRepository.cs" />
     <Compile Include="Repository\IPackageRepository.cs" />
     <Compile Include="Repository\PackageRepository.cs" />
+    <Compile Include="Repository\PackageTransitRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

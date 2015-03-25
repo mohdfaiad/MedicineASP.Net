@@ -31,7 +31,7 @@
     
     <table border="0">
         <tr>
-            <td width="100">
+            <td> <!-- width='100'>  -->
                 <asp:Label ID="lblPackageType" runat="server" Text="Package Type:" />
             </td>
             <td>
