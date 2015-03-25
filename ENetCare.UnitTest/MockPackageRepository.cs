@@ -79,5 +79,19 @@ namespace ENetCare.UnitTest
 
             return packageTypes;
         }
+
+
+        public Package Get(int? packageId)                                           // Added by Pablo on 24-03-15
+        {            return null;        }
+
+
+        public Package GetPackageWidthBarCode(string barCode)                           // Added by Pablo on 24-03-15
+        {            return null;        }
+
+
+        public string getConnectionString()
+        {           return null;         }
+
+
     }
 }

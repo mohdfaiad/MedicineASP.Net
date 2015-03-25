@@ -120,6 +120,9 @@ namespace ENetCare.Repository
             return package;
         }
 
+
+
+
         public static Employee GetEmployee(SqlConnection connection, int? employeeId, string username)
         {
             Employee employee = null;
@@ -263,6 +266,108 @@ namespace ENetCare.Repository
 
             return packageTypes;
         }
+
+        public static List<Package> GetAllPackages(SqlConnection connection)
+        {                                                          // Added by Pablo on 24-03-15
+            Package package = null;
+            string query = "SELECT PackageId, BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId FROM Package ";
+            var cmd = new SqlCommand(query);
+            List<Package> allPackages = new List<Package>();
+            cmd.Connection = connection;
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while (reader.Read())
+                {
+                    package = new Package();
+                    package.PackageType = new StandardPackageType();
+                    package.PackageId = Convert.ToInt32(reader["PackageId"]);
+                    package.BarCode = (string)reader["BarCode"];
+                    package.ExpirationDate = (DateTime)reader["ExpirationDate"];
+                    package.PackageType.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
+                    if (reader["CurrentLocationCentreId"] != DBNull.Value)
+                    {
+                        package.CurrentLocation = new DistributionCentre();
+                        package.CurrentLocation.CentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
+                    }
+                    package.CurrentStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["CurrentStatus"], true);
+                    if (reader["DistributedByEmployeeId"] != DBNull.Value)
+                    {
+                        package.DistributedBy = new Employee();
+                        package.DistributedBy.EmployeeId = Convert.ToInt32(reader["DistributedByEmployeeId"]);
+                    }
+                    allPackages.Add(package);
+                }
+            }
+            return allPackages;
+        }
+
+
+        public static List<Employee> GetAllEmployees(SqlConnection connection)
+        {                                                   // Added by Pablo on 24-03-15
+            var allEmployees = new List<Employee>();
+            string query = "SELECT CentreId, Name, Address, Phone, IsHeadOffice FROM DistributionCentre ORDER BY CentreId";
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while (reader.Read())
+                {
+                    var employee = new Employee();
+                    employee.EmailAddress = (string)reader["EmailAddress"];
+                    employee.EmployeeId = Convert.ToInt32(reader["EmployeeId"]);
+                    employee.EmployeeType = (EmployeeType)reader["EmployeeType"];
+                    employee.FullName = (string)reader["FullName"];
+                    employee.Location = DataAccess.GetDistributionCentre(connection, Convert.ToInt32(reader["EmployeeId"]));
+                    employee.Password = (string)reader["Password"];
+                    employee.UserName = (string)reader["UserName"];
+                    allEmployees.Add(employee);
+                }
+            }
+            return allEmployees;
+        }
+
+
+
+
+
+        public static int InsertPackageTransit(SqlConnection connection, PackageTransit packageT)
+        {                                                                       // Added by Pablo on 24/03/15
+            // define INSERT query with parameters 
+            string query = " INSERT INTO dbo.PackageTransit (Package , SenderCentre,  " +
+                           " ReceiverCentre, DateSent, DateReceived, DateCancelled)  " +
+                           "  SET @newId = SCOPE_IDENTITY();";
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                cmd.Parameters.Add("@Package", SqlDbType.Int).Value = (int)packageT.Package.PackageId;
+                cmd.Parameters.Add("@SenderCentre", SqlDbType.Int).Value = (int)packageT.SenderCentre.CentreId;
+                cmd.Parameters.Add("@ReceiverCentre", SqlDbType.Int).Value = (int)packageT.ReceiverCentre.CentreId;
+                cmd.Parameters.Add("@DateSent", SqlDbType.Date).Value = (DateTime)packageT.DateSent;
+                cmd.Parameters.Add("@DateReceived", SqlDbType.Date).Value = (DateTime)packageT.DateReceived;
+                cmd.Parameters.Add("@DateReceived", SqlDbType.Date).Value = (DateTime)packageT.DateCancelled;
+                cmd.Parameters.Add("@newId", SqlDbType.Int).Direction = ParameterDirection.Output;
+            }
+            cmd.CommandType = CommandType.Text;
+            cmd.ExecuteScalar();
+            return (int)cmd.Parameters["@newId"].Value;
+        }
+
+
+        public static void UpdatePackageTransit(SqlConnection connection, PackageTransit transit)
+        {
+
+        }
+
+        public static List<PackageTransit> getAllPackageTransits(SqlConnection connection)
+        {
+            return null;
+        }
+
+
+
+
+
 
 
     }
