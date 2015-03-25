@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/General.Master" AutoEventWireup="true" CodeBehind="Sending.aspx.cs" Inherits="ENetCare.Web.Sending" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/General.Master" AutoEventWireup="true" CodeBehind="Send.aspx.cs" Inherits="ENetCare.Web.Sending" %>
 
 <%@ Register TagName="PackageBarcodeUserControl" TagPrefix="uc" Src="~/UserControl/PackageBarcode.ascx" %>
 
@@ -13,6 +13,7 @@
     <asp:Panel ID="pnlMessage" runat="server" CssClass="message" Visible="false">
             <asp:Literal ID="litMessage" runat="server" />
     </asp:Panel>
+
     <asp:Panel ID="pnlErrorMessage" runat="server" Visible="false" CssClass="message error">
         
          <asp:ValidationSummary ID="valSummary" runat="server" 
@@ -26,12 +27,12 @@
         <tr>
             <td>
                 <asp:Label ID="lblDestination" runat="server" 
-                        AssociatedControlID="txtDestination" Text="Send to:" />
+                        AssociatedControlID="ddlDestination" Text="Send to:" />
             </td>
             <td>
-                <asp:DropDownList ID="ddlDestination" runat="server" Width="200" TabIndex="2" Enabled="true" AutoPostBack="True" OnSelectedIndexChanged="ddlDestination_SelectedIndexChanged" />
+                <asp:DropDownList ID="ddlDestination" runat="server" Width="200" TabIndex="2" Enabled="true" AutoPostBack="True" />
                 <asp:RequiredFieldValidator ID="valReqDestination" runat="server" 
-                    ControlToValidate="txtDestination" 
+                    ControlToValidate="ddlDestination" 
                     ValidationGroup="destinationDetails"
                     Display="None" EnableClientScript="false" SetFocusOnError="true"
                     Text="*"
@@ -39,6 +40,6 @@
             </td>
         </tr>
     </table>
-    <asp:Button ID="btnCancel" align="right" Width="80" runat="server" CausesValidation="true" Text="Cancel"  />
-    <asp:Button ID="btnSave" align="right" Width="80" runat="server" CausesValidation="true" Text="Save"  />
+    <asp:Button ID="btnCancel" Width="80" runat="server" CausesValidation="true" Text="Cancel"  />
+    <asp:Button ID="btnSave" Width="80" runat="server" CausesValidation="true" Text="Save" />
 </asp:Content>
