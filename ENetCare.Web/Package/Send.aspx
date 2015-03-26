@@ -30,7 +30,8 @@
                         AssociatedControlID="ddlDestination" Text="Send to:" />
             </td>
             <td>
-                <asp:DropDownList ID="ddlDestination" runat="server" Width="200" TabIndex="2" Enabled="true" AutoPostBack="True" />
+                <asp:DropDownList ID="ddlDestination" runat="server" Width="200" TabIndex="2" Enabled="true"
+                     AutoPostBack="True" OnSelectedIndexChanged="ddlDestination_SelectedIndexChanged"/>
                 <asp:RequiredFieldValidator ID="valReqDestination" runat="server" 
                     ControlToValidate="ddlDestination" 
                     ValidationGroup="destinationDetails"

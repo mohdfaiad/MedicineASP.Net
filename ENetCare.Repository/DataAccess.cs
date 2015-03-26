@@ -329,7 +329,7 @@ namespace ENetCare.Repository
 
 
 
-
+        
         public static int InsertPackageTransit(SqlConnection connection, PackageTransit packageT)
         {                                                                       // Added by Pablo on 24/03/15
             // define INSERT query with parameters 
@@ -363,11 +363,6 @@ namespace ENetCare.Repository
         {
             return null;
         }
-
-
-
-
-
 
 
     }
