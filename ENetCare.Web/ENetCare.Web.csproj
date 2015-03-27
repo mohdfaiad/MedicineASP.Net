@@ -95,6 +95,7 @@
     <Content Include="Public\Styles\enet-menu-treeview.css" />
     <Content Include="Public\Styles\enet-menu.css" />
     <Content Include="Public\Styles\jquery-ui.css" />
+    <Content Include="Report\DistributionCentreStock.aspx" />
     <Content Include="TestPage.html" />
     <Content Include="Training.aspx" />
     <Content Include="UserControl\PackageBarcode.ascx" />
@@ -165,6 +166,13 @@
     </Compile>
     <Compile Include="Public\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\DistributionCentreStock.aspx.cs">
+      <DependentUpon>DistributionCentreStock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\DistributionCentreStock.aspx.designer.cs">
+      <DependentUpon>DistributionCentreStock.aspx</DependentUpon>
     </Compile>
     <Compile Include="Training.aspx.cs">
       <DependentUpon>Training.aspx</DependentUpon>
