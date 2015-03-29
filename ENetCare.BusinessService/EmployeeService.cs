@@ -135,5 +135,10 @@ namespace ENetCare.BusinessService
         {
             return _employeeRepository.GetAllDistributionCentres();
         }
+
+        public DistributionCentre GetDistributionCentre(int centreid)
+        {
+            return _employeeRepository.GetDistributionCentre(centreid);
+        }
     }
 }
