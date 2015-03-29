@@ -133,5 +133,19 @@ namespace ENetCare.Web.UserControl
             }
             return barcodes;
         }
+
+        public string GetPackageTypeId(string barcode)
+        {
+            string packageTypeId = null;
+
+            foreach (GridViewRow gvr in grd.Rows)
+            {
+                Literal litPackageType = gvr.FindControl("litPackageType") as Literal;
+                if (litPackageType != null)
+                    packageTypeId = litPackageType.Text;
+            }
+
+            return packageTypeId;
+        }
     }
 }
