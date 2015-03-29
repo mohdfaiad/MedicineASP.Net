@@ -14,8 +14,8 @@ namespace ENetCare.Repository
         public static int InsertPackage(SqlConnection connection, Package package)
         {
             // define INSERT query with parameters 
-            string query = "INSERT INTO dbo.Package (BarCode, ExpirationDate, PackageTypeId, CurrentStatus) " +
-                           "VALUES (@BarCode, @ExpirationDate, @PackageTypeId, @CurrentStatus) " +
+            string query = "INSERT INTO dbo.Package (BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId) " +
+                           "VALUES (@BarCode, @ExpirationDate, @PackageTypeId, @CurrentLocationCentreId, @CurrentStatus, @DistributedByEmployeeId) " +
                            "SET @newId = SCOPE_IDENTITY();";
 
             using (var cmd = new SqlCommand(query, connection))
@@ -24,12 +24,15 @@ namespace ENetCare.Repository
                 cmd.Parameters.Add("@BarCode", SqlDbType.VarChar, 20).Value = package.BarCode ?? string.Empty;
                 cmd.Parameters.Add("@ExpirationDate", SqlDbType.DateTime).Value = package.ExpirationDate;
                 cmd.Parameters.Add("@PackageTypeId", SqlDbType.Int).Value = package.PackageType.PackageTypeId;
-                cmd.Parameters.Add("@CurrentStatus", SqlDbType.VarChar, 20).Value =
-                    package.CurrentStatus.ToString().ToUpper();
+                cmd.Parameters.Add("@CurrentLocationCentreId", SqlDbType.Int).Value = package.CurrentLocation.CentreId;
+                cmd.Parameters.Add("@CurrentStatus", SqlDbType.VarChar, 20).Value = package.CurrentStatus.ToString().ToUpper();
+                cmd.Parameters.Add("@DistributedByEmployeeId", SqlDbType.Int).Value = package.DistributedBy.EmployeeId;
                 cmd.Parameters.Add("@newId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 cmd.CommandType = CommandType.Text;
-                
+
+                string qry =  cmd.CommandText;
+
                 cmd.ExecuteScalar();
 
                 return (int)cmd.Parameters["@newId"].Value;
