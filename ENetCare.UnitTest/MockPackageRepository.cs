@@ -50,6 +50,14 @@ namespace ENetCare.UnitTest
             return package;
         }
 
+        public StandardPackageType GetStandardPackageType(int packageTypeId)
+        {
+            StandardPackageType stp = null;
+
+
+            return stp;
+        }
+
         public List<StandardPackageType> GetAllStandardPackageTypes()
         {
             var packageTypes = new List<StandardPackageType>();

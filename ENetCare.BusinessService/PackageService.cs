@@ -72,6 +72,11 @@ namespace ENetCare.BusinessService
             return _packageRepository.GetAllStandardPackageTypes();
         }
 
+        public StandardPackageType GetStandardPackageType(int packageId)
+        {
+            return _packageRepository.GetStandardPackageType(packageId);
+        }
+
         private string GenerateBarCode(Package package)
         {
             if (package.PackageType == null)
@@ -150,7 +155,30 @@ namespace ENetCare.BusinessService
             return receiveResult;
         }
 
+        public Result Distribute(string barCode, DistributionCentre distributionCentre, Employee employee, DateTime expirationDate, StandardPackageType packageType, int packageId)
+        {
+            var result = new Result {
+            Success = true
+            };
 
+            Package package = new Package
+            {
+                PackageType = packageType,
+                CurrentLocation = distributionCentre,
+                CurrentStatus = PackageStatus.Distributed,
+                PackageId = packageId,
+                ExpirationDate = expirationDate,
+                DistributedBy = employee,
+                BarCode = barCode
+            };
+
+
+            int transactionId = _packageRepository.Insert(package);
+
+            result.Id = package.PackageId;
+
+            return result;
+        }
 
     }
 }

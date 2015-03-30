@@ -53,5 +53,16 @@ namespace ENetCare.Repository.Repository
             }
             return centres;
         }
+
+        public DistributionCentre GetDistributionCentre(int centreid)
+        {
+            DistributionCentre centre = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                centre = DataAccess.GetDistributionCentre(connection, centreid);
+            }
+            return centre;
+        }
     }
 }

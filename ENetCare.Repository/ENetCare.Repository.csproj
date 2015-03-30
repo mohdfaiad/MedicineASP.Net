@@ -54,9 +54,14 @@
     <Compile Include="Repository\EmployeeRepository.cs" />
     <Compile Include="Repository\IEmployeeRepository.cs" />
     <Compile Include="Repository\IPackageRepository.cs" />
+    <Compile Include="Repository\IReportRepository.cs" />
     <Compile Include="Repository\PackageRepository.cs" />
     <Compile Include="Repository\PackageTransitRepository.cs" />
+    <Compile Include="Repository\ReportRepository.cs" />
+    <Compile Include="ViewDataAccess.cs" />
+    <Compile Include="ViewData\DistributionCentreStock.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

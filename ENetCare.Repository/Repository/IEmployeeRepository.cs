@@ -14,5 +14,7 @@ namespace ENetCare.Repository.Repository
         Employee Get(int? employeeId, string username);
 
         List<DistributionCentre> GetAllDistributionCentres();
+
+        DistributionCentre GetDistributionCentre(int centreid);
     }
 }

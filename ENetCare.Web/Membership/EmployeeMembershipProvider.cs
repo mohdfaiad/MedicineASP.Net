@@ -4,8 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Configuration.Provider;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Security;
 
 namespace ENetCare.Web.Membership
@@ -21,9 +25,46 @@ namespace ENetCare.Web.Membership
             _employeeService = new EmployeeService(repository);            
         }
 
+        private MachineKeySection _machineKey; //Used when determining encryption key values.
+        private MembershipPasswordFormat _passwordFormat;
+
+        /// <summary>
+        /// Converts a hexadecimal string to a byte array. 
+        /// </summary>
+        private byte[] HexToByte(string hexString)
+        {
+            byte[] returnBytes = new byte[hexString.Length / 2];
+            for (int i = 0; i < returnBytes.Length; i++)
+                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
+            return returnBytes;
+        }
+
+        /// <summary>
+        /// Encode password
+        /// </summary>
+        private string EncodePassword(string password)
+        {
+            switch (PasswordFormat)
+            {
+                case MembershipPasswordFormat.Clear:
+                    return password;
+                case MembershipPasswordFormat.Hashed:
+                    HMACSHA1 hash = new HMACSHA1();
+                    hash.Key = HexToByte(_machineKey.ValidationKey);
+                    return Convert.ToBase64String(hash.ComputeHash(Encoding.Unicode.GetBytes(password)));
+                default:
+                    throw new ProviderException("Unsupported password format");
+            }
+        }
+
         public override void Initialize(string name, NameValueCollection config)
         {
             base.Initialize(name, config);
+
+            _passwordFormat = (MembershipPasswordFormat)Enum.Parse(typeof(MembershipPasswordFormat), config["passwordFormat"], true);
+
+            System.Configuration.Configuration cfg = WebConfigurationManager.OpenWebConfiguration(System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath);
+            _machineKey = cfg.GetSection("system.web/machineKey") as MachineKeySection;
         }
 
         /// <summary>
@@ -33,7 +74,7 @@ namespace ENetCare.Web.Membership
         {
             var employee = _employeeService.Retrieve(username);
             
-            return employee == null || employee.Password != password ? false : true;
+            return employee == null || employee.Password != EncodePassword(password) ? false : true;
         }
 
         /// <summary>
@@ -41,7 +82,7 @@ namespace ENetCare.Web.Membership
         /// </summary>
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {            
-            var result = _employeeService.ChangePassword(username, oldPassword, newPassword, newPassword);
+            var result = _employeeService.ChangePassword(username, oldPassword, EncodePassword(newPassword), EncodePassword(newPassword));
             
             return result.Success;
         }
@@ -206,7 +247,7 @@ namespace ENetCare.Web.Membership
 
         public override MembershipPasswordFormat PasswordFormat
         {
-            get { return MembershipPasswordFormat.Clear; }
+            get { return _passwordFormat; }
         }
 
         public override string PasswordStrengthRegularExpression
