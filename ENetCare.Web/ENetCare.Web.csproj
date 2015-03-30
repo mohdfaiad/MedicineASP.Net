@@ -95,7 +95,11 @@
     <Content Include="Public\Styles\enet-menu-treeview.css" />
     <Content Include="Public\Styles\enet-menu.css" />
     <Content Include="Public\Styles\jquery-ui.css" />
+    <Content Include="Report\DistributionCentreLosses.aspx" />
     <Content Include="Report\DistributionCentreStock.aspx" />
+    <Content Include="Report\DoctorActivity.aspx" />
+    <Content Include="Report\GlobalStock.aspx" />
+    <Content Include="Report\ValueInTransit.aspx" />
     <Content Include="TestPage.html" />
     <Content Include="Training.aspx" />
     <Content Include="UserControl\PackageBarcode.ascx" />
@@ -167,12 +171,40 @@
     <Compile Include="Public\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Report\DistributionCentreLosses.aspx.cs">
+      <DependentUpon>DistributionCentreLosses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\DistributionCentreLosses.aspx.designer.cs">
+      <DependentUpon>DistributionCentreLosses.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Report\DistributionCentreStock.aspx.cs">
       <DependentUpon>DistributionCentreStock.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Report\DistributionCentreStock.aspx.designer.cs">
       <DependentUpon>DistributionCentreStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\DoctorActivity.aspx.cs">
+      <DependentUpon>DoctorActivity.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\DoctorActivity.aspx.designer.cs">
+      <DependentUpon>DoctorActivity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\GlobalStock.aspx.cs">
+      <DependentUpon>GlobalStock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\GlobalStock.aspx.designer.cs">
+      <DependentUpon>GlobalStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ValueInTransit.aspx.cs">
+      <DependentUpon>ValueInTransit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\ValueInTransit.aspx.designer.cs">
+      <DependentUpon>ValueInTransit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Training.aspx.cs">
       <DependentUpon>Training.aspx</DependentUpon>

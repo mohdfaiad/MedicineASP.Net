@@ -59,7 +59,11 @@
     <Compile Include="Repository\PackageTransitRepository.cs" />
     <Compile Include="Repository\ReportRepository.cs" />
     <Compile Include="ViewDataAccess.cs" />
+    <Compile Include="ViewData\DistributionCentreLosses.cs" />
     <Compile Include="ViewData\DistributionCentreStock.cs" />
+    <Compile Include="ViewData\DoctorActivity.cs" />
+    <Compile Include="ViewData\GlobalStock.cs" />
+    <Compile Include="ViewData\ValueInTransit.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

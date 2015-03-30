@@ -27,5 +27,53 @@ namespace ENetCare.Repository.Repository
             }
             return stockList;
         }
+
+        public List<DistributionCentreLosses> GetDistributionCentreLosses()
+        {
+            List<DistributionCentreLosses> centreList = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                centreList = ViewDataAccess.GetDistributionCentreLosses(connection);
+            }
+            return centreList;
+        }
+
+        public List<DoctorActivity> GetDoctorActivity()
+        {
+            List<DoctorActivity> doctors = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                doctors = ViewDataAccess.GetDoctorActivity(connection);
+            }
+            return doctors;
+        }
+
+        public List<GlobalStock> GetGlobalStock()
+        {
+            List<GlobalStock> stocks = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                stocks = ViewDataAccess.GetGlobalStock(connection);
+            }
+            return stocks;
+        }
+
+        public List<ValueInTransit> GetValueInTransit()
+        {
+            List<ValueInTransit> valueList = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                valueList = ViewDataAccess.GetValueInTransit(connection);
+            }
+            return valueList;
+        }
     }
 }

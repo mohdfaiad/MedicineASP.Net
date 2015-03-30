@@ -10,5 +10,9 @@ namespace ENetCare.Repository.Repository
     public interface IReportRepository
     {
         List<DistributionCentreStock> GetDistributionCentreStock();
+        List<DistributionCentreLosses> GetDistributionCentreLosses();
+        List<DoctorActivity> GetDoctorActivity();
+        List<GlobalStock> GetGlobalStock();
+        List<ValueInTransit> GetValueInTransit();
     }
 }

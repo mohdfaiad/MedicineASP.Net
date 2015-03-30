@@ -3,6 +3,10 @@
     <siteMapNode title="Home" url="~/Home.aspx">
       <siteMapNode url="" title="Reports"  description="">
         <siteMapNode title="Distribution Centre Stock" url="~/Report/DistributionCentreStock.aspx" />
+        <siteMapNode title="Distribution Centre Losses" url="~/Report/DistributionCentreLosses.aspx" />
+        <siteMapNode title="Doctor Activity" url="~/Report/DoctorActivity.aspx" />
+        <siteMapNode title="Global Stock" url="~/Report/GlobalStock.aspx" />
+        <siteMapNode title="Value In Transit" url="~/Report/ValueInTransit.aspx" />
       </siteMapNode>
       <siteMapNode title="Account">
         <siteMapNode title="Edit Employee" url="~/EditEmployee.aspx" />
