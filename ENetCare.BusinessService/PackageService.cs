@@ -92,25 +92,25 @@ namespace ENetCare.BusinessService
             package = _packageRepository.GetPackageWidthBarCode(barCode);
             if (package == null)                         // Case: not found
             {
-                sendResult.ErrorMessage = "Bar Code not found";
+                sendResult.ErrorMessage = TransitResult.BarCodeNotFound;
                 sendResult.Success = false;
                 return sendResult;
             }
             if (package.CurrentLocation != senderCentre)    //  Case: not in this centre
             {
-                sendResult.ErrorMessage = "Package appears as located elsewhere";
+                sendResult.ErrorMessage = TransitResult.PackageElsewhere;
                 sendResult.Success = false;
                 return sendResult;
             }
             if (package.CurrentStatus != PackageStatus.InStock)  // Case: not in stock 
             {
-                sendResult.ErrorMessage = "Package appears not to be in Stock";
+                sendResult.ErrorMessage = TransitResult.PackageNotInStock;
                 sendResult.Success = false;
                 return sendResult;
             }
             if (package.CurrentLocation == senderCentre)          // Case:  Desitiny = Sending Centre
             {
-                sendResult.ErrorMessage = "Package appears as being already at the Destination Centre";
+                sendResult.ErrorMessage = TransitResult.PackageAlreadyAtDestination;
                 sendResult.Success = false;
                 return sendResult;
             }
@@ -127,7 +127,7 @@ namespace ENetCare.BusinessService
             Package package = _packageRepository.GetPackageWidthBarCode(barCode);
             if (package == null)                         // Case: not found
             {
-                receiveResult.ErrorMessage = "Bar Code not found";
+                receiveResult.ErrorMessage = TransitResult.BarCodeNotFound;
                 receiveResult.Success = false;
                 return receiveResult;
             }
@@ -135,13 +135,13 @@ namespace ENetCare.BusinessService
             List<PackageTransit> activeTransits = _transitRepository.GetActiveTransitsByPackage(package);
             if (activeTransits.Count() == 0)                         // Case: not found
             {
-                receiveResult.ErrorMessage = "Transit not found";
+                receiveResult.ErrorMessage = TransitResult.TransitNotFound;
                 receiveResult.Success = false;
                 return receiveResult;
             }
             if (activeTransits.Count() > 1)                         // Case: many found
             {
-                receiveResult.ErrorMessage = "More than one active transit exists for that package";
+                receiveResult.ErrorMessage = TransitResult.MoreThanOneTransitForPackage;
                 receiveResult.Success = false;
                 return receiveResult;
             }
