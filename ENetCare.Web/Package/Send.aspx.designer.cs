@@ -22,13 +22,13 @@ namespace ENetCare.Web {
         protected global::System.Web.UI.WebControls.Panel pnlMessage;
         
         /// <summary>
-        /// litErrorMessage control.
+        /// litMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litErrorMessage;
+        protected global::System.Web.UI.WebControls.Literal litMessage;
         
         /// <summary>
         /// pnlErrorMessage control.
@@ -38,6 +38,15 @@ namespace ENetCare.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlErrorMessage;
+        
+        /// <summary>
+        /// litErrorMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litErrorMessage;
         
         /// <summary>
         /// valSummary control.

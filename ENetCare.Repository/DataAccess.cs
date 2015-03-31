@@ -26,7 +26,10 @@ namespace ENetCare.Repository
                 cmd.Parameters.Add("@PackageTypeId", SqlDbType.Int).Value = package.PackageType.PackageTypeId;
                 cmd.Parameters.Add("@CurrentLocationCentreId", SqlDbType.Int).Value = package.CurrentLocation.CentreId;
                 cmd.Parameters.Add("@CurrentStatus", SqlDbType.VarChar, 20).Value = package.CurrentStatus.ToString().ToUpper();
-                cmd.Parameters.Add("@DistributedByEmployeeId", SqlDbType.Int).Value = package.DistributedBy.EmployeeId;
+                if (package.DistributedBy == null)
+                    cmd.Parameters.Add("@DistributedByEmployeeId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@DistributedByEmployeeId", SqlDbType.Int).Value = package.DistributedBy.EmployeeId;
                 cmd.Parameters.Add("@newId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 cmd.CommandType = CommandType.Text;

@@ -23,7 +23,7 @@
     <table border="0">
         <tr>
             <td>
-                <asp:Label ID="Label_code" runat="server" AssociatedControlID="txtExpirationDate" Text="Package Code:" />
+                <asp:Label ID="Label_code" runat="server" AssociatedControlID="TextBox_Code" Text="Package Code:" />
             </td>
             <td>
                 <asp:TextBox ID="TextBox_Code" runat="server"></asp:TextBox>
@@ -43,7 +43,7 @@
         </tr>
         <tr>
             <td>
-                <asp:Label ID="lblExpirationDate" runat="server" AssociatedControlID="txtExpirationDate" Text="Expiration Date:" />
+                <asp:Label ID="lblExpirationDate" runat="server" AssociatedControlID="TextBox_Expiration" Text="Expiration Date:" />
             </td>
             <td>
                 <asp:TextBox ID="TextBox_Expiration" runat="server" ReadOnly="true"></asp:TextBox>
@@ -51,7 +51,7 @@
         </tr>
         <tr>
             <td>
-                <asp:Label ID="lblLocation" runat="server" AssociatedControlID="ddlLocation" Text="Coming From:" />
+                <asp:Label ID="lblLocation" runat="server" AssociatedControlID="TextBox_From" Text="Coming From:" />
             </td>
             <td>
                 <asp:TextBox ID="TextBox_From" runat="server" ReadOnly="true"></asp:TextBox>

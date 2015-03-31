@@ -70,7 +70,19 @@ namespace ENetCare.Web
 
                 Package package = _packageService.Retrieve(barcodes[i]);
 
-                _packageService.Send(barcodes[i], senderCentre, date );
+                var result = _packageService.Send(barcodes[i], senderCentre, date );
+                if (!result.Success)
+                {
+                    var err = new CustomValidator();
+                    err.ValidationGroup = "destinationDetails";
+                    err.IsValid = false;
+                    err.ErrorMessage = result.ErrorMessage;
+                    Page.Validators.Add(err);
+
+                    pnlErrorMessage.Visible = true;
+                    litErrorMessage.Text = "There are errors";
+                    return;
+                }
             }
         }
 

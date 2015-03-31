@@ -79,11 +79,12 @@ namespace ENetCare.Repository.Repository
        public Package GetPackageWidthBarCode(string barCode)                           // Added by Pablo on 24-03-15
         { 
         using (SqlConnection connection = new SqlConnection(_connectionString))
-              {
-              List<Package> allPackages = DataAccess.GetAllPackages(connection);
-              foreach(Package p in allPackages) if(p.BarCode==barCode) return p;
-              }
-        return null;     
+        {
+            connection.Open();  
+            List<Package> allPackages = DataAccess.GetAllPackages(connection);
+            foreach(Package p in allPackages) if(p.BarCode==barCode) return p;
+        }
+           return null;     
         }
 
         public List<StandardPackageType> GetAllStandardPackageTypes()

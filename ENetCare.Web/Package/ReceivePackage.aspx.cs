@@ -13,5 +13,19 @@ namespace ENetCare.Web
         {
 
         }
+
+        protected void btnSave_OnClick(object sender, EventArgs e)
+        {
+        }
+
+        protected void btnClose_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Home.aspx");
+        }
+
+        protected void cancel_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Home.aspx");
+        }
     }
 }
