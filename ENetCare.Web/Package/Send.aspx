@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/General.Master" AutoEventWireup="true" CodeBehind="Send.aspx.cs" Inherits="ENetCare.Web.Sending" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/General.Master" AutoEventWireup="true" CodeBehind="Send.aspx.cs" Inherits="ENetCare.Web.Send" %>
 
 <%@ Register TagName="PackageBarcodeUserControl" TagPrefix="uc" Src="~/UserControl/PackageBarcode.ascx" %>
 
@@ -11,7 +11,7 @@
     <h2>Sending Package</h2>
 
     <asp:Panel ID="pnlMessage" runat="server" CssClass="message" Visible="false">
-            <asp:Literal ID="litMessage" runat="server" />
+            <asp:Literal ID="litErrorMessage" runat="server" />
     </asp:Panel>
 
     <asp:Panel ID="pnlErrorMessage" runat="server" Visible="false" CssClass="message error">
@@ -41,6 +41,6 @@
             </td>
         </tr>
     </table>
-    <asp:Button ID="btnCancel" Width="80" runat="server" CausesValidation="true" Text="Cancel"  />
-    <asp:Button ID="btnSave" Width="80" runat="server" CausesValidation="true" Text="Save" />
+    <asp:Button ID="btnCancel" Width="80" runat="server" CausesValidation="true" Text="Cancel" OnClick="btnCancel_Click"  />
+    <asp:Button ID="btnSave" Width="80" runat="server" CausesValidation="true" Text="Save" OnClick="btnSave_OnClick" />
 </asp:Content>

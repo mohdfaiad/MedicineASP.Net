@@ -16,6 +16,9 @@ namespace ENetCare.Repository.Repository
         Package GetPackageWidthBarCode(string barCode); 
         List<StandardPackageType> GetAllStandardPackageTypes();
         StandardPackageType GetStandardPackageType(int packageId);
+        int InsertTransit(PackageTransit packageTransit);
+        void UpdateTransit(PackageTransit packageTransit);
+        PackageTransit GetTransit(Package package, DistributionCentre Receiver);
         string getConnectionString();
     }
 }

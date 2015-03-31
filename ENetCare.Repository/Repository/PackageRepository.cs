@@ -110,5 +110,52 @@ namespace ENetCare.Repository.Repository
 
 
         public string getConnectionString() { return _connectionString; }
+
+        public int InsertTransit(PackageTransit packageTransit)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                return DataAccess.InsertPackageTransit(connection, packageTransit);
+            }
+        }
+
+        public void UpdateTransit(PackageTransit packageTransit)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                DataAccess.UpdatePackageTransit(connection, packageTransit);
+            }
+            return;
+        }
+
+        public PackageTransit GetTransit(Package package, DistributionCentre receiver)
+        {
+            PackageTransit packageTransit = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                packageTransit = DataAccess.GetPackageTransit(connection, package, receiver);
+
+                //packageTransit.Package= DataAccess.GetPackage(connection, package.PackageId, package.BarCode);
+                
+                //DistributionCentre distributionCenter = DataAccess.GetDistributionCentre(connection, package.CurrentLocation.CentreId);
+                
+                if (packageTransit == null)
+                    return null;
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+            }
+            return packageTransit;
+        }
     }
 }

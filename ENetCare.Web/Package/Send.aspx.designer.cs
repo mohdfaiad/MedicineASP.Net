@@ -10,7 +10,7 @@
 namespace ENetCare.Web {
     
     
-    public partial class Sending {
+    public partial class Send {
         
         /// <summary>
         /// pnlMessage control.
@@ -22,13 +22,13 @@ namespace ENetCare.Web {
         protected global::System.Web.UI.WebControls.Panel pnlMessage;
         
         /// <summary>
-        /// litMessage control.
+        /// litErrorMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litMessage;
+        protected global::System.Web.UI.WebControls.Literal litErrorMessage;
         
         /// <summary>
         /// pnlErrorMessage control.
