@@ -1,4 +1,5 @@
-﻿using ENetCare.Repository.Repository;
+﻿using ENetCare.Repository.Data;
+using ENetCare.Repository.Repository;
 using ENetCare.Repository.ViewData;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,11 @@ namespace ENetCare.BusinessService
         public List<ValueInTransit> GetValueInTransit()
         {
             return _reportRepository.GetValueInTransit();
+        }
+
+        public List<ReconciledPackage> GetReconciledPackages(DistributionCentre currentLocation, StandardPackageType packageType, List<string> barCodeList)
+        {
+            return _reportRepository.GetReconciledPackages(currentLocation, packageType, barCodeList);
         }
     }
 }

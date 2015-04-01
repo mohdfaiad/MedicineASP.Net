@@ -1,4 +1,5 @@
-﻿using ENetCare.Repository.ViewData;
+﻿using ENetCare.Repository.Data;
+using ENetCare.Repository.ViewData;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ENetCare.Repository
 {
@@ -167,6 +169,52 @@ namespace ENetCare.Repository
 
             return valueList;
 
+        }
+
+        public static List<ReconciledPackage> GetReconciledPackages(SqlConnection connection, DistributionCentre currentLocation, StandardPackageType packageType, XElement barCodeXml)
+        {
+            string query = "SELECT PackageId, BarCode, CurrentLocationCentreId, CurrentStatus, 'INSTOCK' AS NewStatus " +
+                            "FROM Package p " +
+                            "INNER JOIN @BarCodeList.nodes('/Root/BarCode') AS Tbl(C) ON p.BarCode = Tbl.C.value('@Text', 'varchar(20)') " +
+                            "WHERE p.PackageTypeId = @PackageTypeId AND " +
+                                "(CurrentLocationCentreId <> @DistributionCentreId OR CurrentStatus <> 'INSTOCK') " +                            
+                            "UNION ALL " +
+                            "SELECT PackageId, BarCode, CurrentLocationCentreId, CurrentStatus, 'LOST' AS NewStatus " +
+                            "FROM Package p " +
+                            "LEFT OUTER JOIN @BarCodeList.nodes('/Root/BarCode') AS Tbl(C) ON p.BarCode = Tbl.C.value('@Text', 'varchar(20)') " +
+                            "WHERE Tbl.C.value('@Text', 'varchar(20)') IS NULL AND p.CurrentStatus = 'INSTOCK' AND p.PackageTypeId = @PackageTypeId " +
+                            "ORDER BY PackageId ";
+            
+            var packageList = new List<ReconciledPackage>();
+
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+
+            cmd.Parameters.Add("@BarCodeList", SqlDbType.Xml).Value = barCodeXml.ToString();
+            cmd.Parameters.Add("@DistributionCentreId", SqlDbType.Int).Value = currentLocation.CentreId;            
+            cmd.Parameters.Add("@PackageTypeId", SqlDbType.Int).Value = packageType.PackageTypeId;
+
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while (reader.Read())
+                {
+                    var package = new ReconciledPackage();
+
+                    if (reader["PackageId"] != DBNull.Value)
+                        package.PackageId = Convert.ToInt32(reader["PackageId"]);
+                    if (reader["BarCode"] != DBNull.Value)
+                        package.BarCode = (string)reader["BarCode"];
+                    if (reader["CurrentLocationCentreId"] != DBNull.Value)
+                        package.CurrentLocationCentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
+                    if (reader["CurrentStatus"] != DBNull.Value)
+                        package.CurrentStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["CurrentStatus"], true);
+                    if (reader["NewStatus"] != DBNull.Value)
+                        package.NewStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["NewStatus"], true);
+
+                    packageList.Add(package);
+                }
+            }
+            return packageList;
         }
     }
 }

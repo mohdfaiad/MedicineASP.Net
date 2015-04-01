@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarCodeListExtension.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="Data\DistributionCentre.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="ViewData\DistributionCentreStock.cs" />
     <Compile Include="ViewData\DoctorActivity.cs" />
     <Compile Include="ViewData\GlobalStock.cs" />
+    <Compile Include="ViewData\ReconciledPackage.cs" />
     <Compile Include="ViewData\ValueInTransit.cs" />
   </ItemGroup>
   <ItemGroup />

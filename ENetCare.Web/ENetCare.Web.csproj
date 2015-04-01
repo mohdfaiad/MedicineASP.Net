@@ -60,6 +60,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Package\Audit.aspx" />
     <Content Include="Package\Distribute.aspx" />
     <Content Include="EditEmployee.aspx" />
     <Content Include="Home.aspx" />
@@ -106,6 +107,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Package\Audit.aspx.cs">
+      <DependentUpon>Audit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Package\Audit.aspx.designer.cs">
+      <DependentUpon>Audit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Package\Distribute.aspx.cs">
       <DependentUpon>Distribute.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

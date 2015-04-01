@@ -1,4 +1,5 @@
-﻿using ENetCare.Repository.ViewData;
+﻿using ENetCare.Repository.Data;
+using ENetCare.Repository.ViewData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace ENetCare.Repository.Repository
         List<DoctorActivity> GetDoctorActivity();
         List<GlobalStock> GetGlobalStock();
         List<ValueInTransit> GetValueInTransit();
+        List<ReconciledPackage> GetReconciledPackages(DistributionCentre currentLocation, StandardPackageType packageType, List<string> barCodeList);
+
     }
 }

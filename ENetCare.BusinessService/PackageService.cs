@@ -180,5 +180,9 @@ namespace ENetCare.BusinessService
             return result;
         }
 
+        public int InsertAudit(Employee employee, StandardPackageType packageType, List<string> barCodes)
+        {
+            return _packageRepository.InsertAudit(employee, packageType, barCodes);
+        }
     }
 }

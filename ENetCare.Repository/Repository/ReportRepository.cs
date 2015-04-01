@@ -1,10 +1,12 @@
-﻿using ENetCare.Repository.ViewData;
+﻿using ENetCare.Repository.Data;
+using ENetCare.Repository.ViewData;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ENetCare.Repository.Repository
 {
@@ -74,6 +76,20 @@ namespace ENetCare.Repository.Repository
                 valueList = ViewDataAccess.GetValueInTransit(connection);
             }
             return valueList;
+        }
+
+        public List<ReconciledPackage> GetReconciledPackages(DistributionCentre currentLocation, StandardPackageType packageType, List<string> barCodeList)
+        {
+            List<ReconciledPackage> packageList = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                XElement barCodeXml = barCodeList.GetBarCodeXML();
+
+                packageList = ViewDataAccess.GetReconciledPackages(connection, currentLocation, packageType, barCodeXml);
+            }
+            return packageList;
         }
     }
 }

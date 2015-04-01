@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ENetCare.Repository.Data;
 using System.Data;
+using System.Xml.Linq;
 
 namespace ENetCare.Repository
 {
@@ -428,6 +429,53 @@ namespace ENetCare.Repository
             }
 
             return packageTransit;
+        }
+
+        public static int InsertAudit(SqlConnection connection, Employee employee, StandardPackageType packageType)
+        {
+            // define INSERT query with parameters 
+            string query = "INSERT Audit (DateAudited, DistributionCentreId, EmployeeId, PackageTypeId) " +
+                            "VALUES (@DateAudited, @DistributionCentreId, @EmployeeId, @PackageTypeId);  " +
+                           "SET @newId = SCOPE_IDENTITY();";
+
+            using (var cmd = new SqlCommand(query, connection))
+            {
+                // define parameters and their values 
+                cmd.Parameters.Add("@DateAudited", SqlDbType.DateTime).Value = DateTime.Today;
+                cmd.Parameters.Add("@DistributionCentreId", SqlDbType.Int).Value = employee.Location.CentreId;
+                cmd.Parameters.Add("@EmployeeId", SqlDbType.Int).Value = employee.EmployeeId;
+                cmd.Parameters.Add("@PackageTypeId", SqlDbType.Int).Value = packageType.PackageTypeId;
+
+                cmd.Parameters.Add("@newId", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                cmd.CommandType = CommandType.Text;
+
+                string qry = cmd.CommandText;
+
+                cmd.ExecuteScalar();
+
+                return (int)cmd.Parameters["@newId"].Value;
+            }
+        }
+
+        public static void InsertAuditPackages(SqlConnection connection, int auditId, StandardPackageType packageType, XElement barCodeXml)
+        {
+            // define INSERT query with parameters 
+            string query = "INSERT AuditPackage (AuditId, PackageId) " +
+                            "SELECT @AuditId, p.PackageId " +
+                            "FROM Package p " +
+                            "INNER JOIN @BarcodeList.nodes('/Root/Barcode') AS Tbl(C) ON p.BarCode = Tbl.C.value('@Text', 'varchar(20)') " +
+                            "WHERE p.PackageTypeId = @PackageTypeId";
+
+            using (var cmd = new SqlCommand(query, connection))
+            {
+                // define parameters and their values 
+                cmd.Parameters.Add("@BarCodeList", SqlDbType.Xml).Value = barCodeXml.ToString();               
+                cmd.Parameters.Add("@AuditId", SqlDbType.Int).Value = auditId;                
+                cmd.Parameters.Add("@PackageTypeId", SqlDbType.Int).Value = packageType.PackageTypeId;
+
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

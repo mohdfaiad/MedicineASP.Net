@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ENetCare.Repository.Repository
 {
@@ -157,6 +158,20 @@ namespace ENetCare.Repository.Repository
                 //
             }
             return packageTransit;
+        }
+        public int InsertAudit(Employee employee, StandardPackageType packageType, List<string> barCodes)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                int auditId = DataAccess.InsertAudit(connection, employee, packageType);
+
+                XElement barCodeXml = barCodes.GetBarCodeXML();
+
+                DataAccess.InsertAuditPackages(connection, auditId, packageType, barCodeXml);
+                return auditId;
+            }
         }
     }
 }

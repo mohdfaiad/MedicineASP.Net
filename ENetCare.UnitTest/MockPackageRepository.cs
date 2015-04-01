@@ -124,6 +124,9 @@ namespace ENetCare.UnitTest
             return packetT;
         }
 
-
+        public int InsertAudit(Employee employee, StandardPackageType packageType, List<string> barCodes)
+        {
+            return 1;
+        }
     }
 }
