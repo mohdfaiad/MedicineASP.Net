@@ -2,6 +2,7 @@
 using ENetCare.Repository.Data;
 using ENetCare.Repository.Repository;
 using ENetCare.Web.Membership;
+using ENetCare.Web.UserControl;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -24,7 +25,9 @@ namespace ENetCare.Web
 
             IReportRepository reportRepository = new ReportRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             _reportService = new ReportService(reportRepository);
-                                    
+
+            ucPackageBarcode.AddValidate += PackageBarcodeOnAdd;
+           
             if (!Page.IsPostBack)
             {
                 var packageTypes = _packageService.GetAllStandardPackageTypes();
@@ -36,6 +39,21 @@ namespace ENetCare.Web
             }
         }
 
+        private void PackageBarcodeOnAdd(object sender, BarCodeAddValidateEventArgs eventArgs)
+        {
+            eventArgs.Success = true;
+
+            if (ddlPackageType.SelectedValue == string.Empty)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = "Please select a Package Type";
+            }
+            else if (int.Parse(ddlPackageType.SelectedValue) != eventArgs.Package.PackageType.PackageTypeId)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = "The package with this barcode isn't the same type as the selected package type";
+            }            
+        }
         protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
         {
             if (e.CurrentStepIndex == 0)
@@ -67,6 +85,11 @@ namespace ENetCare.Web
         protected void ddlPackageType_DataBound(object sender, EventArgs e)
         {
             ddlPackageType.Items.Insert(0, new ListItem("--- Package Type ---", String.Empty));
+        }
+
+        protected void ddlPackageType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ucPackageBarcode.Clear();
         }
     }
 }

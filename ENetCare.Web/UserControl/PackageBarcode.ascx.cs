@@ -12,8 +12,12 @@ using System.Web.UI.WebControls;
 
 namespace ENetCare.Web.UserControl
 {
+    // A delegate type for hooking up extra Add Barcode validations.
+    public delegate void AddValidateEventHandler(object sender, BarCodeAddValidateEventArgs e);
+
     public partial class PackageBarcode : System.Web.UI.UserControl
     {
+        public event AddValidateEventHandler AddValidate;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -53,9 +57,19 @@ namespace ENetCare.Web.UserControl
             IPackageRepository repository = new PackageRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             PackageService packageService = new PackageService(repository);
 
+            BarCodeAddValidateEventArgs eventArgs = new BarCodeAddValidateEventArgs()
+            {
+                Success = true
+            };
+
             Package package = packageService.Retrieve(txtBarcode.Text);
             if (package == null)
                 barcodeNotFound = true;
+            else            
+            {
+                eventArgs.Package = package;
+                OnAddValidate(eventArgs);
+            }
 
             if (duplicateFound)
             {
@@ -64,6 +78,10 @@ namespace ENetCare.Web.UserControl
             else if (barcodeNotFound)
             {
                 litMessage.Text = "Barcode not found";
+            }
+            else if (!eventArgs.Success)
+            {
+                litMessage.Text = eventArgs.ErrorMessage;
             }
             else
             {
@@ -112,6 +130,13 @@ namespace ENetCare.Web.UserControl
             grd.DataBind();
         }
 
+        // Invoke the Changed event; called whenever list changes
+        protected virtual void OnAddValidate(BarCodeAddValidateEventArgs e)
+        {
+            if (AddValidate != null)
+                AddValidate(this, e);
+        }
+
         public DataTable GetTableWithNoData() // returns only structure if the select columns
         {
             DataTable table = new DataTable();
@@ -132,6 +157,12 @@ namespace ENetCare.Web.UserControl
                     barcodes.Add(litBarcode.Text);
             }
             return barcodes;
+        }
+
+        public void Clear()
+        {
+            grd.DataSource = GetTableWithNoData(); // bind empty datatable to grid
+            grd.DataBind();
         }
 
         public string GetPackageTypeId(string barcode)

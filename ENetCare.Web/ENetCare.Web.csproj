@@ -221,6 +221,7 @@
     <Compile Include="Training.aspx.designer.cs">
       <DependentUpon>Training.aspx</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\BarCodeAddValidateEventArgs.cs" />
     <Compile Include="UserControl\PackageBarcode.ascx.cs">
       <DependentUpon>PackageBarcode.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
