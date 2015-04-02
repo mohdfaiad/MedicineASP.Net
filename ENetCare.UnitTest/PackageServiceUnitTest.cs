@@ -22,9 +22,10 @@ namespace ENetCare.UnitTest
                 ShelfLifeUnits = 4
             };
 
-            DateTime expirationDate = packageService.CalculateExpirationDate(packageType, DateTime.Today);
+            DateTime todaysDate = DateTime.Today;
+            DateTime expirationDate = packageService.CalculateExpirationDate(packageType, todaysDate);
 
-            Assert.AreNotEqual<DateTime>(DateTime.Today, expirationDate);
+            Assert.AreEqual<DateTime>(todaysDate.AddMonths(4), expirationDate);
         }
 
         [TestMethod]
@@ -40,27 +41,10 @@ namespace ENetCare.UnitTest
                 ShelfLifeUnits = 45
             };
 
-            DateTime expirationDate = packageService.CalculateExpirationDate(packageType, DateTime.Today);
+            DateTime todaysDate = DateTime.Today;
+            DateTime expirationDate = packageService.CalculateExpirationDate(packageType, todaysDate);
 
-            Assert.AreNotEqual<DateTime>(DateTime.Today, expirationDate);
-        }
-
-        [TestMethod]
-        public void TestCalculateExpirationDate3()
-        {
-            IPackageRepository packageRepository = new MockPackageRepository();
-            PackageService packageService = new PackageService(packageRepository);
-            StandardPackageType packageType = new StandardPackageType
-            {
-                PackageTypeId = 1,
-                Description = "100 Panadol Pills",
-                ShelfLifeUnitType = ShelfLifeUnitType.Day,
-                ShelfLifeUnits = 68
-            };
-
-            DateTime expirationDate = packageService.CalculateExpirationDate(packageType, DateTime.Today);
-
-            Assert.AreNotEqual<DateTime>(DateTime.Today, expirationDate);
+            Assert.AreEqual<DateTime>(todaysDate.AddDays(45), expirationDate);
         }
 
         [TestMethod]
@@ -84,10 +68,12 @@ namespace ENetCare.UnitTest
                 IsHeadOffice = false
             };
 
+            DateTime expirationDate = DateTime.Today.AddMonths(2);
             string barCode;
-            var result = packageService.Register(packageType, location, DateTime.Today.AddMonths(2), out barCode);
+            var result = packageService.Register(packageType, location, expirationDate, out barCode);
 
-            Assert.AreNotEqual<string>(string.Empty, barCode);
+            string compareBarCode = string.Format("00001{0:yyMMdd}00001", expirationDate);
+            Assert.AreEqual<string>(compareBarCode, barCode);
         }
 
         //ADDED BY IHAB, UNIT TEST

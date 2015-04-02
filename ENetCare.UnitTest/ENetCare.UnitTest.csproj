@@ -50,9 +50,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="EmployeeServiceUnitTest.cs" />
+    <Compile Include="MockEmployeeRepository.cs" />
     <Compile Include="MockPackageRepository.cs" />
+    <Compile Include="MockReportRepository.cs" />
     <Compile Include="PackageServiceUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportServiceUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENetCare.BusinessService\ENetCare.BusinessService.csproj">
