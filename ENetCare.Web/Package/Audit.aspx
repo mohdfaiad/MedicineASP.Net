@@ -11,6 +11,8 @@
         .hide {display:none;}
     </style>
     
+    <h2>Audit Packages</h2>
+
     <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" Height="174px" Width="267px" SideBarButtonStyle-CssClass="hide" OnNextButtonClick="Wizard1_NextButtonClick" OnLoad="Wizard1_Load">
 <SideBarButtonStyle CssClass="hide"></SideBarButtonStyle>
         <WizardSteps>
@@ -53,59 +55,35 @@
                             <ItemTemplate>
                                 <asp:Literal ID="litBarcode" runat="server" Text='<%# Eval("BarCode") %>'></asp:Literal>
                             </ItemTemplate>
-
-<HeaderStyle HorizontalAlign="Left"></HeaderStyle>
-
-<ItemStyle CssClass="percent-50"></ItemStyle>
                         </asp:TemplateField>
                         
                         <asp:TemplateField HeaderStyle-HorizontalAlign="Right" ItemStyle-CssClass="percent-25" HeaderText="Package Id">
                             <ItemTemplate>
                                 <asp:Literal ID="litPackageId" runat="server" Text='<%# Eval("PackageId") %>'></asp:Literal>
                             </ItemTemplate>
-
-<HeaderStyle HorizontalAlign="Right"></HeaderStyle>
-
-<ItemStyle CssClass="percent-25"></ItemStyle>
                         </asp:TemplateField>
 
                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-CssClass="percent-50" HeaderText="Current Status">
                             <ItemTemplate>
                                 <asp:Literal ID="litPreviousStatus" runat="server" Text='<%# Eval("CurrentStatus") %>'></asp:Literal>
                             </ItemTemplate>
-
-<HeaderStyle HorizontalAlign="Left"></HeaderStyle>
-
-<ItemStyle CssClass="percent-50"></ItemStyle>
                         </asp:TemplateField>
 
                         <asp:TemplateField HeaderStyle-HorizontalAlign="Right" ItemStyle-CssClass="percent-25" HeaderText="Previous Distribution Centre Id">
                             <ItemTemplate>
                                 <asp:Literal ID="litPreviousDistributionCentreId" runat="server" Text='<%# Eval("CurrentLocationCentreId") %>'></asp:Literal>
                             </ItemTemplate>
-
-<HeaderStyle HorizontalAlign="Right"></HeaderStyle>
-
-<ItemStyle CssClass="percent-25"></ItemStyle>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-CssClass="percent-50" HeaderText="Previous Distribution Centre Name">
                             <ItemTemplate>
-                                <asp:Literal ID="litPreviousDistributionCentreName" runat="server" Text=''></asp:Literal>
+                                <asp:Literal ID="litPreviousDistributionCentreName" runat="server" Text='<%# Eval("CurrentLocationCentreName") %>'></asp:Literal>
                             </ItemTemplate>
-
-<HeaderStyle HorizontalAlign="Left"></HeaderStyle>
-
-<ItemStyle CssClass="percent-50"></ItemStyle>
                         </asp:TemplateField>
                         
                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-CssClass="percent-50" HeaderText="New Status">
                             <ItemTemplate>
-                                <asp:Literal ID="Literal1" runat="server" Text='<%# Eval("NewStatus") %>'></asp:Literal>
+                                <asp:Literal ID="litNewStatus" runat="server" Text='<%# Eval("NewStatus") %>'></asp:Literal>
                             </ItemTemplate>
-
-<HeaderStyle HorizontalAlign="Left"></HeaderStyle>
-
-<ItemStyle CssClass="percent-50"></ItemStyle>
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>

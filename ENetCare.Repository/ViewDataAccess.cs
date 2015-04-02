@@ -173,16 +173,18 @@ namespace ENetCare.Repository
 
         public static List<ReconciledPackage> GetReconciledPackages(SqlConnection connection, DistributionCentre currentLocation, StandardPackageType packageType, XElement barCodeXml)
         {
-            string query = "SELECT PackageId, BarCode, CurrentLocationCentreId, CurrentStatus, 'INSTOCK' AS NewStatus " +
+            string query = "SELECT PackageId, BarCode, CurrentLocationCentreId, d.Name as CurrentLocationCentreName, CurrentStatus, 'INSTOCK' AS NewStatus " +
                             "FROM Package p " +
                             "INNER JOIN @BarCodeList.nodes('/Root/BarCode') AS Tbl(C) ON p.BarCode = Tbl.C.value('@Text', 'varchar(20)') " +
+                            "LEFT OUTER JOIN DistributionCentre d ON d.CentreId = p.CurrentLocationCentreId " +
                             "WHERE p.PackageTypeId = @PackageTypeId AND " +
                                 "(CurrentLocationCentreId <> @DistributionCentreId OR CurrentStatus <> 'INSTOCK') " +                            
                             "UNION ALL " +
-                            "SELECT PackageId, BarCode, CurrentLocationCentreId, CurrentStatus, 'LOST' AS NewStatus " +
+                            "SELECT PackageId, BarCode, CurrentLocationCentreId, d.Name as CurrentLocationCentreName, CurrentStatus, 'LOST' AS NewStatus " +
                             "FROM Package p " +
+                            "LEFT OUTER JOIN DistributionCentre d ON d.CentreId = p.CurrentLocationCentreId " +
                             "LEFT OUTER JOIN @BarCodeList.nodes('/Root/BarCode') AS Tbl(C) ON p.BarCode = Tbl.C.value('@Text', 'varchar(20)') " +
-                            "WHERE Tbl.C.value('@Text', 'varchar(20)') IS NULL AND p.CurrentStatus = 'INSTOCK' AND p.PackageTypeId = @PackageTypeId " +
+                            "WHERE Tbl.C.value('@Text', 'varchar(20)') IS NULL AND p.CurrentStatus = 'INSTOCK' AND p.PackageTypeId = @PackageTypeId AND p.CurrentLocationCentreId = @DistributionCentreId " +
                             "ORDER BY PackageId ";
             
             var packageList = new List<ReconciledPackage>();
@@ -206,6 +208,8 @@ namespace ENetCare.Repository
                         package.BarCode = (string)reader["BarCode"];
                     if (reader["CurrentLocationCentreId"] != DBNull.Value)
                         package.CurrentLocationCentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
+                    if (reader["CurrentLocationCentreName"] != DBNull.Value)
+                        package.CurrentLocationCentreName = (string)reader["CurrentLocationCentreName"];
                     if (reader["CurrentStatus"] != DBNull.Value)
                         package.CurrentStatus = (PackageStatus)Enum.Parse(typeof(PackageStatus), (string)reader["CurrentStatus"], true);
                     if (reader["NewStatus"] != DBNull.Value)
