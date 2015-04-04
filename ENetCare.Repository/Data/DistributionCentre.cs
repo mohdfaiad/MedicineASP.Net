@@ -14,5 +14,14 @@ namespace ENetCare.Repository.Data
         public string Address { get; set; }
         public string Phone { get; set; }
         public bool IsHeadOffice { get; set; }
+
+        public string ToString()
+        {
+            return "Id)" + CentreId + " / " + Name + " / " + Address + " / " + Phone; 
+        }
+
     }
+
+   
+
 }
