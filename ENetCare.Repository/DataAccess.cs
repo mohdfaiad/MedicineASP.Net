@@ -85,7 +85,7 @@ namespace ENetCare.Repository
             }
         }
 
-        public static Package GetPackage(SqlConnection connection, int? packageId, string barcode)
+        public static Package GetPackage(SqlConnection connection, int? packageId, string barcode=null)
         {
             Package package = null;            
 
@@ -310,9 +310,9 @@ namespace ENetCare.Repository
 
 
         public static List<Employee> GetAllEmployees(SqlConnection connection)
-        {                                                   // Added by Pablo on 24-03-15
+        {                                                   // (P. 24-03-2015)
             var allEmployees = new List<Employee>();
-            string query = "SELECT CentreId, Name, Address, Phone, IsHeadOffice FROM DistributionCentre ORDER BY CentreId";
+            string query = "SELECT EmployeeId, FullName, EmployeeType, EmailAddress, Password, UserName, LocationCentreId FROM Employee ORDER BY EmployeeId";
             var cmd = new SqlCommand(query);
             cmd.Connection = connection;
             using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
@@ -322,9 +322,10 @@ namespace ENetCare.Repository
                     var employee = new Employee();
                     employee.EmailAddress = (string)reader["EmailAddress"];
                     employee.EmployeeId = Convert.ToInt32(reader["EmployeeId"]);
-                    employee.EmployeeType = (EmployeeType)reader["EmployeeType"];
+                    //employee.EmployeeType = (EmployeeType)reader["EmployeeType"];
+                    employee.EmployeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), (string)reader["EmployeeType"], true);
                     employee.FullName = (string)reader["FullName"];
-                    employee.Location = DataAccess.GetDistributionCentre(connection, Convert.ToInt32(reader["EmployeeId"]));
+                    employee.Location = DataAccess.GetDistributionCentre(connection, Convert.ToInt32(reader["LocationCentreId"]));
                     employee.Password = (string)reader["Password"];
                     employee.UserName = (string)reader["UserName"];
                     allEmployees.Add(employee);
@@ -387,11 +388,47 @@ namespace ENetCare.Repository
             }
         }
 
+        
         public static List<PackageTransit> getAllPackageTransits(SqlConnection connection)
-        {
-            return null;
-        }
+        {                                                       // (P. 04/04/2015)
+            var allTransits = new List<PackageTransit>();
+            string query = "SELECT TransitId, PackageId, SenderCentreId, ReceiverCentreId, DateSent, DateReceived, DateCancelled FROM PackageTransit ORDER BY TransitId";
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
 
+            //Console.WriteLine(query);            //string a = Console.ReadLine();
+
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while (reader.Read())
+                {
+                    //Console.WriteLine(reader["transitId"]);               //Console.ReadLine();
+                    var transit = new PackageTransit();
+                    transit = new PackageTransit();
+                    transit.TransitId = Convert.ToInt32(reader["transitId"]);
+                    transit.Package = DataAccess.GetPackage(connection, Convert.ToInt32(reader["PackageId"]));
+                               // .PackageId=Convert.ToInt32(reader["PackageId"]);
+                    transit.SenderCentre = DataAccess.GetDistributionCentre(connection, Convert.ToInt32(reader["SenderCentreId"]));
+                                //transit.SenderCentre.CentreId = Convert.ToInt32(reader["SenderCentreId"]);
+                    transit.ReceiverCentre = DataAccess.GetDistributionCentre(connection, Convert.ToInt32(reader["ReceiverCentreId"]));
+                                // .CentreId = Convert.ToInt32(reader["ReceiverCentreId"]);
+                    transit.DateSent = Convert.ToDateTime(reader["DateSent"]);
+                    if (reader["DateReceived"] != DBNull.Value)
+                    {
+                        transit.DateReceived = Convert.ToDateTime(reader["DateReceived"]);
+                    }
+                    if (reader["DateCancelled"] != DBNull.Value)
+                    {
+                        transit.DateReceived = Convert.ToDateTime(reader["DateCancelled"]);
+                    }
+
+                }
+            }
+            return allTransits;
+        }
+        
+          
+        
         public static PackageTransit GetPackageTransit(SqlConnection connection,Package package, DistributionCentre reciever)
         {
             PackageTransit packageTransit = null;
@@ -411,7 +448,6 @@ namespace ENetCare.Repository
                 if (reader.Read())
                 {
                     packageTransit = new PackageTransit();
-
                     packageTransit.TransitId = Convert.ToInt32(reader["transitId"]);
                     packageTransit.Package.PackageId = Convert.ToInt32(reader["PackageId"]);
                     packageTransit.SenderCentre.CentreId = Convert.ToInt32(reader["SenderCentreId"]);

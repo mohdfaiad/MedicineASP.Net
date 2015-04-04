@@ -17,7 +17,7 @@ namespace ENetCare.Repository.Data
         public Employee DistributedBy { get; set; }
 
 
-        public string getShortDescription()
+        public string GetShortDescription()
         {
             return PackageType + " / Exp: " + ExpirationDate + " / Status:" + CurrentStatus;
         }

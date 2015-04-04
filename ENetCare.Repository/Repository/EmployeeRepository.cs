@@ -21,8 +21,8 @@ namespace ENetCare.Repository.Repository
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
                 DataAccess.UpdateEmployee(connection, employee);
+                connection.Close();
             }
             return;
         }
@@ -33,9 +33,7 @@ namespace ENetCare.Repository.Repository
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
                 employee = DataAccess.GetEmployee(connection, employeeId, username);
-
                 if (employee != null)
                     employee.Location = DataAccess.GetDistributionCentre(connection, employee.Location.CentreId);
             }
@@ -48,8 +46,8 @@ namespace ENetCare.Repository.Repository
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
                 centres = DataAccess.GetAllDistributionCentres(connection);
+                connection.Close();
             }
             return centres;
         }
@@ -61,8 +59,21 @@ namespace ENetCare.Repository.Repository
             {
                 connection.Open();
                 centre = DataAccess.GetDistributionCentre(connection, centreid);
+                connection.Close();
             }
             return centre;
+        }
+
+        public List<Employee> getAllEmployees()
+        {                                                             //  (P. 04-04-2015)
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                List<Employee> eList = DataAccess.GetAllEmployees(connection);
+                connection.Close();
+                return eList;
+            }
+
         }
     }
 }

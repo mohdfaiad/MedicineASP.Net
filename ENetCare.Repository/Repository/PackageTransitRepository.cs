@@ -27,7 +27,7 @@ namespace ENetCare.Repository.Repository
                 return;
             }
 
-
+            
             public List<PackageTransit> GetAllPackageTransits()
             {                                                                        //   Added by Pablo on 23-03-15
                 List<PackageTransit> allTransits = null;
@@ -38,7 +38,8 @@ namespace ENetCare.Repository.Repository
                 }
                 return allTransits;
             }
-
+            
+             
             public List<PackageTransit> GetTransitsByPackage(Package xPackage)     // Added by Pablo on 23-03-15
             {
                 List<PackageTransit> allTransits = this.GetAllPackageTransits();
