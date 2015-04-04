@@ -15,5 +15,11 @@ namespace ENetCare.Repository.Data
         public string EmailAddress { get; set; }
         public EmployeeType EmployeeType { get; set; }
         public DistributionCentre Location { get; set; }
+
+        public string ToString()
+        {
+            return "Id)" + EmployeeId + " / " + FullName + " / " + EmailAddress + " / at: " + Location.ToString() + 
+                            " / (User:" +  UserName + " ,pass: " + Password + ")";
+        }
     }
 }
