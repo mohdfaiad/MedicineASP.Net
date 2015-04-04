@@ -15,5 +15,17 @@ namespace ENetCare.Repository.Data
         public DistributionCentre CurrentLocation { get; set; }
         public PackageStatus CurrentStatus { get; set; }
         public Employee DistributedBy { get; set; }
+
+
+        public string getShortDescription()
+        {
+            return PackageType + " / Exp: " + ExpirationDate + " / Status:" + CurrentStatus;
+        }
+
+        public string ToString()
+        {
+            return "Id)" + PackageId + " / " + PackageType + " / Exp: " + ExpirationDate + " / Status:" + CurrentStatus + " / Locaton: " + CurrentLocation;
+        }
+
     }
 }
