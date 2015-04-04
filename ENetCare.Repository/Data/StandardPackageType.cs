@@ -17,7 +17,7 @@ namespace ENetCare.Repository.Data
         public bool TemperatureSensitive { get; set; }
         public decimal Value { get; set; }
 
-        public string ToString()
+        public override string ToString()
         {
             return NumberOfMedications + " / " + Description;
         }

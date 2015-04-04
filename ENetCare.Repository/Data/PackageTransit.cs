@@ -16,7 +16,7 @@ namespace ENetCare.Repository.Data
         public DateTime? DateReceived { get; set; }
         public DateTime? DateCancelled { get; set; }
 
-        public string ToString()
+        public override string ToString()
         {
             return "pack)" + Package.GetShortDescription() + " / From:" + SenderCentre + " / To:" + ReceiverCentre + " / Sent:" + DateSent + " / Rece:" + DateReceived;
         }

@@ -15,7 +15,7 @@ namespace ENetCare.Repository.Data
         public string Phone { get; set; }
         public bool IsHeadOffice { get; set; }
 
-        public string ToString()
+        public override string ToString()
         {
             return "Id)" + CentreId + " / " + Name + " / " + Address + " / " + Phone; 
         }

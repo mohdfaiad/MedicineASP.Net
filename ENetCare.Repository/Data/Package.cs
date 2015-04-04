@@ -22,7 +22,7 @@ namespace ENetCare.Repository.Data
             return PackageType + " / Exp: " + ExpirationDate + " / Status:" + CurrentStatus;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return "Id)" + PackageId + " / " + PackageType + " / Exp: " + ExpirationDate + " / Status:" + CurrentStatus + " / Locaton: " + CurrentLocation;
         }
