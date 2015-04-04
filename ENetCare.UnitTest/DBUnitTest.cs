@@ -19,7 +19,7 @@ namespace ENetCare.UnitTest                             // (P. 04-04-2015)
     [TestClass]
     public class DBUnitTest
     {
-        // Couldnt get the "Referencing of the web project" to work so I passed the connString here    
+        // Couldnt get the "Referencing of the web project" to work so I pasted the connString here    
         // static string _connectionString = ConfigurationManager.ConnectionStrings["EnetCare"].ConnectionString;
         static string _connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=ENetCare;Integrated Security=True;MultipleActiveResultSets=True";
         SqlConnection enetConnection = new SqlConnection(_connectionString);
