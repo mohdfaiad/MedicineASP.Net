@@ -16,5 +16,11 @@ namespace ENetCare.Repository.Data
         public int ShelfLifeUnits { get; set; }
         public bool TemperatureSensitive { get; set; }
         public decimal Value { get; set; }
+
+        public string ToString()
+        {
+            return NumberOfMedications + " / " + Description;
+        }
+
     }
 }
