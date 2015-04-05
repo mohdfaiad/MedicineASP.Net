@@ -50,6 +50,7 @@
     <Compile Include="Data\Result.cs" />
     <Compile Include="Data\ShelfLifeUnitType.cs" />
     <Compile Include="Data\StandardPackageType.cs" />
+    <Compile Include="MockDataAccess.cs" />
     <Compile Include="Populator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EmployeeRepository.cs" />

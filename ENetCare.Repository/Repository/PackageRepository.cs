@@ -66,6 +66,7 @@ namespace ENetCare.Repository.Repository
             return package;
         }
 
+        /*
         public Package Get(int? packageId)                           // Added by Pablo on 24-03-15
         {                                                             // overload for get with single argument
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -75,6 +76,7 @@ namespace ENetCare.Repository.Repository
             }
             return null;
         }
+        */
 
 
        public Package GetPackageWidthBarCode(string barCode)                           // Added by Pablo on 24-03-15
@@ -128,7 +130,6 @@ namespace ENetCare.Repository.Repository
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
                 DataAccess.UpdatePackageTransit(connection, packageTransit);
             }
             return;
@@ -187,5 +188,36 @@ namespace ENetCare.Repository.Repository
                 return auditId;
             }
         }
+
+
+        // *************************************************************************
+
+        public List<PackageTransit> GetAllPackageTransits()
+        {                                                                        //   Added by Pablo on 23-03-15
+            List<PackageTransit> allTransits = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                allTransits = DataAccess.getAllPackageTransits(connection);
+            }
+            return allTransits;
+        }
+
+
+        public List<PackageTransit> GetActiveTransitsByPackage(Package xPackage)     // Added by Pablo on 23-03-15
+        {
+            List<PackageTransit> allTransits = GetAllPackageTransits();          //.this.GetAllPackageTransits();
+            List<PackageTransit> myTransits = new List<PackageTransit>();        // create empty list
+            foreach (PackageTransit t in allTransits)
+            {
+                if (t.Package == xPackage && t.DateReceived == null && t.DateCancelled == null) myTransits.Add(t);
+            }
+            return myTransits;
+        }
+
+          
+
+
+
     }
 }

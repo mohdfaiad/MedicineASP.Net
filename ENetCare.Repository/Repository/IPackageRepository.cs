@@ -12,15 +12,15 @@ namespace ENetCare.Repository.Repository
         int Insert(Package package);
         void Update(Package package);
         Package Get(int? packageId, string barcode);
-        Package Get(int? packageId);
+        //Package Get(int? packageId);
         Package GetPackageWidthBarCode(string barCode); 
         List<StandardPackageType> GetAllStandardPackageTypes();
         StandardPackageType GetStandardPackageType(int packageId);
         int InsertTransit(PackageTransit packageTransit);
         void UpdateTransit(PackageTransit packageTransit);
         PackageTransit GetTransit(Package package, DistributionCentre Receiver);
-        int InsertAudit(Employee employee, StandardPackageType packageType, List<string> barCodes);
-
-        string getConnectionString();
+        List<PackageTransit> GetActiveTransitsByPackage(Package xPackage);
+        //int InsertAudit(Employee employee, StandardPackageType packageType, List<string> barCodes);
+        //string getConnectionString();
     }
 }

@@ -12,16 +12,17 @@ namespace ENetCare.Repository
 {
     public class DataAccess
     {
+
+        Dictionary<int, Employee> mockEmployeeDb = new Dictionary<int, Employee>();
+
         public static int InsertPackage(SqlConnection connection, Package package)
-        {
-            // define INSERT query with parameters 
+        {            // define INSERT query with parameters 
             string query = "INSERT INTO dbo.Package (BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId) " +
                            "VALUES (@BarCode, @ExpirationDate, @PackageTypeId, @CurrentLocationCentreId, @CurrentStatus, @DistributedByEmployeeId) " +
                            "SET @newId = SCOPE_IDENTITY();";
 
             using (var cmd = new SqlCommand(query, connection))
-            {
-                // define parameters and their values 
+            {                // define parameters and their values 
                 cmd.Parameters.Add("@BarCode", SqlDbType.VarChar, 20).Value = package.BarCode ?? string.Empty;
                 cmd.Parameters.Add("@ExpirationDate", SqlDbType.DateTime).Value = package.ExpirationDate;
                 cmd.Parameters.Add("@PackageTypeId", SqlDbType.Int).Value = package.PackageType.PackageTypeId;
@@ -339,8 +340,7 @@ namespace ENetCare.Repository
 
         
         public static int InsertPackageTransit(SqlConnection connection, PackageTransit packageT)
-        {                                                                       // Added by Pablo on 24/03/15
-            // define INSERT query with parameters 
+        {                                                                       // (p. 24/03/15 ) 
             string query = " INSERT INTO dbo.PackageTransit (Package , SenderCentre,  " +
                            " ReceiverCentre, DateSent, DateReceived, DateCancelled)  " +
                            "  SET @newId = SCOPE_IDENTITY();";
@@ -363,8 +363,7 @@ namespace ENetCare.Repository
 
 
         public static void UpdatePackageTransit(SqlConnection connection, PackageTransit transit)
-        {
-            // Define Insert Query with Parameter
+        {            // Define Insert Query with Parameter
             string cmdStr = "UPDATE dbo.PackageTransit" +
                            "SET PackageId = @PackageId,"+
                                 "SenderCentreId = @SenderCentreId,"+
@@ -468,15 +467,13 @@ namespace ENetCare.Repository
         }
 
         public static int InsertAudit(SqlConnection connection, Employee employee, StandardPackageType packageType)
-        {
-            // define INSERT query with parameters 
+        {            // define INSERT query with parameters 
             string query = "INSERT Audit (DateAudited, DistributionCentreId, EmployeeId, PackageTypeId) " +
                             "VALUES (@DateAudited, @DistributionCentreId, @EmployeeId, @PackageTypeId);  " +
                            "SET @newId = SCOPE_IDENTITY();";
 
             using (var cmd = new SqlCommand(query, connection))
-            {
-                // define parameters and their values 
+            {                // define parameters and their values 
                 cmd.Parameters.Add("@DateAudited", SqlDbType.DateTime).Value = DateTime.Today;
                 cmd.Parameters.Add("@DistributionCentreId", SqlDbType.Int).Value = employee.Location.CentreId;
                 cmd.Parameters.Add("@EmployeeId", SqlDbType.Int).Value = employee.EmployeeId;
@@ -495,8 +492,7 @@ namespace ENetCare.Repository
         }
 
         public static void InsertAuditPackages(SqlConnection connection, int auditId, StandardPackageType packageType, XElement barCodeXml)
-        {
-            // define INSERT query with parameters 
+        {            // define INSERT query with parameters 
             string query = "INSERT AuditPackage (AuditId, PackageId) " +
                             "SELECT @AuditId, p.PackageId " +
                             "FROM Package p " +
@@ -504,8 +500,7 @@ namespace ENetCare.Repository
                             "WHERE p.PackageTypeId = @PackageTypeId";
 
             using (var cmd = new SqlCommand(query, connection))
-            {
-                // define parameters and their values 
+            {                // define parameters and their values 
                 cmd.Parameters.Add("@BarCodeList", SqlDbType.Xml).Value = barCodeXml.ToString();               
                 cmd.Parameters.Add("@AuditId", SqlDbType.Int).Value = auditId;                
                 cmd.Parameters.Add("@PackageTypeId", SqlDbType.Int).Value = packageType.PackageTypeId;

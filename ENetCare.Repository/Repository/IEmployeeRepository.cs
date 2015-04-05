@@ -16,5 +16,7 @@ namespace ENetCare.Repository.Repository
         List<DistributionCentre> GetAllDistributionCentres();
 
         DistributionCentre GetDistributionCentre(int centreid);
+
+
     }
 }

@@ -10,6 +10,10 @@ namespace ENetCare.Repository.Repository
 {
         public class PackageTransitRepository    // PackageTransitRepository
         {
+
+            /*
+
+
             private string _connectionString;
 
             public PackageTransitRepository(string connectionString)
@@ -86,7 +90,7 @@ namespace ENetCare.Repository.Repository
             }
 
 
-
+            */
 
         
     }
