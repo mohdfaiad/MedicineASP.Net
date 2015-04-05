@@ -11,13 +11,12 @@ namespace ENetCare.BusinessService
     public class PackageService
     {
         private IPackageRepository _packageRepository;
-        private PackageTransitRepository _transitRepository;
+        //private PackageTransitRepository _transitRepository;
 
         public PackageService(IPackageRepository packageRepository)
         {
-             
             _packageRepository = packageRepository;
-            _transitRepository = new PackageTransitRepository(packageRepository.getConnectionString());
+            //_transitRepository = new PackageTransitRepository(packageRepository.getConnectionString());
         }
 
         public DateTime CalculateExpirationDate(StandardPackageType packageType, DateTime startDate)
@@ -48,13 +47,9 @@ namespace ENetCare.BusinessService
 
             int packageId = _packageRepository.Insert(package);
             package.PackageId = packageId;
-
             barcode = GenerateBarCode(package);
-
             package.BarCode = barcode;
-
             _packageRepository.Update(package);
-
             result.Id = package.PackageId;
             return result;
         }
@@ -79,10 +74,9 @@ namespace ENetCare.BusinessService
 
         private string GenerateBarCode(Package package)
         {
-            if (package.PackageType == null)
-                return string.Empty;
-            
+            if (package.PackageType == null)  return string.Empty;
             return string.Format("{0:D5}{1:yyMMdd}{2:D5}", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
+            //return string.Format("00001{0:yyMMdd}00001", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
         }
 
         public Result Send(string barCode, DistributionCentre senderCentre, DateTime date)
@@ -131,8 +125,9 @@ namespace ENetCare.BusinessService
                 receiveResult.Success = false;
                 return receiveResult;
             }
-            //PackageTransitRepository _transitRepository = new PackageTransitRepository("");
-            List<PackageTransit> activeTransits = _transitRepository.GetActiveTransitsByPackage(package);
+            // PackageTransitRepository _transitRepository = new PackageTransitRepository("");
+            // List<PackageTransit> activeTransits = _transitRepository.GetActiveTransitsByPackage(package);
+            List<PackageTransit> activeTransits = _packageRepository.GetActiveTransitsByPackage(package);
             if (activeTransits.Count() == 0)                         // Case: not found
             {
                 receiveResult.ErrorMessage = TransitResult.TransitNotFound;
@@ -147,7 +142,8 @@ namespace ENetCare.BusinessService
             }
             PackageTransit transit = activeTransits.ElementAt(0);   // get the only item found
             transit.DateReceived = DateTime.Today;                  // set transit as received
-            _transitRepository.Update(transit);                     // update transits DB
+            //_transitRepository.Update(transit);                     // update transits DB
+            _packageRepository.UpdateTransit(transit);                     // update transits DB
             package.CurrentStatus = PackageStatus.InStock;            // set packagestatus
             package.CurrentLocation = receiverCentre;                 // set package location
             _packageRepository.Update(package);                     // update packages DB
@@ -180,9 +176,6 @@ namespace ENetCare.BusinessService
             return result;
         }
 
-        public int InsertAudit(Employee employee, StandardPackageType packageType, List<string> barCodes)
-        {
-            return _packageRepository.InsertAudit(employee, packageType, barCodes);
-        }
+        
     }
 }
