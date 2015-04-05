@@ -1,4 +1,5 @@
-﻿using ENetCare.Repository.Data;
+﻿using ENetCare.Repository;
+using ENetCare.Repository.Data;
 using ENetCare.Repository.Repository;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,19 @@ namespace ENetCare.UnitTest
 {
     public class MockPackageRepository : IPackageRepository
     {
-        public int Insert(Package package)
+        public MockPackageRepository()          // Constructor              (P. 05-04-2015)
         {
-            return 1;
+            MockDataAccess.LoadMockTables();
         }
 
-        public void Update(Package package)
+        public int Insert(Package xPackage)                              // (P. 04-04-2015)
         {
-            return;
+            return MockDataAccess.InsertPackage(xPackage);
+        }
+
+        public void Update(Package xPackage)                             // (P. 04-04-2015)
+        {
+            MockDataAccess.UpdatePackage(xPackage);
         }
 
         public Package Get(int? packageId, string barcode)
@@ -53,53 +59,33 @@ namespace ENetCare.UnitTest
         public StandardPackageType GetStandardPackageType(int packageTypeId)
         {
             StandardPackageType stp = null;
-
-
             return stp;
         }
 
-        public List<StandardPackageType> GetAllStandardPackageTypes()
+        public List<StandardPackageType> GetAllStandardPackageTypes()       // (P. 05-04-2015)
         {
-            var packageTypes = new List<StandardPackageType>();
-            packageTypes.Add(new StandardPackageType()
-            {
-                PackageTypeId = 1,
-                Description = "100 Panadol tablets",
-                ShelfLifeUnitType = ShelfLifeUnitType.Month,
-                ShelfLifeUnits = 3
-            });
-            
-            packageTypes.Add(new StandardPackageType()
-            {
-                PackageTypeId = 2,
-                Description = "25X200 Clorophin tablets",
-                ShelfLifeUnitType = ShelfLifeUnitType.Day,
-                ShelfLifeUnits = 67
-            });
-
-            packageTypes.Add(new StandardPackageType()
-            {
-                PackageTypeId = 3,
-                Description = "50 Felix Tablets",
-                ShelfLifeUnitType = ShelfLifeUnitType.Month,
-                ShelfLifeUnits = 2
-            });
-
-            return packageTypes;
+            return MockDataAccess.GetAllPackageTypes();       
         }
 
 
-        public Package Get(int? packageId)                                           // Added by Pablo on 24-03-15
-        {            return null;        }
+        public Package GetPackage(int packageId)                                           // (P. 05-04-2015)
+        {
+            return MockDataAccess.GetPackage(packageId);
+        }
 
 
-        public Package GetPackageWidthBarCode(string barCode)                           // Added by Pablo on 24-03-15
-        {            return null;        }
+        public Package GetPackageWidthBarCode(string BarCode)                           //   (P. 05-04-2015)
+        {            
+        foreach(Package p in MockDataAccess.GetAllPackages())
+            if(p.BarCode==BarCode) return p;
+        return null;
+        }
 
 
-        public string getConnectionString()
-        {           return null;         }
-        public int InsertTransit(PackageTransit pt)
+        //public string getConnectionString()
+        //{           return null;         }
+
+        public int InsertTransit(PackageTransit PackageTransit)
         {
             Package tempPackage = new Package();
             tempPackage.PackageId = 1;
@@ -109,24 +95,30 @@ namespace ENetCare.UnitTest
             tempPackage.PackageType.PackageTypeId = 1;
             tempPackage.CurrentLocation.CentreId = 1;
             tempPackage.CurrentStatus = PackageStatus.InStock;
-
-
             // need more work to complete!
             return 1;
         }
+
         public void UpdateTransit(PackageTransit pt)
         {
-            
-        }
-        public PackageTransit GetTransit(Package pk, DistributionCentre dc)
-        {
-            PackageTransit packetT = new PackageTransit();
-            return packetT;
+            MockDataAccess.UpdatePackageTransit(pt);    
         }
 
-        public int InsertAudit(Employee employee, StandardPackageType packageType, List<string> barCodes)
+        public PackageTransit GetTransit(Package Package, DistributionCentre receiver) // dc
         {
-            return 1;
+            foreach(PackageTransit t in MockDataAccess.GetAllPackageTransits())
+                if(t.Package==Package && t.ReceiverCentre==receiver) return t;
+            return null;
         }
+
+        public List<PackageTransit> GetActiveTransitsByPackage(Package xPackage)
+        { 
+            List<PackageTransit> filteredList = new List<PackageTransit>();
+            foreach(PackageTransit t in MockDataAccess.GetAllPackageTransits() )
+                if(t.Package==xPackage && t.DateReceived==null && t.DateCancelled==null) filteredList.Add(t);
+            return filteredList;
+        }
+
+
     }
 }
