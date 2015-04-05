@@ -36,7 +36,6 @@ namespace ENetCare.UnitTest
             var result = employeeService.Update("fsmith", "Fred Smith", "fsmith@a.com", locationCentre, EmployeeType.Doctor);
 
             Assert.AreEqual<bool>(true, result.Success);
-            Assert.AreEqual<int>(1, result.Id);
         }
     }
 }

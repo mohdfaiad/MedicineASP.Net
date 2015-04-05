@@ -50,8 +50,8 @@ namespace ENetCare.UnitTest
             DateTime expirationDate = DateTime.Today.AddMonths(2);
             string barCode;
             var result = packageService.Register(packageType, location, expirationDate, out barCode);
-            string compareBarCode = string.Format("00001{0:yyMMdd}00001", expirationDate);
-            Debug.WriteLine(compareBarCode + " vs " + barCode);
+            int newPackageId = result.Id;
+            string compareBarCode = string.Format("{0:D5}{1:yyMMdd}{2:D5}", packageType.PackageTypeId, expirationDate, newPackageId);
             Assert.AreEqual<string>(compareBarCode, barCode);
         }
 

@@ -17,7 +17,6 @@ namespace ENetCare.UnitTest
             MockDataAccess.LoadMockTables();
         }
 
-
         public void Update(Employee employee)                                 // (P. 04-04-2015)
         {
             MockDataAccess.UpdateEmployee(employee);    
@@ -35,19 +34,17 @@ namespace ENetCare.UnitTest
 
         public Employee Get(int? employeeId, string username)
         {
-             return new Employee()
+            return MockDataAccess.GetEmployee(5);
+            /*return new Employee()
             {
                 EmployeeId = 1,
                 FullName = "Fred Smith",
                 EmployeeType = EmployeeType.Doctor,
                 UserName = "fsmith",
                 Location = new DistributionCentre
-                {
-                    CentreId = 1,
-                    Name = "North Centre"
-                },
+                {   CentreId = 1,    Name = "North Centre"    },
                 EmailAddress = "fsmith@a.com"
-            };
+            };             */
         }
         
           
