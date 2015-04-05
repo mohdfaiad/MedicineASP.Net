@@ -75,5 +75,20 @@ namespace ENetCare.Repository.Repository
             }
 
         }
+
+        public DistributionCentre GetHeadOffice()                       
+        {                                                               // (P. 05-04-2015)
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                List<DistributionCentre> allCentres = DataAccess.GetAllDistributionCentres(connection);
+                connection.Close();
+                foreach (DistributionCentre centre in allCentres)
+                    if (centre.IsHeadOffice) return centre;
+            }
+            return null;
+        }
+
+
     }
 }
