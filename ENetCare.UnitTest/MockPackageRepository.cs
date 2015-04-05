@@ -31,26 +31,10 @@ namespace ENetCare.UnitTest
             Package package = new Package
             {
                 PackageId = packageId ?? 1,
-                PackageType = new StandardPackageType
-                {
-                    PackageTypeId = 1,
-                    Description = "100 Panadol Tablets",
-                    NumberOfMedications = 100,
-                    ShelfLifeUnitType = ShelfLifeUnitType.Month,
-                    ShelfLifeUnits = 6,
-                    TemperatureSensitive = false,
-                    Value = 3.50M
-                },
+                PackageType = MockDataAccess.GetPackageType(2),
                 BarCode = string.IsNullOrEmpty(barcode) ? "000012015070100001" : barcode,
                 ExpirationDate = new DateTime(2015, 7, 1),
-                CurrentLocation = new DistributionCentre
-                {
-                    CentreId = 4,
-                    Name = "North Centre",
-                    Address = "5km past the rive bend",
-                    Phone = "0490 123 456",
-                    IsHeadOffice = false
-                },
+                CurrentLocation = MockDataAccess.GetDistributionCentre(4),
                 CurrentStatus = PackageStatus.InStock
             };
             return package;
@@ -80,10 +64,6 @@ namespace ENetCare.UnitTest
             if(p.BarCode==BarCode) return p;
         return null;
         }
-
-
-        //public string getConnectionString()
-        //{           return null;         }
 
         public int InsertTransit(PackageTransit PackageTransit)
         {

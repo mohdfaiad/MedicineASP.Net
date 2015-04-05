@@ -5,11 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ENetCare.Repository.ViewData;
+using ENetCare.Repository;
 
 namespace ENetCare.UnitTest
 {
     public class MockReportRepository : IReportRepository
     {
+
+        public MockReportRepository()          // Constructor              (P. 05-04-2015)
+        {
+            MockDataAccess.LoadMockTables();
+        }
+
         public List<DistributionCentreStock> GetDistributionCentreStock()
         {
             var stockList = new List<DistributionCentreStock>();

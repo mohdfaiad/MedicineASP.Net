@@ -1,4 +1,5 @@
 ﻿using ENetCare.BusinessService;
+using ENetCare.Repository;
 using ENetCare.Repository.Data;
 using ENetCare.Repository.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,9 +11,16 @@ using System.Threading.Tasks;
 
 namespace ENetCare.UnitTest
 {
+
     [TestClass]
     public class EmployeeServiceUnitTest
     {
+
+        public EmployeeServiceUnitTest()
+        {
+            MockDataAccess.LoadMockTables();
+        }
+
         [TestMethod]
         public void TestUpdate()
         {

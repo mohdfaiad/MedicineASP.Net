@@ -11,11 +11,15 @@ namespace ENetCare.UnitTest
     public class MockRepositoryUnitTest
     {
 
+        public MockRepositoryUnitTest()
+        {
+            MockDataAccess.LoadMockTables();
+        }
+
 
         [TestMethod]
         public void TestMockTables()
         {
-            MockDataAccess.LoadMockTables();
 
             List<DistributionCentre> distList = MockDataAccess.GetAllDistibutionCentres();
             Debug.WriteLine("DISTRIBUTION CENTRES : ");

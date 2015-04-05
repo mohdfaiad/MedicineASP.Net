@@ -1,4 +1,5 @@
 ﻿using ENetCare.BusinessService;
+using ENetCare.Repository;
 using ENetCare.Repository.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -12,6 +13,12 @@ namespace ENetCare.UnitTest
     [TestClass]
     public class ReportServiceUnitTest
     {
+
+        public ReportServiceUnitTest()
+        {
+            MockDataAccess.LoadMockTables();
+        }
+
         [TestMethod]
         public void TestGetDistributionCentreStock()
         {
