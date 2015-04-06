@@ -194,6 +194,7 @@ namespace ENetCare.Repository
             AddEmployee("Ihab",    "ihab@hotmail.com", mainCentre, EmployeeType.Agent, "ihab", "password");
             AddEmployee("Ramin", "ramin@hotmail.com", mainCentre, EmployeeType.Agent, "ramin", "password");
             AddEmployee("Pablo", "pablo@hotmail.com", mainCentre, EmployeeType.Agent, "pablo", "password");
+            AddEmployee("Robert Smith", "rsmith@hotmail.com", mainCentre, EmployeeType.Manager, "rsmith", "password");
             AddEmployee("Dr Hell", "drh@hotmail.com", centreTwo, EmployeeType.Doctor, "drhell", "password");
             AddEmployee("Dr Love", "drl@hotmail.com", centreTwo, EmployeeType.Doctor, "drlove", "password");
             AddEmployee("Dr Fishy", "drf@hotmail.com", centreTwo, EmployeeType.Doctor, "drfishy", "password");
@@ -212,16 +213,19 @@ namespace ENetCare.Repository
             StandardPackageType type3 = GetPackageType(3);
             StandardPackageType type4 = GetPackageType(4);
             AddPackage(type3, "45634278436", mainCentre, PackageStatus.InStock, DateTime.Parse("12/12/2016"));
-            AddPackage(type4, "12344278431", centreTwo, PackageStatus.InTransit, DateTime.Parse("12/11/2016"));
-            AddPackage(type2, "04334278430", centreThree, PackageStatus.Distributed, DateTime.Parse("12/10/2016"));
-            AddPackage(type2, "96854278434", centreTwo, PackageStatus.Discarded, DateTime.Parse("12/09/2016"));
-            AddPackage(type3, "75634278434", centreTwo, PackageStatus.Lost, DateTime.Parse("12/08/2016"));
-            AddPackage(type3, "45634278000", mainCentre, PackageStatus.InTransit, DateTime.Parse("12/12/2016"));
+            AddPackage(type3, "05548478000", mainCentre, PackageStatus.InTransit, DateTime.Parse("12/12/2016"));
+            AddPackage(type4, "11623542734", mainCentre, PackageStatus.Distributed, DateTime.Parse("12/12/2016"));
+            AddPackage(type3, "04983238436", mainCentre, PackageStatus.InStock, DateTime.Parse("12/12/2016"));
+
+            AddPackage(type4, "13154242431", centreTwo, PackageStatus.InTransit, DateTime.Parse("12/11/2016"));
+            AddPackage(type2, "96854278434", centreTwo, PackageStatus.InStock, DateTime.Parse("12/09/2016"));
+            AddPackage(type3, "75634278434", centreTwo, PackageStatus.Distributed, DateTime.Parse("12/08/2016"));
             AddPackage(type4, "12344278431", centreTwo, PackageStatus.InStock, DateTime.Parse("12/11/2016"));
+
             AddPackage(type2, "04334278430", centreThree, PackageStatus.Distributed, DateTime.Parse("12/10/2016"));
-            AddPackage(type2, "96854278434", centreThree, PackageStatus.Discarded, DateTime.Parse("12/09/2016"));
-            AddPackage(type3, "75634278434", centreThree, PackageStatus.Lost, DateTime.Parse("12/08/2016"));
-            AddPackage(type4, "45634271234", mainCentre, PackageStatus.Distributed, DateTime.Parse("12/12/2016"));
+            AddPackage(type2, "04867393563", centreThree, PackageStatus.InStock, DateTime.Parse("12/10/2016"));
+            AddPackage(type2, "09423752364", centreThree, PackageStatus.InTransit, DateTime.Parse("12/09/2016"));
+            AddPackage(type3, "76523442745", centreThree, PackageStatus.InStock, DateTime.Parse("12/08/2016"));
         }
 
 
