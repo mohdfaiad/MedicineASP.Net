@@ -17,11 +17,15 @@ namespace ENetCare.Web
     {
         private PackageService _packageService;
         private ReportService _reportService;
+        private EmployeeService _employeeService;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             IPackageRepository packageRepository = new PackageRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             _packageService = new PackageService(packageRepository);
+
+            IEmployeeRepository employeeRepository = new EmployeeRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
+            _employeeService = new EmployeeService(employeeRepository);
 
             IReportRepository reportRepository = new ReportRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             _reportService = new ReportService(reportRepository);
@@ -79,6 +83,30 @@ namespace ENetCare.Web
 
         protected void Wizard1_FinishButtonClick(object sender, WizardNavigationEventArgs e)
         {
+            if (e.CurrentStepIndex == 1)
+            {
+                var employeeUser = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
+
+                Employee employee = _employeeService.Retrieve(employeeUser.UserName); 
+
+                StandardPackageType packageType = new StandardPackageType()
+                {
+                    PackageTypeId = int.Parse(ddlPackageType.SelectedValue)
+                };
+
+                List<string> barCodeList = ucPackageBarcode.GetBarcodes();
+
+                Result result = _packageService.PerformAudit(employee, packageType, barCodeList);
+                
+                if (result.Success)
+                {
+                    litCompleteMessage.Text = "Audit completed successfully";
+                }
+                else
+                {
+                    litCompleteMessage.Text = string.Format("Audit Failed: {0}", result.ErrorMessage);
+                }
+            }
         }
 
         protected void Wizard1_Load(object sender, EventArgs e)

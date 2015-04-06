@@ -496,7 +496,7 @@ namespace ENetCare.Repository
             string query = "INSERT AuditPackage (AuditId, PackageId) " +
                             "SELECT @AuditId, p.PackageId " +
                             "FROM Package p " +
-                            "INNER JOIN @BarcodeList.nodes('/Root/Barcode') AS Tbl(C) ON p.BarCode = Tbl.C.value('@Text', 'varchar(20)') " +
+                            "INNER JOIN @BarcodeList.nodes('/Root/BarCode') AS Tbl(C) ON p.BarCode = Tbl.C.value('@Text', 'varchar(20)') " +
                             "WHERE p.PackageTypeId = @PackageTypeId";
 
             using (var cmd = new SqlCommand(query, connection))
@@ -532,7 +532,7 @@ namespace ENetCare.Repository
         public static int UpdateInstockFromAudit(SqlConnection connection, int auditId, DistributionCentre location, StandardPackageType packageType)
         {            // define INSERT query with parameters 
 
-            string query = "UPDATE Package SET CurrentStatus = 'INSTOCK' " +
+            string query = "UPDATE Package SET CurrentStatus = 'INSTOCK', CurrentLocationCentreId = @DistributionCentreId " +
                             "FROM Package p " +
                             "INNER JOIN AuditPackage a ON a.PackageId = p.PackageId AND a.AuditId = @AuditId " +
                             "WHERE p.PackageTypeId = @PackageTypeId AND " +
@@ -555,7 +555,7 @@ namespace ENetCare.Repository
                             "FROM PackageTransit pt " +
                             "INNER JOIN AuditPackage ap ON pt.PackageId = ap.PackageId " +
                             "INNER JOIN Audit a ON ap.AuditId = a.AuditId " +
-                            "WHERE a.AuditId = @AuditId AND pt.ReceiverCentreId = @DistributionCentreId AND pt.DateReceived = null AND pt.DateCancelled = null ";
+                            "WHERE a.AuditId = @AuditId AND pt.ReceiverCentreId = @DistributionCentreId AND pt.DateReceived IS null AND pt.DateCancelled IS null ";
             
             using (var cmd = new SqlCommand(query, connection))
             {                // define parameters and their values                 
@@ -574,7 +574,7 @@ namespace ENetCare.Repository
                             "FROM PackageTransit pt " +
                             "INNER JOIN AuditPackage ap ON pt.PackageId = ap.PackageId " +
                             "INNER JOIN Audit a ON ap.AuditId = a.AuditId " +
-                            "WHERE a.AuditId = @AuditId AND pt.ReceiverCentreId <> @DistributionCentreId AND pt.DateReceived = null AND pt.DateCancelled = null ";
+                            "WHERE a.AuditId = @AuditId AND pt.ReceiverCentreId <> @DistributionCentreId AND pt.DateReceived IS null AND pt.DateCancelled IS null ";
 
             using (var cmd = new SqlCommand(query, connection))
             {                // define parameters and their values                 

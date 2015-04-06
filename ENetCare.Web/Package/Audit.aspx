@@ -90,7 +90,9 @@
                 </div>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Complete" StepType="Complete" >
+                <div>
                 <asp:Literal ID="litCompleteMessage" runat="server" Text="" ></asp:Literal>
+                </div>
             </asp:WizardStep>
         </WizardSteps>
     </asp:Wizard>
