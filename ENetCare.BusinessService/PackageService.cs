@@ -166,6 +166,20 @@ namespace ENetCare.BusinessService
                 return result;
             }
 
+            if (employee.EmployeeType == EmployeeType.Manager)
+            {
+                result.Success = false;
+                result.ErrorMessage = PackageResult.EmployeeNotAuthorized;
+                return result;
+            }
+
+            if (employee.Location.CentreId != tempPackage.CurrentLocation.CentreId)
+            {
+                result.Success = false;
+                result.ErrorMessage = PackageResult.EmployeeInDifferentLocation + barCode;
+                return result;
+            }
+
             if (tempPackage.CurrentStatus == PackageStatus.Distributed)
             {
                 result.Success = false;
