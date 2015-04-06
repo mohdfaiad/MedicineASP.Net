@@ -36,13 +36,6 @@ namespace ENetCare.Web
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (!Page.IsValid)
-            {
-                pnlErrorMessage.Visible = true;
-                litErrorMessage.Text = "There are errors";
-                return;
-            }
-
             DistributionCentre centre = (DistributionCentre)ViewState["DistributionCentre"];
 
             IEmployeeRepository repository = new EmployeeRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
@@ -62,21 +55,15 @@ namespace ENetCare.Web
                 Package package = _packageService.Retrieve(barcodes[i]);
 
                 StandardPackageType spt = _packageService.GetStandardPackageType(package.PackageType.PackageTypeId);
-
-                var result = _packageService.Distribute(barcodes[i], centre, employee, expirationDate, spt, package.PackageId);
-                if (!result.Success)
-                {
-                    var err = new CustomValidator();
-                    err.ValidationGroup = "destinationDetails";
-                    err.IsValid = false;
-                    err.ErrorMessage = result.ErrorMessage;
-                    Page.Validators.Add(err);
-
-                    pnlErrorMessage.Visible = true;
-                    litErrorMessage.Text = "There are errors";
-                    return;
-                }
+                
+                _packageService.Distribute(barcodes[i], centre, employee, expirationDate, spt, package.PackageId);
             }
+
+            Page.ClientScript.RegisterStartupScript(
+                Page.GetType(),  
+                "MessageBox",
+                "<script language='javascript'>alert('Packages have been successfully Distributed');</script>"
+            );
 
             Response.Redirect("Distribute.aspx");
         }

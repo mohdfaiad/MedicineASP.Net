@@ -74,7 +74,7 @@ namespace ENetCare.BusinessService
 
         private string GenerateBarCode(Package package)
         {
-            if (package.PackageType == null) return string.Empty;
+            if (package.PackageType == null)  return string.Empty;
             return string.Format("{0:D5}{1:yyMMdd}{2:D5}", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
             //return string.Format("00001{0:yyMMdd}00001", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
         }
@@ -153,39 +153,9 @@ namespace ENetCare.BusinessService
 
         public Result Distribute(string barCode, DistributionCentre distributionCentre, Employee employee, DateTime expirationDate, StandardPackageType packageType, int packageId)
         {
-            var result = new Result
-            {
-                Success = true
+            var result = new Result {
+            Success = true
             };
-
-            Package tempPackage = Retrieve(barCode);
-            if (tempPackage == null)
-            {
-                result.Success = false;
-                result.ErrorMessage = PackageResult.BarCodeNotFound + tempPackage.BarCode;
-                return result;
-            }
-
-            if (tempPackage.CurrentStatus == PackageStatus.Distributed)
-            {
-                result.Success = false;
-                result.ErrorMessage = PackageResult.PackageAlreadyDistributed + tempPackage.BarCode;
-                return result;
-            }
-
-            else if (tempPackage.CurrentStatus == PackageStatus.InTransit)
-            {
-                result.Success = false;
-                result.ErrorMessage = PackageResult.PackageInTransit + tempPackage.BarCode;
-                return result;
-            }
-
-            if (distributionCentre.CentreId != tempPackage.CurrentLocation.CentreId)
-            {
-                result.Success = false;
-                result.ErrorMessage = PackageResult.PackageElsewhere + tempPackage.BarCode;
-                return result;
-            }
 
             Package package = new Package
             {
@@ -198,7 +168,8 @@ namespace ENetCare.BusinessService
                 BarCode = barCode
             };
 
-            _packageRepository.Update(package);
+
+            int transactionId = _packageRepository.Insert(package);
 
             result.Id = package.PackageId;
 
@@ -223,6 +194,6 @@ namespace ENetCare.BusinessService
             _packageRepository.UpdateTransitCancelledFromAudit(auditId, employee.Location);
             return result;
         }
-
+        
     }
 }

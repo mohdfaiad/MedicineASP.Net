@@ -13,51 +13,6 @@ namespace ENetCare.Web {
     public partial class Distribute {
         
         /// <summary>
-        /// pnlMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlMessage;
-        
-        /// <summary>
-        /// litMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litMessage;
-        
-        /// <summary>
-        /// pnlErrorMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlErrorMessage;
-        
-        /// <summary>
-        /// litErrorMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litErrorMessage;
-        
-        /// <summary>
-        /// valSummary control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ValidationSummary valSummary;
-        
-        /// <summary>
         /// ucPackageBarcode control.
         /// </summary>
         /// <remarks>
@@ -74,15 +29,6 @@ namespace ENetCare.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litBarcodeList;
-        
-        /// <summary>
-        /// btnCancel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCancel;
         
         /// <summary>
         /// btnSave control.
