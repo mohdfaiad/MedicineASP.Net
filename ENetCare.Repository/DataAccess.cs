@@ -64,6 +64,28 @@ namespace ENetCare.Repository
             }
         }
 
+        public static void UpdateTransit(SqlConnection connection, PackageTransit transit)
+        {
+            string cmdStr = "UPDATE dbo.PackageTransit SET Package = @Package, SenderCentre = @SenderId, " +
+                                "ReceiverCentre = @ReceiverCentreId, DateSent = @DateSent , " +
+                                " DateReceived = @DateReceived, DateCancelled = @DateCancelled " +
+                                "WHERE TransitId = @TransitId ";
+            using (var cmd = new SqlCommand(cmdStr, connection))
+            {
+                cmd.Parameters.AddWithValue("@Package", SqlDbType.Int).Value = (int)transit.Package.PackageId;
+                cmd.Parameters.AddWithValue("@SenderCentre", SqlDbType.Int).Value = (int)transit.SenderCentre.CentreId;
+                cmd.Parameters.AddWithValue("@ReceiverCentre", SqlDbType.Int).Value = (int)transit.ReceiverCentre.CentreId;
+                cmd.Parameters.AddWithValue("@DateSent", SqlDbType.Date).Value = (DateTime)transit.DateSent;
+                cmd.Parameters.AddWithValue("@DateReceived", SqlDbType.Date).Value = (DateTime)transit.DateReceived;
+                cmd.Parameters.AddWithValue("@DateReceived", SqlDbType.Date).Value = (DateTime)transit.DateCancelled;
+                int effected = cmd.ExecuteNonQuery();                
+            }
+
+           
+
+        }   
+
+
         public static void UpdateEmployee(SqlConnection connection, Employee employee)
         {
             string cmdStr = "UPDATE dbo.Employee SET Password = @Password, " +
