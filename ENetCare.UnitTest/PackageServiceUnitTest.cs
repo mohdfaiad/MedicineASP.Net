@@ -108,5 +108,32 @@ namespace ENetCare.UnitTest
             var result = DistributePackage(4, "ihab", barCode);
             Assert.AreEqual("Package has been already distributed: " + barCode, result.ErrorMessage);
         }
+
+        [TestMethod]
+        public void TestReceivePackage_Successfully()
+        {
+            MockPackageRepository myMockPackageRepo = new MockPackageRepository();
+            PackageService packageService = new PackageService(myMockPackageRepo);
+
+            Package package1 = MockDataAccess.GetPackage(3);
+            DistributionCentre mySenderCentre = MockDataAccess.GetDistributionCentre(2);
+            DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(3);
+            PackageTransit newTransit = new PackageTransit();
+            newTransit.Package = package1;
+            newTransit.DateSent = DateTime.Today.AddDays(-2);
+            newTransit.SenderCentre = mySenderCentre;
+            newTransit.ReceiverCentre = myReceiverCentre;
+            int newTransitId=MockDataAccess.InsertPackageTransit(newTransit);
+
+            packageService.Receive(package1.BarCode, myReceiverCentre, DateTime.Today);
+            PackageTransit finishedTransit = MockDataAccess.GetPackageTransit(newTransitId);
+            Debug.WriteLine(finishedTransit.ToString());
+            Assert.IsTrue(finishedTransit.IsPastTransit() && finishedTransit.ReceiverCentre==myReceiverCentre);
+        }
+
+
+
+
+        
     }
 }
