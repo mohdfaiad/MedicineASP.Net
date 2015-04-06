@@ -78,7 +78,7 @@ namespace ENetCare.BusinessService
         }
 
         public Result Send(string barCode, DistributionCentre senderCentre, DateTime date)
-        {                                                   // Created by Pablo on 24-03-15
+        {                                                          // (P. 24-03-2015)
             Result sendResult = new Result();
             Package package;
             package = _packageRepository.GetPackageWidthBarCode(barCode);
@@ -114,7 +114,7 @@ namespace ENetCare.BusinessService
         }
 
         public Result Receive(string barCode, DistributionCentre receiverCentre, DateTime date)
-        {                                                            // Created by Pablo on 24-03-15
+        {                                                                 // (P. 24-03-2015)
             Result receiveResult = new Result();
             Package package = _packageRepository.GetPackageWidthBarCode(barCode);
             if (package == null)                         // Case: not found
@@ -123,8 +123,6 @@ namespace ENetCare.BusinessService
                 receiveResult.Success = false;
                 return receiveResult;
             }
-            // PackageTransitRepository _transitRepository = new PackageTransitRepository("");
-            // List<PackageTransit> activeTransits = _transitRepository.GetActiveTransitsByPackage(package);
             List<PackageTransit> activeTransits = _packageRepository.GetActiveTransitsByPackage(package);
             if (activeTransits.Count() == 0)                         // Case: not found
             {
@@ -140,16 +138,15 @@ namespace ENetCare.BusinessService
             }
             PackageTransit transit = activeTransits.ElementAt(0);   // get the only item found
             transit.DateReceived = DateTime.Today;                  // set transit as received
-            _packageRepository.Update(transit);                     // update transits DB
-            _packageRepository.UpdateTransit(transit);                     // update transits DB
-            package.CurrentStatus = PackageStatus.InStock;            // set packagestatus
-            package.CurrentLocation = receiverCentre;                 // set package location
+            _packageRepository.UpdateTransit(transit);              // update transits DB
+            package.CurrentStatus = PackageStatus.InStock;          // set packagestatus
+            package.CurrentLocation = receiverCentre;               // set package location
             _packageRepository.Update(package);                     // update packages DB
             receiveResult.Success = true;
             return receiveResult;
         }
 
-        public Result cancelTransit(string barCode, DateTime dateCancelled)
+        public Result cancelTransit(string barCode, DateTime dateCancelled)        // (P. 07-04-2015)
         {
             Result cResult = new Result();
             Package package = _packageRepository.GetPackageWidthBarCode(barCode);
@@ -168,7 +165,6 @@ namespace ENetCare.BusinessService
             }
             PackageTransit transit = activeTransits.ElementAt(0);
             transit.DateCancelled = DateTime.Today;                  // set transit as cancelled
-            _packageRepository.Update(transit);                     // update transits DB
             _packageRepository.UpdateTransit(transit);              // update transits DB
             package.CurrentStatus = PackageStatus.Lost;             // set packagestatus
             _packageRepository.Update(package);                     // update packages DB
