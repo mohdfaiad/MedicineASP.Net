@@ -28,6 +28,15 @@ namespace ENetCare.UnitTest
 
         public Package Get(int? packageId, string barcode)
         {
+            List<Package> packages = MockDataAccess.GetAllPackages();
+            for (int i = 0; i < packages.Count; i++)
+            {
+                if (packages[i].BarCode == barcode)
+                {
+                    return packages[i];
+                }
+            }
+
             Package package = new Package
             {
                 PackageId = packageId ?? 1,
