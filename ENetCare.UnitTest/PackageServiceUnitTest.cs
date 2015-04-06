@@ -69,54 +69,43 @@ namespace ENetCare.UnitTest
             Assert.AreNotEqual<string>(string.Empty, barCode);
         }
 
-
-        [TestMethod]
-        public void TestDistributePackage_InStockCurrentLocation()
+        private Result DistributePackage(int currentCentreId, string userName, string barCode)
         {
             DistributionCentre centre = new DistributionCentre();
-            centre.CentreId = 4;
-
+            centre.CentreId = currentCentreId;
             MockPackageRepository packageRepository = new MockPackageRepository();
             PackageService _packageService = new PackageService(packageRepository);
-
             MockEmployeeRepository repository = new MockEmployeeRepository();
             var employeeService = new EmployeeService(repository);
-
-            Employee employee = employeeService.Retrieve("ihab");
+            Employee authEmployee = employeeService.Retrieve(userName);
             DateTime expirationDate = DateTime.Now;
+            Package package = _packageService.Retrieve(barCode);
+            StandardPackageType spt2 = _packageService.GetStandardPackageType(package.PackageType.PackageTypeId);
+            return _packageService.Distribute(package.BarCode, centre, authEmployee, expirationDate, spt2, package.PackageId);
+        }
 
-            Package package = _packageService.Retrieve("45634278436");
+        [TestMethod]
+        public void TestDistributePackage_EmployeeNotAuthorizedError()
+        {
+            //"rsmith" is a manager who works in centre 4 and so he cannot distribute
+            var result = DistributePackage(4, "rsmith", "96854278434");
+            Assert.AreEqual("You are not authorized to distribute packages", result.ErrorMessage);
+        }
 
-            StandardPackageType spt = _packageService.GetStandardPackageType(package.PackageType.PackageTypeId);
-
-            var result = _packageService.Distribute(package.BarCode, centre, employee, expirationDate, spt, package.PackageId);
-
+        [TestMethod]
+        public void TestDistribute_InStockCurrentLocationUpdate()
+        {
+            //"ihab" works in centre 4 and the package "12344278431" is also in centre 4
+            var result = DistributePackage(4, "ihab", "04983238436");
             Assert.AreEqual(null, result.ErrorMessage);
         }
 
         [TestMethod]
-        public void TestDistributePackage_DistributedCurrentLocation()
+        public void TestDistribute_DistributedCurrentLocationError()
         {
-            DistributionCentre centre = new DistributionCentre();
-            centre.CentreId = 4;
-
-            MockPackageRepository packageRepository = new MockPackageRepository();
-            PackageService _packageService = new PackageService(packageRepository);
-
-            MockEmployeeRepository repository = new MockEmployeeRepository();
-            var employeeService = new EmployeeService(repository);
-
-            Employee employee = employeeService.Retrieve("ihab");
-            DateTime expirationDate = DateTime.Now;
-
-            string barCode = "45634271234";
-
-            Package package = _packageService.Retrieve(barCode);
-
-            StandardPackageType spt = _packageService.GetStandardPackageType(package.PackageType.PackageTypeId);
-
-            var result = _packageService.Distribute(package.BarCode, centre, employee, expirationDate, spt, package.PackageId);
-
+            //"ihab" works in centre 4 and the package "45634271234" is already distributed
+            string barCode = "11623542734";
+            var result = DistributePackage(4, "ihab", barCode);
             Assert.AreEqual("Package has been already distributed: " + barCode, result.ErrorMessage);
         }
     }
