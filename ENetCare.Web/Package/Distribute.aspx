@@ -8,6 +8,17 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolderBody" runat="server">
     
     <h2>Distribute Package</h2>
+    
+    <asp:Panel ID="pnlMessage" runat="server" CssClass="message" Visible="false">
+            <asp:Literal ID="litMessage" runat="server" />
+    </asp:Panel>
+
+    <asp:Panel ID="pnlErrorMessage" runat="server" Visible="false" CssClass="message error">
+        <asp:Literal ID="litErrorMessage" runat="server" />
+         <asp:ValidationSummary ID="valSummary" runat="server" 
+            ValidationGroup="destinationDetails"
+            EnableClientScript="false" ShowSummary="true" DisplayMode="BulletList" ForeColor="Red" /> 
+    </asp:Panel>
 
     <uc:PackageBarcodeUserControl ID="ucPackageBarcode" runat="server" />
     
