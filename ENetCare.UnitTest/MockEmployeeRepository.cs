@@ -34,20 +34,17 @@ namespace ENetCare.UnitTest
 
         public Employee Get(int? employeeId, string username)
         {
-            return MockDataAccess.GetEmployee(5);
-            /*return new Employee()
+            List<Employee> employees = MockDataAccess.GetAllEmployees();
+
+            for (int i = 0; i < employees.Count; i++)
             {
-                EmployeeId = 1,
-                FullName = "Fred Smith",
-                EmployeeType = EmployeeType.Doctor,
-                UserName = "fsmith",
-                Location = new DistributionCentre
-                {   CentreId = 1,    Name = "North Centre"    },
-                EmailAddress = "fsmith@a.com"
-            };             */
-        }
-        
-          
-     
+                if (employees[i].UserName == username)
+                {
+                    return employees[i];
+                }
+            }
+
+            return MockDataAccess.GetEmployee(5);
+        }     
     }
 }
