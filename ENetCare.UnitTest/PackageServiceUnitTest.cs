@@ -85,7 +85,7 @@ namespace ENetCare.UnitTest
         }
 
         [TestMethod]
-        public void TestDistributePackage_EmployeeNotAuthorizedError()
+        public void TestDistribute_EmployeeNotAuthorizedError()
         {
             //"rsmith" is a manager who works in centre 4 and so he cannot distribute
             var result = DistributePackage(4, "rsmith", "96854278434");
