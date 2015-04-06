@@ -18,9 +18,25 @@ namespace ENetCare.Repository.Data
 
         public override string ToString()
         {
-            return "pack)" + Package.GetShortDescription() + " / From:" + SenderCentre + " / To:" + ReceiverCentre + " / Sent:" + DateSent + " / Rece:" + DateReceived;
+            string head = "pack)" + Package.GetShortDescription() + " / From:" + SenderCentre.Name + " / To:" + ReceiverCentre.Name + " / ";
+            string tail="";
+            if(WasReceived())  tail = " / Sent:" + DateSent + " / Received:" + DateReceived;
+            if(WasCancelled()) tail = " / Sent:" + DateSent + " / Cancelled:" + DateCancelled;
+            if(IsInTransit())  tail = " / Sent:" + DateSent + " / Received:" + DateReceived;    
+            return head + tail;
         }
 
+        public bool IsPastTransit()
+        { return (DateReceived != null || DateCancelled != null); }
+
+        public bool IsInTransit()
+        { return (DateReceived == null && DateCancelled == null); }
+
+        public bool WasCancelled()
+        { return DateCancelled!=null; }
+
+        public bool WasReceived()
+        { return DateReceived != null; }
 
     }
 }
