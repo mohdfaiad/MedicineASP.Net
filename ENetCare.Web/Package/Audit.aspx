@@ -13,10 +13,10 @@
     
     <h2>Audit Packages</h2>
 
-    <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" Height="174px" Width="267px" SideBarButtonStyle-CssClass="hide" OnNextButtonClick="Wizard1_NextButtonClick" OnLoad="Wizard1_Load">
+    <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" Height="174px" Width="267px" SideBarButtonStyle-CssClass="hide" OnNextButtonClick="Wizard1_NextButtonClick" OnFinishButtonClick="Wizard1_FinishButtonClick" OnLoad="Wizard1_Load">
 <SideBarButtonStyle CssClass="hide"></SideBarButtonStyle>
         <WizardSteps>
-            <asp:WizardStep runat="server" title="Select Barcodes">
+            <asp:WizardStep runat="server" title="Select Barcodes" StepType="Start">
                 <asp:Panel ID="pnlErrorMessage" runat="server" Visible="false" CssClass="message error">
                     <asp:Literal ID="litErrorMessage" runat="server" />
     
@@ -47,7 +47,7 @@
                     </tr>
                 </table>
             </asp:WizardStep>
-            <asp:WizardStep runat="server" title="Confirm Audit">
+            <asp:WizardStep runat="server" title="Confirm Audit" StepType="Finish">
                 <div style ="height:200px; width:700px; overflow:auto;">
                 <asp:GridView ID="grd" runat="server" AutoGenerateColumns="false" ShowFooter="true">
                     <Columns>
@@ -88,6 +88,9 @@
                     </Columns>
                 </asp:GridView>
                 </div>
+            </asp:WizardStep>
+            <asp:WizardStep runat="server" Title="Complete" StepType="Complete" >
+                <asp:Literal ID="litCompleteMessage" runat="server" Text="" ></asp:Literal>
             </asp:WizardStep>
         </WizardSteps>
     </asp:Wizard>

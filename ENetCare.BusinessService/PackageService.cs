@@ -176,6 +176,24 @@ namespace ENetCare.BusinessService
             return result;
         }
 
+        public Result PerformAudit(Employee employee, StandardPackageType packageType, List<string> barCodes)
+        {
+            Result result = new Result
+            {
+                Success = true
+            };
+            int auditId = _packageRepository.InsertAudit(employee, packageType, barCodes);
+            result.Id = auditId;
+
+            _packageRepository.UpdateLostFromAudit(auditId, employee.Location, packageType);
+
+            _packageRepository.UpdateInstockFromAudit(auditId, employee.Location, packageType);
+
+            _packageRepository.UpdateTransitReceivedFromAudit(auditId, employee.Location);
+
+            _packageRepository.UpdateTransitCancelledFromAudit(auditId, employee.Location);
+            return result;
+        }
         
     }
 }

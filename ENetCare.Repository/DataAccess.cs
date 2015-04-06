@@ -508,5 +508,83 @@ namespace ENetCare.Repository
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public static int UpdateLostFromAudit(SqlConnection connection, int auditId, DistributionCentre location, StandardPackageType packageType)
+        {            // define INSERT query with parameters 
+
+            string query = "UPDATE Package SET CurrentStatus = 'LOST' " +
+                            "FROM Package p " +
+                            "LEFT OUTER JOIN AuditPackage a ON a.PackageId = p.PackageId AND a.AuditId = @AuditId " +
+                            "WHERE a.PackageId IS NULL AND p.CurrentStatus = 'INSTOCK' AND p.PackageTypeId = @PackageTypeId AND p.CurrentLocationCentreId = @DistributionCentreId ";
+
+            using (var cmd = new SqlCommand(query, connection))
+            {                // define parameters and their values                 
+                cmd.Parameters.Add("@DistributionCentreId", SqlDbType.Int).Value =location.CentreId;
+                cmd.Parameters.Add("@AuditId", SqlDbType.Int).Value = auditId;
+                cmd.Parameters.Add("@PackageTypeId", SqlDbType.Int).Value = packageType.PackageTypeId;
+               
+                cmd.CommandType = CommandType.Text;
+                
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
+        public static int UpdateInstockFromAudit(SqlConnection connection, int auditId, DistributionCentre location, StandardPackageType packageType)
+        {            // define INSERT query with parameters 
+
+            string query = "UPDATE Package SET CurrentStatus = 'INSTOCK' " +
+                            "FROM Package p " +
+                            "INNER JOIN AuditPackage a ON a.PackageId = p.PackageId AND a.AuditId = @AuditId " +
+                            "WHERE p.PackageTypeId = @PackageTypeId AND " +
+                                "(p.CurrentLocationCentreId <> @DistributionCentreId OR CurrentStatus <> 'INSTOCK') ";
+            using (var cmd = new SqlCommand(query, connection))
+            {                // define parameters and their values                 
+                cmd.Parameters.Add("@DistributionCentreId", SqlDbType.Int).Value = location.CentreId;
+                cmd.Parameters.Add("@AuditId", SqlDbType.Int).Value = auditId;
+                cmd.Parameters.Add("@PackageTypeId", SqlDbType.Int).Value = packageType.PackageTypeId;
+
+                cmd.CommandType = CommandType.Text;
+
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
+        public static int UpdateTransitReceivedFromAudit(SqlConnection connection, int auditId, DistributionCentre location)
+        {            // define INSERT query with parameters 
+            string query = "UPDATE PackageTransit SET DateReceived = a.DateAudited " +
+                            "FROM PackageTransit pt " +
+                            "INNER JOIN AuditPackage ap ON pt.PackageId = ap.PackageId " +
+                            "INNER JOIN Audit a ON ap.AuditId = a.AuditId " +
+                            "WHERE a.AuditId = @AuditId AND pt.ReceiverCentreId = @DistributionCentreId AND pt.DateReceived = null AND pt.DateCancelled = null ";
+            
+            using (var cmd = new SqlCommand(query, connection))
+            {                // define parameters and their values                 
+                cmd.Parameters.Add("@DistributionCentreId", SqlDbType.Int).Value = location.CentreId;
+                cmd.Parameters.Add("@AuditId", SqlDbType.Int).Value = auditId;
+
+                cmd.CommandType = CommandType.Text;
+
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
+        public static int UpdateTransitCancelledFromAudit(SqlConnection connection, int auditId, DistributionCentre location)
+        {            // define INSERT query with parameters 
+            string query = "UPDATE PackageTransit SET DateCancelled = a.DateAudited " +
+                            "FROM PackageTransit pt " +
+                            "INNER JOIN AuditPackage ap ON pt.PackageId = ap.PackageId " +
+                            "INNER JOIN Audit a ON ap.AuditId = a.AuditId " +
+                            "WHERE a.AuditId = @AuditId AND pt.ReceiverCentreId <> @DistributionCentreId AND pt.DateReceived = null AND pt.DateCancelled = null ";
+
+            using (var cmd = new SqlCommand(query, connection))
+            {                // define parameters and their values                 
+                cmd.Parameters.Add("@DistributionCentreId", SqlDbType.Int).Value = location.CentreId;
+                cmd.Parameters.Add("@AuditId", SqlDbType.Int).Value = auditId;
+
+                cmd.CommandType = CommandType.Text;
+
+                return cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

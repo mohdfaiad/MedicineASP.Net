@@ -189,6 +189,45 @@ namespace ENetCare.Repository.Repository
             }
         }
 
+        public int UpdateLostFromAudit(int auditId, DistributionCentre location, StandardPackageType packageType)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                return DataAccess.UpdateLostFromAudit(connection, auditId, location, packageType);
+            }
+        }
+
+        public int UpdateInstockFromAudit(int auditId, DistributionCentre location, StandardPackageType packageType)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                return DataAccess.UpdateInstockFromAudit(connection, auditId, location, packageType);
+            }
+        }
+
+        public int UpdateTransitReceivedFromAudit(int auditId, DistributionCentre location)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                return DataAccess.UpdateTransitReceivedFromAudit(connection, auditId, location);
+            }
+        }
+
+        public int UpdateTransitCancelledFromAudit(int auditId, DistributionCentre location)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                return DataAccess.UpdateTransitCancelledFromAudit(connection, auditId, location);
+            }
+        }
 
         // *************************************************************************
 

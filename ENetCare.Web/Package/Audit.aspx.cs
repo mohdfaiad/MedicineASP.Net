@@ -77,6 +77,10 @@ namespace ENetCare.Web
             }
         }
 
+        protected void Wizard1_FinishButtonClick(object sender, WizardNavigationEventArgs e)
+        {
+        }
+
         protected void Wizard1_Load(object sender, EventArgs e)
         {
 

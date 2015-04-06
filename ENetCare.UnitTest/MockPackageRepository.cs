@@ -99,6 +99,26 @@ namespace ENetCare.UnitTest
             return filteredList;
         }
 
-
+        public int InsertAudit(Employee employee, StandardPackageType packageType, List<string> barCodes)
+        {
+            return 1;
+        }
+        public int UpdateLostFromAudit(int auditId, DistributionCentre location, StandardPackageType packageType)
+        {
+            return 1;
+        }
+        public int UpdateInstockFromAudit(int auditId, DistributionCentre location, StandardPackageType packageType)
+        {
+            return 1;
+        }
+        public int UpdateTransitReceivedFromAudit(int auditId, DistributionCentre location)
+        {
+            return 1;
+        }
+        public int UpdateTransitCancelledFromAudit(int auditId, DistributionCentre location)
+        {
+            return 1;
+        }
+    
     }
 }
