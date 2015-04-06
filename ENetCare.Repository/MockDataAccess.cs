@@ -211,18 +211,17 @@ namespace ENetCare.Repository
             StandardPackageType type2 = GetPackageType(2);
             StandardPackageType type3 = GetPackageType(3);
             StandardPackageType type4 = GetPackageType(4);
-            AddPackage(type3, "45634278436", centreTwo, PackageStatus.InStock, DateTime.Parse("12/12/2016"));
+            AddPackage(type3, "45634278436", mainCentre, PackageStatus.InStock, DateTime.Parse("12/12/2016"));
+            AddPackage(type4, "12344278431", centreTwo, PackageStatus.InTransit, DateTime.Parse("12/11/2016"));
+            AddPackage(type2, "04334278430", centreThree, PackageStatus.Distributed, DateTime.Parse("12/10/2016"));
+            AddPackage(type2, "96854278434", centreTwo, PackageStatus.Discarded, DateTime.Parse("12/09/2016"));
+            AddPackage(type3, "75634278434", centreTwo, PackageStatus.Lost, DateTime.Parse("12/08/2016"));
+            AddPackage(type3, "45634278000", mainCentre, PackageStatus.InTransit, DateTime.Parse("12/12/2016"));
             AddPackage(type4, "12344278431", centreTwo, PackageStatus.InStock, DateTime.Parse("12/11/2016"));
-            AddPackage(type2, "04334278430", centreTwo, PackageStatus.InStock, DateTime.Parse("12/10/2016"));
-            AddPackage(type2, "96854278434", centreTwo, PackageStatus.InStock, DateTime.Parse("12/09/2016"));
-            AddPackage(type3, "75634278434", centreTwo, PackageStatus.InStock, DateTime.Parse("12/08/2016"));
-            AddPackage(type3, "45634278436", centreThree, PackageStatus.InStock, DateTime.Parse("12/12/2016"));
-            AddPackage(type4, "12344278431", centreThree, PackageStatus.InStock, DateTime.Parse("12/11/2016"));
-            AddPackage(type2, "04334278430", centreThree, PackageStatus.InStock, DateTime.Parse("12/10/2016"));
-            AddPackage(type2, "96854278434", centreThree, PackageStatus.InStock, DateTime.Parse("12/09/2016"));
-            AddPackage(type3, "75634278434", centreThree, PackageStatus.InStock, DateTime.Parse("12/08/2016"));
-
-
+            AddPackage(type2, "04334278430", centreThree, PackageStatus.Distributed, DateTime.Parse("12/10/2016"));
+            AddPackage(type2, "96854278434", centreThree, PackageStatus.Discarded, DateTime.Parse("12/09/2016"));
+            AddPackage(type3, "75634278434", centreThree, PackageStatus.Lost, DateTime.Parse("12/08/2016"));
+            AddPackage(type4, "45634271234", mainCentre, PackageStatus.Distributed, DateTime.Parse("12/12/2016"));
         }
 
 
