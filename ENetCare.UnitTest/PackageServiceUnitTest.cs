@@ -5,6 +5,8 @@ using ENetCare.BusinessService;
 using ENetCare.Repository.Data;
 using System.Diagnostics;
 using ENetCare.Repository;
+using System.Configuration;
+using ENetCare.Web.Membership;
 
 namespace ENetCare.UnitTest
 {
@@ -55,21 +57,6 @@ namespace ENetCare.UnitTest
             Assert.AreEqual<string>(compareBarCode, barCode);
         }
 
-        //ADDED BY IHAB, UNIT TEST
-        //NEEDS MORE WORK
-        [TestMethod]
-        public void TestRegisterPackage_Test2()
-        {
-            IPackageRepository packageRepository = new MockPackageRepository();
-            PackageService packageService = new PackageService(packageRepository);
-            StandardPackageType packageType = MockDataAccess.GetPackageType(3);
-            DistributionCentre location = MockDataAccess.GetDistributionCentre(3);
-            string barCode;
-            var result = packageService.Register(packageType, location, DateTime.Today.AddMonths(2), out barCode);
-            Assert.AreNotEqual<string>(string.Empty, barCode);
-        }
-
-
         [TestMethod]
         public void TestRegisterPackage_3()    // This is just a copy of the first testRegister method 
         {
@@ -82,5 +69,55 @@ namespace ENetCare.UnitTest
             Assert.AreNotEqual<string>(string.Empty, barCode);
         }
 
+
+        [TestMethod]
+        public void TestDistributePackage_InStockCurrentLocation()
+        {
+            DistributionCentre centre = new DistributionCentre();
+            centre.CentreId = 4;
+
+            MockPackageRepository packageRepository = new MockPackageRepository();
+            PackageService _packageService = new PackageService(packageRepository);
+
+            MockEmployeeRepository repository = new MockEmployeeRepository();
+            var employeeService = new EmployeeService(repository);
+
+            Employee employee = employeeService.Retrieve("ihab");
+            DateTime expirationDate = DateTime.Now;
+
+            Package package = _packageService.Retrieve("45634278436");
+
+            StandardPackageType spt = _packageService.GetStandardPackageType(package.PackageType.PackageTypeId);
+
+            var result = _packageService.Distribute(package.BarCode, centre, employee, expirationDate, spt, package.PackageId);
+
+            Assert.AreEqual(null, result.ErrorMessage);
+        }
+
+        [TestMethod]
+        public void TestDistributePackage_DistributedCurrentLocation()
+        {
+            DistributionCentre centre = new DistributionCentre();
+            centre.CentreId = 4;
+
+            MockPackageRepository packageRepository = new MockPackageRepository();
+            PackageService _packageService = new PackageService(packageRepository);
+
+            MockEmployeeRepository repository = new MockEmployeeRepository();
+            var employeeService = new EmployeeService(repository);
+
+            Employee employee = employeeService.Retrieve("ihab");
+            DateTime expirationDate = DateTime.Now;
+
+            string barCode = "45634271234";
+
+            Package package = _packageService.Retrieve(barCode);
+
+            StandardPackageType spt = _packageService.GetStandardPackageType(package.PackageType.PackageTypeId);
+
+            var result = _packageService.Distribute(package.BarCode, centre, employee, expirationDate, spt, package.PackageId);
+
+            Assert.AreEqual("Package has been already distributed: " + barCode, result.ErrorMessage);
+        }
     }
 }
