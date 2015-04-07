@@ -181,6 +181,8 @@ namespace ENetCare.Repository
 
         public static void LoadMockTables()                         // (P. 05-04-2015)
         {
+            if(mockDistributionCentreDb.Count()>5) return;   // dont insert samples if they are there already
+
             AddDistributionCentre("West Centre","12 Long Rd","0476 765234",false);
             AddDistributionCentre("South Centre", "502 Main Rd", "0534 123456", false);
             AddDistributionCentre("North Centre", "192 narrow Rd", "0376 09874324", false);

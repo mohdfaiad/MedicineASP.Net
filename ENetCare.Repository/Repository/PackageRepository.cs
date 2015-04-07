@@ -39,6 +39,18 @@ namespace ENetCare.Repository.Repository
             return;
         }
 
+        public void UpdateTransit(PackageTransit transit)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                DataAccess.UpdateTransit(connection, transit);
+            }
+            return;
+        }
+      
+
         public Package Get(int? packageId, string barcode)
         {
             Package package = null;
@@ -125,16 +137,7 @@ namespace ENetCare.Repository.Repository
             }
         }
 
-        public void UpdateTransit(PackageTransit packageTransit)
-        {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                DataAccess.UpdatePackageTransit(connection, packageTransit);
-            }
-            return;
-        }
-
+       
         public PackageTransit GetTransit(Package package, DistributionCentre receiver)
         {
             PackageTransit packageTransit = null;

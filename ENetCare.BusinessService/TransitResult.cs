@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ENetCare.BusinessService
 {
-    class TransitResult
+    public class TransitResult
     {
 
         public const string BarCodeNotFound = "Bar Code not found";
@@ -15,6 +15,6 @@ namespace ENetCare.BusinessService
         public const string PackageAlreadyAtDestination = "Package appears as being already at the Destination Centre";
         public const string TransitNotFound = "Transit not found";
         public const string MoreThanOneTransitForPackage = "More than one active transit exists for that package";
-    
+        public const string WrongReceiver = "Package was supposed to arrive at a different centre.";
     }
 }

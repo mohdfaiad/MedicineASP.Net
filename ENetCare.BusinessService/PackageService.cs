@@ -137,6 +137,7 @@ namespace ENetCare.BusinessService
                 return receiveResult;
             }
             PackageTransit transit = activeTransits.ElementAt(0);   // get the only item found
+            if (receiverCentre!=transit.ReceiverCentre) receiveResult.ErrorMessage = TransitResult.WrongReceiver;
             transit.DateReceived = DateTime.Today;                  // set transit as received
             _packageRepository.UpdateTransit(transit);              // update transits DB
             package.CurrentStatus = PackageStatus.InStock;          // set packagestatus
@@ -146,7 +147,7 @@ namespace ENetCare.BusinessService
             return receiveResult;
         }
 
-        public Result cancelTransit(string barCode, DateTime dateCancelled)        // (P. 07-04-2015)
+        public Result CancelTransit(string barCode, DateTime dateCancelled)        // (P. 07-04-2015)
         {
             Result cResult = new Result();
             Package package = _packageRepository.GetPackageWidthBarCode(barCode);

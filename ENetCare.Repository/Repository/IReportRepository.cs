@@ -16,6 +16,6 @@ namespace ENetCare.Repository.Repository
         List<GlobalStock> GetGlobalStock();
         List<ValueInTransit> GetValueInTransit();
         List<ReconciledPackage> GetReconciledPackages(DistributionCentre currentLocation, StandardPackageType packageType, List<string> barCodeList);
-
+       
     }
 }

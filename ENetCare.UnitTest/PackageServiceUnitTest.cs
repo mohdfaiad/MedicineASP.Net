@@ -57,18 +57,7 @@ namespace ENetCare.UnitTest
             Assert.AreEqual<string>(compareBarCode, barCode);
         }
 
-        [TestMethod]
-        public void TestRegisterPackage_3()    // This is just a copy of the first testRegister method 
-        {
-            IPackageRepository packageRepository = new MockPackageRepository();
-            PackageService packageService = new PackageService(packageRepository);
-            StandardPackageType packageType = MockDataAccess.GetPackageType(4);
-            DistributionCentre location = MockDataAccess.GetDistributionCentre(3);
-            string barCode;
-            var result = packageService.Register(packageType, location, DateTime.Today.AddMonths(2), out barCode);
-            Assert.AreNotEqual<string>(string.Empty, barCode);
-        }
-
+            
         private Result DistributePackage(int currentCentreId, string userName, string barCode)
         {
             DistributionCentre centre = new DistributionCentre();
@@ -114,25 +103,67 @@ namespace ENetCare.UnitTest
         {
             MockPackageRepository myMockPackageRepo = new MockPackageRepository();
             PackageService packageService = new PackageService(myMockPackageRepo);
-
             Package package1 = MockDataAccess.GetPackage(3);
-            DistributionCentre mySenderCentre = MockDataAccess.GetDistributionCentre(2);
             DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(3);
-            PackageTransit newTransit = new PackageTransit();
-            newTransit.Package = package1;
-            newTransit.DateSent = DateTime.Today.AddDays(-2);
-            newTransit.SenderCentre = mySenderCentre;
-            newTransit.ReceiverCentre = myReceiverCentre;
-            int newTransitId=MockDataAccess.InsertPackageTransit(newTransit);
-
+            int newTransitId = InsertMockTransit(package1, 2, 3);                                       // insert transit
             packageService.Receive(package1.BarCode, myReceiverCentre, DateTime.Today);
             PackageTransit finishedTransit = MockDataAccess.GetPackageTransit(newTransitId);
             Debug.WriteLine(finishedTransit.ToString());
             Assert.IsTrue(finishedTransit.IsPastTransit() && finishedTransit.ReceiverCentre==myReceiverCentre);
         }
 
+        [TestMethod]
+        public void TestReceivePackage_NotFound()
+        {
+            MockPackageRepository myMockPackageRepo = new MockPackageRepository();
+            PackageService packageService = new PackageService(myMockPackageRepo);
+            Package package1 = MockDataAccess.GetPackage(3);
+            DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(3);
+            Result res = packageService.Receive(package1.BarCode, myReceiverCentre, DateTime.Today);
+            Assert.AreEqual("Transit not found", res.ErrorMessage);
+        }
 
+        [TestMethod]
+        public void TestReceivePackage_WrongLocation()
+        {
+            MockPackageRepository myMockPackageRepo = new MockPackageRepository();
+            PackageService packageService = new PackageService(myMockPackageRepo);
+            Package package1 = MockDataAccess.GetPackage(3);
+            DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(5);
+            int newTransitId = InsertMockTransit(package1, 2, 3);                                       // insert transit
+            Result res = packageService.Receive(package1.BarCode, myReceiverCentre, DateTime.Today);
+            PackageTransit finishedTransit = MockDataAccess.GetPackageTransit(newTransitId);
+            Debug.WriteLine(finishedTransit.ToString());
+            Result wrongDestiResult = new Result();
+            wrongDestiResult.ErrorMessage = TransitResult.WrongReceiver;
+            Assert.IsTrue(finishedTransit.IsPastTransit() &&  res.ErrorMessage==wrongDestiResult.ErrorMessage);
+        }
 
+        [TestMethod]
+        public void TestReceivePackage_CancelTransit()
+        {
+            MockPackageRepository myMockPackageRepo = new MockPackageRepository();
+            PackageService packageService = new PackageService(myMockPackageRepo);
+            Package package1 = MockDataAccess.GetPackage(3);
+            DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(3);
+            int newTransitId = InsertMockTransit(package1, 2, 3);                                       // insert transit
+            Result res = packageService.CancelTransit(package1.BarCode, DateTime.Today);                // cancel transit
+            int foundTransits = myMockPackageRepo.GetActiveTransitsByPackage(package1).Count;
+            Assert.IsTrue(res.Success && foundTransits == 0);
+        }
+
+        public int InsertMockTransit(Package Package, int SenderId, int ReceiverId)
+        {
+            DistributionCentre mySenderCentre = MockDataAccess.GetDistributionCentre(SenderId);
+            DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(ReceiverId);
+            PackageTransit newTransit = new PackageTransit();
+            newTransit.Package = Package;
+            newTransit.DateSent = DateTime.Today.AddDays(-2);
+            newTransit.SenderCentre = mySenderCentre;
+            newTransit.ReceiverCentre = myReceiverCentre;
+            int newTransitId = MockDataAccess.InsertPackageTransit(newTransit);
+            return newTransitId;
+        }
 
         
     }

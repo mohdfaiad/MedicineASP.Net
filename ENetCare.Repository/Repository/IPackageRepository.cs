@@ -19,7 +19,6 @@ namespace ENetCare.Repository.Repository
         int InsertTransit(PackageTransit packageTransit);
         void UpdateTransit(PackageTransit packageTransit);
         PackageTransit GetTransit(Package package, DistributionCentre Receiver);
-        
         int InsertAudit(Employee employee, StandardPackageType packageType, List<string> barCodes);
         int UpdateLostFromAudit(int auditId, DistributionCentre location, StandardPackageType packageType);
         int UpdateInstockFromAudit(int auditId, DistributionCentre location, StandardPackageType packageType);
