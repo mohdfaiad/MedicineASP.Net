@@ -82,7 +82,7 @@ namespace ENetCare.Web.Membership
         /// </summary>
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {            
-            var result = _employeeService.ChangePassword(username, oldPassword, EncodePassword(newPassword), EncodePassword(newPassword));
+            var result = _employeeService.ChangePassword(username, EncodePassword(oldPassword), EncodePassword(newPassword), EncodePassword(newPassword));
             
             return result.Success;
         }
