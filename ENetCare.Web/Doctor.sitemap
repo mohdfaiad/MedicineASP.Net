@@ -11,6 +11,7 @@
           <siteMapNode title="Send" url="~/Package/Send.aspx" />
           <siteMapNode title="Receive" url="~/Package/ReceivePackage.aspx" />
           <siteMapNode title="Distribute" url="~/Package/Distribute.aspx" />
+          <siteMapNode title="Audit" url="~/Package/Audit.aspx" />
         </siteMapNode>
         <siteMapNode title="Account">
           <siteMapNode title="Edit Employee" url="~/EditEmployee.aspx" />
