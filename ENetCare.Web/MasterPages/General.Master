@@ -19,6 +19,14 @@
            ImageAlign="Top"
            ImageUrl="~/Public/Images/ENetLogo.png"/>
 
+<div style="position: absolute; top: 50px; left: 250px">
+    Name: <asp:Literal ID="litEmployeeName" runat="server"/>
+    <br />
+    Type: <asp:Literal ID="litEmployeeType" runat="server"/>
+    <br/>
+    Location: <asp:Literal ID="litLocationCentreName" runat="server"/>
+</div>
+
 <br />
 
 <asp:SiteMapDataSource ID="SiteMapDataSource1" Runat="server" />

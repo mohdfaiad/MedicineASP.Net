@@ -66,7 +66,7 @@
                         AssociatedControlID="ddlLocation" Text="Distribution Centre:" />
             </td>
             <td>
-                <asp:DropDownList ID="ddlLocation" runat="server" Width="200" TabIndex="2" Enabled="true" AutoPostBack="True" OnSelectedIndexChanged="ddlLocation_SelectedIndexChanged" />
+                <asp:DropDownList ID="ddlLocation" runat="server" Width="200" TabIndex="2" Enabled="true" />
             </td>
         </tr>
         

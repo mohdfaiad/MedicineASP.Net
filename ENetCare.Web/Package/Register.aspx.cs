@@ -54,6 +54,12 @@ namespace ENetCare.Web
 
         protected void ddlPackageType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ddlPackageType.SelectedValue == string.Empty)
+            {
+                txtExpirationDate.Text = string.Empty;
+                return;
+            }
+
             var packageTypes = (List<StandardPackageType>) ViewState["PackageTypes"];
 
             int selectedPackageTypeId = int.Parse(ddlPackageType.SelectedValue);
@@ -63,14 +69,13 @@ namespace ENetCare.Web
 
             DateTime expirationDate = _packageService.CalculateExpirationDate(selectedPackageType, DateTime.Today);
 
+            SetExpirationDateTextBox(expirationDate);
+        }
+
+        private void SetExpirationDateTextBox(DateTime expirationDate)
+        {
             txtExpirationDate.Text = string.Format("{0:dd/MM/yyyy}", expirationDate);            
         }
-
-        protected void ddlLocation_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         protected void btnSave_OnClick(object sender, EventArgs e)
         {
             if (!Page.IsValid)
@@ -93,7 +98,9 @@ namespace ENetCare.Web
             DistributionCentre selectedCentre =
                 centres.FirstOrDefault(c => c.CentreId == selectedCentreId);
 
-            DateTime expirationDate = DateTime.Parse(txtExpirationDate.Text);
+            DateTime expirationDate = DateTime.Parse(Request.Form[txtExpirationDate.UniqueID]);
+            SetExpirationDateTextBox(expirationDate);
+
             string barcode;
 
             Result result = _packageService.Register(selectedPackageType, selectedCentre, expirationDate, out barcode);

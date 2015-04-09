@@ -16,6 +16,11 @@ namespace ENetCare.Web.MasterPages
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 EmployeeMembershipUser user = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
+
+                litEmployeeName.Text = user.UserName;
+                litEmployeeType.Text = user.EmployeeType.ToString();
+                litLocationCentreName.Text = user.DistributionCentreName;
+
                 switch (user.EmployeeType)
                 {
                     case EmployeeType.Doctor:

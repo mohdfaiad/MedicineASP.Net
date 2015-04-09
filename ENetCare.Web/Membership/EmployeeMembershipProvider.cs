@@ -168,7 +168,8 @@ namespace ENetCare.Web.Membership
                 DateTime.MinValue,
                 DateTime.MinValue,
                 employee.EmployeeType,
-                employee.Location.CentreId);
+                employee.Location.CentreId,
+                employee.Location.Name);
 
             return user;
         }

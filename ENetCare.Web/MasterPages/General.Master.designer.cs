@@ -40,6 +40,33 @@ namespace ENetCare.Web.MasterPages {
         protected global::System.Web.UI.WebControls.Image Image1;
         
         /// <summary>
+        /// litEmployeeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litEmployeeName;
+        
+        /// <summary>
+        /// litEmployeeType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litEmployeeType;
+        
+        /// <summary>
+        /// litLocationCentreName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litLocationCentreName;
+        
+        /// <summary>
         /// SiteMapDataSource1 control.
         /// </summary>
         /// <remarks>
