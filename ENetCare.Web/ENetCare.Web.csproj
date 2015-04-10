@@ -61,6 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChangeEmployeePassword.aspx" />
+    <Content Include="ErrorPages\GenericError.aspx" />
+    <Content Include="ErrorPages\MissingResource.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="Logout.aspx" />
     <Content Include="Package\Audit.aspx" />
     <Content Include="Package\Distribute.aspx" />
@@ -79,7 +82,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Global.asax" />
     <Content Include="Package\ReceivePackage.aspx" />
     <Content Include="Package\Register.aspx" />
     <Content Include="Package\Send.aspx" />
@@ -116,6 +118,24 @@
     <Compile Include="ChangeEmployeePassword.aspx.designer.cs">
       <DependentUpon>ChangeEmployeePassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ErrorPages\GenericError.aspx.cs">
+      <DependentUpon>GenericError.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPages\GenericError.aspx.designer.cs">
+      <DependentUpon>GenericError.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPages\MissingResource.aspx.cs">
+      <DependentUpon>MissingResource.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPages\MissingResource.aspx.designer.cs">
+      <DependentUpon>MissingResource.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Logout.aspx.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -144,9 +164,6 @@
     </Compile>
     <Compile Include="EditEmployee.aspx.designer.cs">
       <DependentUpon>EditEmployee.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handler\GenerateBarcodeImage.ashx.cs">
       <DependentUpon>GenerateBarcodeImage.ashx</DependentUpon>
@@ -249,6 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Log\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

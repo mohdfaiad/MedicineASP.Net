@@ -25,6 +25,9 @@ namespace ENetCare.Web
                     barcodeListText.Append(", ");
 
                 barcodeListText.Append(barcodes[i]);
+
+                if (barcodes[i] == "012365423")
+                    throw new ArgumentException("Invalid barcode");
             }
 
             litBarcodeList.Text = barcodeListText.ToString();
