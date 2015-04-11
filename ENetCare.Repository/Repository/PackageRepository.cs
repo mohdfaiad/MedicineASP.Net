@@ -240,7 +240,7 @@ namespace ENetCare.Repository.Repository
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                allTransits = DataAccess.getAllPackageTransits(connection);
+                allTransits = DataAccess.GetAllPackageTransits(connection);
             }
             return allTransits;
         }
