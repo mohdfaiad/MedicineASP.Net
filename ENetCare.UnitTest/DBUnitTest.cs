@@ -59,6 +59,34 @@ namespace ENetCare.UnitTest                             // (P. 04-04-2015)
         }
 
         [TestMethod]
+        public void TestDb_GetAndShowAllTables()
+        {
+            enetConnection.Open();
+            List<DistributionCentre> distList = DataAccess.GetAllDistributionCentres(enetConnection);
+            Debug.WriteLine("DISTRIBUTION CENTRES : ");
+            foreach (DistributionCentre centre in distList) Debug.WriteLine(centre);
+
+            List<Employee> employeeList = DataAccess.GetAllEmployees(enetConnection);
+            Debug.WriteLine("\n\n EMPLOYEES : ");
+            foreach (Employee emp in employeeList) Debug.WriteLine(emp);
+
+            List<StandardPackageType> typeList = DataAccess.GetAllStandardPackageTypes(enetConnection);
+            Debug.WriteLine("\n\n STANDARD PACKAGE TYPES : ");
+            foreach (StandardPackageType t in typeList) Debug.WriteLine(t);
+
+            List<Package> packageList = DataAccess.GetAllPackages(enetConnection);
+            Debug.WriteLine("\n\n PACKAGES : ");
+            foreach (Package p in packageList) Debug.WriteLine(p);
+
+            List<PackageTransit> transitList = DataAccess.GetAllPackageTransits(enetConnection);
+            Debug.WriteLine("\n\n PACKAGE TRANSITS : ");
+            foreach (PackageTransit t in transitList) Debug.WriteLine(t);
+            enetConnection.Close();
+            Assert.IsNotNull(employeeList);
+        }
+
+
+        [TestMethod]
         public void TestDbAccess_GetPackages()                            // (P. 04-04-2015)  
         {
             enetConnection.Open();
