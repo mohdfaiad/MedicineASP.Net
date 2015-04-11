@@ -410,7 +410,7 @@ namespace ENetCare.Repository
         }
 
         
-        public static List<PackageTransit> getAllPackageTransits(SqlConnection connection)
+        public static List<PackageTransit> GetAllPackageTransits(SqlConnection connection)
         {                                                       // (P. 04/04/2015)
             var allTransits = new List<PackageTransit>();
             string query = "SELECT TransitId, PackageId, SenderCentreId, ReceiverCentreId, DateSent, DateReceived, DateCancelled FROM PackageTransit ORDER BY TransitId";
