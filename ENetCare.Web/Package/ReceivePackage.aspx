@@ -1,68 +1,51 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReceivePackage.aspx.cs" Inherits="ENetCare.Web.ReceivePackage" MasterPageFile="~/MasterPages/General.Master"%>
 
-
-<%--  [COMMENT] This is just a protoype. This page is suppose to reuse components .    (Pablo 24-03-15)      --%>
-
+<%@ Register TagName="PackageBarcodeUserControl" TagPrefix="uc" Src="~/UserControl/PackageBarcode.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Receive Package</title>
+    <link href="/Public/Styles/jquery-ui.css" rel="stylesheet"/>
     <link href="/Public/Styles/enet-design.css" rel="stylesheet" />
+    <script src="/Public/Scripts/JQuery/jquery-1.11.2.min.js"></script>
+    <script src="/Public/Scripts/JQuery/jquery-ui.min.js"></script>
+    <script src="/Public/Scripts/JQuery/jquery.ui.datepicker-en-GB.js"></script>
+    <script>
+        $(function() {
+            $( ".datepicker" ).datepicker();
+            });
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolderBody" runat="server">
     
     <h2>Receive Package</h2>
-    <br/>Please scan a package or type its code <br/><br/>
+    <asp:Panel ID="pnlMessage" runat="server" CssClass="message" Visible="false">
+            <asp:Literal ID="litMessage" runat="server" />
+    </asp:Panel>
+
     <asp:Panel ID="pnlErrorMessage" runat="server" Visible="false" CssClass="message error">
         <asp:Literal ID="litErrorMessage" runat="server" />
-    
-        <asp:ValidationSummary ID="valSumUserDetails" runat="server" 
-            ValidationGroup="userDetails"
+         <asp:ValidationSummary ID="valSummary" runat="server" 
+            ValidationGroup="receiveDetails"
             EnableClientScript="false" ShowSummary="true" DisplayMode="BulletList" ForeColor="Red" /> 
     </asp:Panel>
+    
+    <uc:PackageBarcodeUserControl ID="ucPackageBarcode" runat="server" />
     
     <table border="0">
         <tr>
             <td>
-                <asp:Label ID="Label_code" runat="server" AssociatedControlID="TextBox_Code" Text="Package Code:" />
+                <asp:Label ID="lblReceiveDate" runat="server" 
+                        AssociatedControlID="txtReceiveDate" Text="Receive Date:" />
             </td>
             <td>
-                <asp:TextBox ID="TextBox_Code" runat="server"></asp:TextBox>
-
-            </td>
-        </tr>
-
-        <tr>
-            <td> <%-- width="100" --%>
-                <asp:Label ID="lblPackageType" runat="server" Text="Package Type:" />
-            </td>
-            <td>
-                    
-                <asp:TextBox ID="TextBox_Type" runat="server" ReadOnly="true"></asp:TextBox>
-                    
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <asp:Label ID="lblExpirationDate" runat="server" AssociatedControlID="TextBox_Expiration" Text="Expiration Date:" />
-            </td>
-            <td>
-                <asp:TextBox ID="TextBox_Expiration" runat="server" ReadOnly="true"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <asp:Label ID="lblLocation" runat="server" AssociatedControlID="TextBox_From" Text="Coming From:" />
-            </td>
-            <td>
-                <asp:TextBox ID="TextBox_From" runat="server" ReadOnly="true"></asp:TextBox>
+                <asp:TextBox ID="txtReceiveDate" runat="server" MaxLength="10" Width="90px" TabIndex="1" CssClass="datepicker" data="{ altFormat: 'yy-mm-dd'}" ReadOnly="true" />
             </td>
         </tr>
         
     </table>
 
     <asp:Button ID="btnSave" runat="server" CssClass="fd-add" ValidationGroup="userDetails" CausesValidation="true" Text="Check In" OnClick="btnSave_OnClick" />
-    <!-- <asp:Button runat="server" ID="btnClose" CausesValidation="false" Text="Close" OnClick="btnClose_OnClick"/>  -->
-    <asp:Button ID="btnNext" runat="server" CssClass="fd-add" ValidationGroup="" CausesValidation="false" Text="Cancel" OnClick="cancel_OnClick" />
+    <asp:Button runat="server" ID="btnClose" CausesValidation="false" Text="Close" OnClick="btnClose_OnClick"/>
 </asp:Content>
 
 
