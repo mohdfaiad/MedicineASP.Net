@@ -443,6 +443,7 @@ namespace ENetCare.Repository
                         transit.DateReceived = Convert.ToDateTime(reader["DateCancelled"]);
                     }
 
+                    allTransits.Add(transit);
                 }
             }
             return allTransits;
