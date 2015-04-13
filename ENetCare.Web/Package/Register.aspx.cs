@@ -15,21 +15,22 @@ namespace ENetCare.Web
     public partial class Register : System.Web.UI.Page
     {
         private PackageService _packageService;
+        private EmployeeService _employeeService;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             IPackageRepository packageRepository = new PackageRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             _packageService = new PackageService(packageRepository);
-            
+
+            IEmployeeRepository repository = new EmployeeRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
+            _employeeService = new EmployeeService(repository);
+     
             ImageBarcode.Visible = false;
             btnNext.Enabled = false;
             
             if (!Page.IsPostBack)
             {
-                IEmployeeRepository repository = new EmployeeRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
-                var employeeService = new EmployeeService(repository);
-
-                var centres = employeeService.GetAllDistributionCentres();
+                var centres = _employeeService.GetAllDistributionCentres();
 
                 ddlLocation.DataTextField = "Name";
                 ddlLocation.DataValueField = "CentreId";
@@ -46,9 +47,6 @@ namespace ENetCare.Web
                 ddlPackageType.DataValueField = "PackageTypeId";
                 ddlPackageType.DataSource = packageTypes;
                 ddlPackageType.DataBind();
-
-                ViewState["PackageTypes"] = packageTypes;
-                ViewState["DistributionCentres"] = centres;
             }
         }
 
@@ -60,12 +58,9 @@ namespace ENetCare.Web
                 return;
             }
 
-            var packageTypes = (List<StandardPackageType>) ViewState["PackageTypes"];
-
             int selectedPackageTypeId = int.Parse(ddlPackageType.SelectedValue);
 
-            StandardPackageType selectedPackageType =
-                packageTypes.FirstOrDefault(p => p.PackageTypeId == selectedPackageTypeId);
+            StandardPackageType selectedPackageType = _packageService.GetStandardPackageType(selectedPackageTypeId);
 
             DateTime expirationDate = _packageService.CalculateExpirationDate(selectedPackageType, DateTime.Today);
 
@@ -84,19 +79,14 @@ namespace ENetCare.Web
                 litErrorMessage.Text = "There are errors";
                 return;
             }
-
-            var packageTypes = (List<StandardPackageType>) ViewState["PackageTypes"];
+            
             int selectedPackageTypeId = int.Parse(ddlPackageType.SelectedValue);
 
-            StandardPackageType selectedPackageType =
-                packageTypes.FirstOrDefault(p => p.PackageTypeId == selectedPackageTypeId);
-
-            var centres = (List<DistributionCentre>) ViewState["DistributionCentres"];
+            StandardPackageType selectedPackageType = _packageService.GetStandardPackageType(selectedPackageTypeId);
 
             int selectedCentreId = int.Parse(ddlLocation.SelectedValue);
 
-            DistributionCentre selectedCentre =
-                centres.FirstOrDefault(c => c.CentreId == selectedCentreId);
+            DistributionCentre selectedCentre = _employeeService.GetDistributionCentre(selectedCentreId);
 
             DateTime expirationDate = DateTime.Parse(Request.Form[txtExpirationDate.UniqueID]);
             SetExpirationDateTextBox(expirationDate);

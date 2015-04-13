@@ -51,13 +51,6 @@
             </td>
             <td>
                 <asp:TextBox ID="txtExpirationDate" runat="server" MaxLength="10" Width="90px" TabIndex="1" CssClass="datepicker" data="{ altField: '#hidExpirationDate', altFormat: 'yy-mm-dd'}" ReadOnly="true" />
-                <input type="hidden" id="hidExpirationDate" name="hidExpirationDate" runat="server" />
-                <asp:RequiredFieldValidator ID="valReqExpirationDate" runat="server" 
-                    ControlToValidate="txtExpirationDate" 
-                    ValidationGroup="userDetails"
-                    Display="None" EnableClientScript="false" SetFocusOnError="true"
-                    Text="*"
-                    ErrorMessage="Please enter an Expiration Date" />
             </td>
         </tr>
         <tr>
