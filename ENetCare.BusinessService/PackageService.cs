@@ -123,23 +123,20 @@ namespace ENetCare.BusinessService
                 receiveResult.Success = false;
                 return receiveResult;
             }
-            List<PackageTransit> activeTransits = _packageRepository.GetActiveTransitsByPackage(package);
-            if (activeTransits.Count() == 0)                         // Case: not found
+            PackageTransit activeTransit = _packageRepository.GetTransit(package, null);
+
+            // If there is an active transit set Date Received or Date Cancelled and update
+            // Even if there is no transit record the receive should still work
+            if (activeTransit != null)
             {
-                receiveResult.ErrorMessage = TransitResult.TransitNotFound;
-                receiveResult.Success = false;
-                return receiveResult;
+                if (activeTransit.ReceiverCentre.CentreId == receiverCentre.CentreId)
+                    activeTransit.DateReceived = date;
+                else
+                    activeTransit.DateCancelled = date; // something went wrong with the transit so just cancel it
+
+                _packageRepository.UpdateTransit(activeTransit);
             }
-            if (activeTransits.Count() > 1)                         // Case: many found
-            {
-                receiveResult.ErrorMessage = TransitResult.MoreThanOneTransitForPackage;
-                receiveResult.Success = false;
-                return receiveResult;
-            }
-            PackageTransit transit = activeTransits.ElementAt(0);   // get the only item found
-            if (receiverCentre!=transit.ReceiverCentre) receiveResult.ErrorMessage = TransitResult.WrongReceiver;
-            transit.DateReceived = DateTime.Today;                  // set transit as received
-            _packageRepository.UpdateTransit(transit);              // update transits DB
+
             package.CurrentStatus = PackageStatus.InStock;          // set packagestatus
             package.CurrentLocation = receiverCentre;               // set package location
             _packageRepository.Update(package);                     // update packages DB

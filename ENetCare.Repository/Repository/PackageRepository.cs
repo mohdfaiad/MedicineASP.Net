@@ -45,7 +45,7 @@ namespace ENetCare.Repository.Repository
             {
                 connection.Open();
 
-                DataAccess.UpdateTransit(connection, transit);
+                DataAccess.UpdatePackageTransit(connection, transit);
             }
             return;
         }
@@ -146,20 +146,9 @@ namespace ENetCare.Repository.Repository
                 connection.Open();
 
                 packageTransit = DataAccess.GetPackageTransit(connection, package, receiver);
-
-                //packageTransit.Package= DataAccess.GetPackage(connection, package.PackageId, package.BarCode);
-                
-                //DistributionCentre distributionCenter = DataAccess.GetDistributionCentre(connection, package.CurrentLocation.CentreId);
-                
+              
                 if (packageTransit == null)
                     return null;
-                //
-                //
-                //
-                //
-                //
-                //
-                //
             }
             return packageTransit;
         }
