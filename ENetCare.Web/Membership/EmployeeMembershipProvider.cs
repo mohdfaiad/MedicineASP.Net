@@ -73,8 +73,8 @@ namespace ENetCare.Web.Membership
         public override bool ValidateUser(string username, string password)
         {
             var employee = _employeeService.Retrieve(username);
-            
-            return employee == null || employee.Password != EncodePassword(password) ? false : true;
+            //return true;
+             return employee == null || employee.Password != EncodePassword(password) ? false : true;
         }
 
         /// <summary>

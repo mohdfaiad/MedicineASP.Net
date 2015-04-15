@@ -60,6 +60,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="About.aspx" />
     <Content Include="ChangeEmployeePassword.aspx" />
     <Content Include="ErrorPages\GenericError.aspx" />
     <Content Include="ErrorPages\MissingResource.aspx" />
@@ -85,8 +86,10 @@
     <Content Include="Package\ReceivePackage.aspx" />
     <Content Include="Package\Register.aspx" />
     <Content Include="Package\Send.aspx" />
+    <Content Include="Public\Images\enetcare08small.png" />
     <Content Include="Public\Images\ENetLogo.png" />
     <Content Include="Public\Images\Icons\date.png" />
+    <Content Include="Public\Images\enetcare05small.png" />
     <Content Include="Public\Images\menu_main_bg.gif" />
     <Content Include="Public\Images\menu_sub_bg.gif" />
     <Content Include="Public\Login.aspx" />
@@ -104,13 +107,22 @@
     <Content Include="Report\DistributionCentreStock.aspx" />
     <Content Include="Report\DoctorActivity.aspx" />
     <Content Include="Report\GlobalStock.aspx" />
+    <Content Include="Report\Stocktacking.aspx" />
     <Content Include="Report\ValueInTransit.aspx" />
+    <Content Include="TablesEditor.aspx" />
     <Content Include="TestPage.html" />
     <Content Include="Training.aspx" />
     <Content Include="UserControl\PackageBarcode.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.aspx.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="About.aspx.designer.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ChangeEmployeePassword.aspx.cs">
       <DependentUpon>ChangeEmployeePassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -241,12 +253,26 @@
     <Compile Include="Report\GlobalStock.aspx.designer.cs">
       <DependentUpon>GlobalStock.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Report\Stocktacking.aspx.cs">
+      <DependentUpon>Stocktacking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\Stocktacking.aspx.designer.cs">
+      <DependentUpon>Stocktacking.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Report\ValueInTransit.aspx.cs">
       <DependentUpon>ValueInTransit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Report\ValueInTransit.aspx.designer.cs">
       <DependentUpon>ValueInTransit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TablesEditor.aspx.cs">
+      <DependentUpon>TablesEditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TablesEditor.aspx.designer.cs">
+      <DependentUpon>TablesEditor.aspx</DependentUpon>
     </Compile>
     <Compile Include="Training.aspx.cs">
       <DependentUpon>Training.aspx</DependentUpon>

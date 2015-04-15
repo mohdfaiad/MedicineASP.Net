@@ -6,5 +6,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolderBody" runat="server">
     
-    <h2>Home Page</h2>
+    <h2>Enet Care Management System</h2>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </asp:Content>

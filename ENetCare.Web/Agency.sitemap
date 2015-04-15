@@ -12,8 +12,9 @@
       </siteMapNode>
       <siteMapNode title="Account">
         <siteMapNode title="Edit Employee" url="~/EditEmployee.aspx" />
-        <siteMapNode title="Change Employee Password" url="~/ChangeEmployeePassword.aspx" />
+        <siteMapNode title="Change Password" url="~/ChangeEmployeePassword.aspx" />
         <siteMapNode title="Logout" url="~/Logout.aspx" />
       </siteMapNode>
+      <siteMapNode title="About" url="~/About.aspx" />
     </siteMapNode>
 </siteMap>

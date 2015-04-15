@@ -1,5 +1,5 @@
 ﻿#logo { 
-   float: left; 
+   float:inherit ; 
    width: 10.5em; 
    background: #CCCCCC; 
    padding: 0.5em 0.5em 0.5em 1em;
@@ -12,7 +12,7 @@
 }
 .primaryStaticMenuItem
 {
-   width: 10em;
+   width: 16em;
    background-color: #f7f2ea; 
    border-width: 1px;
    border-color: #efefef #aaab9c #ccc #efefef; 
@@ -34,7 +34,7 @@
 }  
 .primaryDynamicMenuItem
 {
-   width: 10em;
+   width: 16em;
    background-color: #f7f2ea; 
    color: #777;
    padding: 0.5em 0 0.5em 1em;

@@ -7,12 +7,14 @@
         <siteMapNode title="Doctor Activity" url="~/Report/DoctorActivity.aspx" />
         <siteMapNode title="Global Stock" url="~/Report/GlobalStock.aspx" />
         <siteMapNode title="Value In Transit" url="~/Report/ValueInTransit.aspx" />
+        <siteMapNode title="Stocktake" url="~/Report/Stocktaking.aspx" />
       </siteMapNode>
       <siteMapNode title="Account">
         <siteMapNode title="Edit Employee" url="~/EditEmployee.aspx" />
-        <siteMapNode title="Change Employee Password" url="~/ChangeEmployeePassword.aspx" />
+        <siteMapNode title="Change Password" url="~/ChangeEmployeePassword.aspx" />
         <siteMapNode title="Logout" url="~/Logout.aspx" />
       </siteMapNode>
       <siteMapNode url="~/Training.aspx" title="Manager Training"  description="" />
+      <siteMapNode title="About" url="~/About.aspx" />
     </siteMapNode>
 </siteMap>
