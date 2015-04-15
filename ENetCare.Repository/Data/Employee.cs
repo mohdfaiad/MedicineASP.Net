@@ -18,7 +18,7 @@ namespace ENetCare.Repository.Data
 
         public override string ToString()
         {
-            return "Id)" + EmployeeId + " / " + FullName + " / " + EmailAddress + " / at: " + Location.ToString() + 
+            return "Id)" + EmployeeId + " (" + EmployeeType + ") " + FullName + " / " + EmailAddress + " / at: " + Location.ToString() + 
                             " / (User:" +  UserName + " ,pass: " + Password + ")";
         }
     }
