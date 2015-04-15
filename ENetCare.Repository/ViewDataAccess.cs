@@ -220,5 +220,39 @@ namespace ENetCare.Repository
             }
             return packageList;
         }
+
+
+
+
+        public static List<StocktakingPackage> GetStocktaking(SqlConnection connection, int CentreId)
+        {
+            string query = "select PackageTypeId, PackageTypeDescription, CostPerPackage, NumberOfPackages, TotalValue " +
+                            "from GlobalStock WHERE CurrentLocationCentreId=" + CentreId +  " order by PackageTypeId";
+            List<StocktakingPackage> stocks = new List<StocktakingPackage>();
+            var cmd = new SqlCommand(query);
+            cmd.Connection = connection;
+            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while (reader.Read())
+                {
+                    var stock = new StocktakingPackage();
+                    if (reader["PackageTypeId"] != DBNull.Value)
+                        stock.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
+                    if (reader["PackageTypeDescription"] != DBNull.Value)
+                        stock.PackageTypeDescription = (string)reader["PackageTypeDescription"];
+                    if (reader["CostPerPackage"] != DBNull.Value)
+                        stock.CostPerPackage = Convert.ToDecimal(reader["CostPerPackage"]);
+                    if (reader["NumberOfPackages"] != DBNull.Value)
+                        stock.NumberOfPackages = Convert.ToInt32(reader["NumberOfPackages"]);
+                    if (reader["TotalValue"] != DBNull.Value)
+                        stock.TotalValue = Convert.ToDecimal(reader["TotalValue"]);
+                    stocks.Add(stock);
+                }
+            }
+
+            return stocks;
+        }
+
+
     }
 }

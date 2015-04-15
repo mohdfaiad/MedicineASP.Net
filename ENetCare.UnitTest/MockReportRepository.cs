@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ENetCare.Repository.ViewData;
 using ENetCare.Repository;
+using ENetCare.Repository.Data;
 
 namespace ENetCare.UnitTest
 {
@@ -57,6 +58,11 @@ namespace ENetCare.UnitTest
         }
 
         public List<GlobalStock> GetGlobalStock()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<StocktakingPackage> GetStocktaking(int CentreId)
         {
             throw new NotImplementedException();
         }

@@ -38,6 +38,11 @@ namespace ENetCare.BusinessService
             return _reportRepository.GetGlobalStock();
         }
 
+        public List<StocktakingPackage> GetStocktaking(int CentreId)
+        {
+            return _reportRepository.GetStocktaking(CentreId);
+        }
+  
         public List<ValueInTransit> GetValueInTransit()
         {
             return _reportRepository.GetValueInTransit();
@@ -47,5 +52,8 @@ namespace ENetCare.BusinessService
         {
             return _reportRepository.GetReconciledPackages(currentLocation, packageType, barCodeList);
         }
+
+
+
     }
 }

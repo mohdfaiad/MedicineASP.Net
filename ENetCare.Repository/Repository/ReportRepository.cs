@@ -91,5 +91,19 @@ namespace ENetCare.Repository.Repository
             }
             return packageList;
         }
+
+
+        public List<StocktakingPackage> GetStocktaking(int CentreId)
+        {
+            List<StocktakingPackage> packageList = null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                packageList = ViewDataAccess.GetStocktaking(connection, CentreId);
+            }
+            return packageList;
+        }
+
+
     }
 }

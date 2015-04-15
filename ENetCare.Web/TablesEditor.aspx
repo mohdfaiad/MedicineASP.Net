@@ -43,7 +43,7 @@
         </asp:SqlDataSource>
         <br />
 
-        <hr><h2>Emloyees</h2>
+        <hr/><h2>Emloyees</h2>
         <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" DataKeyNames="EmployeeId" DataSourceID="SqlDataSource2" EmptyDataText="There are no data records to display." AllowSorting="True">
             <Columns>
                 <asp:CommandField ShowEditButton="True" />
@@ -191,7 +191,7 @@
         </asp:SqlDataSource>
         <br />
 
-        <hr><h2>Audit Package</h2>
+        <hr/><h2>Audit Package</h2>
         <asp:GridView ID="GridView6" runat="server" AllowSorting="True" AutoGenerateColumns="False" DataSourceID="SqlDataSource6" EmptyDataText="There are no data records to display.">
             <Columns>
                 <asp:BoundField DataField="AuditPackageId" HeaderText="AuditPackageId" ReadOnly="True" SortExpression="AuditPackageId" />
@@ -202,7 +202,7 @@
         <asp:SqlDataSource ID="SqlDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:ENetCare %>" ProviderName="<%$ ConnectionStrings:ENetCare.ProviderName %>" SelectCommand="SELECT [AuditPackageId], [AuditId], [PackageId] FROM [AuditPackage]"></asp:SqlDataSource>
         <br />
 
-        <hr><h2>Audits</h2>
+        <hr/><h2>Audits</h2>
         <asp:GridView ID="GridView7" runat="server" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="AuditId" DataSourceID="SqlDataSource7" EmptyDataText="There are no data records to display.">
             <Columns>
                 <asp:CommandField ShowEditButton="True" />

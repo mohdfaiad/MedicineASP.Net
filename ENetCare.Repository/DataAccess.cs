@@ -297,10 +297,12 @@ namespace ENetCare.Repository
             return packageTypes;
         }
 
-        public static List<Package> GetAllPackages(SqlConnection connection)
+        public static List<Package> GetAllPackages(SqlConnection connection, DistributionCentre Location=null)
         {                                                          // Added by Pablo on 24-03-15
             Package package = null;
             string query = "SELECT PackageId, BarCode, ExpirationDate, PackageTypeId, CurrentLocationCentreId, CurrentStatus, DistributedByEmployeeId FROM Package ";
+            if (Location!=null) query += " WHERE CurrentLocationCenterId=" + Location.CentreId;
+
             var cmd = new SqlCommand(query);
             List<Package> allPackages = new List<Package>();
             cmd.Connection = connection;
@@ -393,7 +395,7 @@ namespace ENetCare.Repository
                                 "DateSent = @DateSent, "+
                                 "DateReceived = @DateReceived,"+
                                 "DateCancelled = @DateCancelled "+
-                            "WHERE TransitId = @TransitId";
+                            " WHERE TransitId = @TransitId";
 
             using (var cmd = new SqlCommand(cmdStr, connection))
             {

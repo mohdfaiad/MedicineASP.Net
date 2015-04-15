@@ -66,6 +66,7 @@
     <Compile Include="ViewData\DoctorActivity.cs" />
     <Compile Include="ViewData\GlobalStock.cs" />
     <Compile Include="ViewData\ReconciledPackage.cs" />
+    <Compile Include="ViewData\StocktakingPackage.cs" />
     <Compile Include="ViewData\ValueInTransit.cs" />
   </ItemGroup>
   <ItemGroup />
