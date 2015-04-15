@@ -77,7 +77,7 @@ namespace ENetCare.Repository
                 cmd.Parameters.AddWithValue("@ReceiverCentre", SqlDbType.Int).Value = (int)transit.ReceiverCentre.CentreId;
                 cmd.Parameters.AddWithValue("@DateSent", SqlDbType.Date).Value = (DateTime)transit.DateSent;
                 cmd.Parameters.AddWithValue("@DateReceived", SqlDbType.Date).Value = (DateTime)transit.DateReceived;
-                cmd.Parameters.AddWithValue("@DateReceived", SqlDbType.Date).Value = (DateTime)transit.DateCancelled;
+                cmd.Parameters.AddWithValue("@DateCancelled", SqlDbType.Date).Value = (DateTime)transit.DateCancelled;
                 int effected = cmd.ExecuteNonQuery();                
             }
 
@@ -375,7 +375,7 @@ namespace ENetCare.Repository
                 cmd.Parameters.Add("@ReceiverCentre", SqlDbType.Int).Value = (int)packageT.ReceiverCentre.CentreId;
                 cmd.Parameters.Add("@DateSent", SqlDbType.Date).Value = (DateTime)packageT.DateSent;
                 cmd.Parameters.Add("@DateReceived", SqlDbType.Date).Value = (DateTime)packageT.DateReceived;
-                cmd.Parameters.Add("@DateReceived", SqlDbType.Date).Value = (DateTime)packageT.DateCancelled;
+                cmd.Parameters.Add("@DateCancelled", SqlDbType.Date).Value = (DateTime)packageT.DateCancelled;
                 cmd.Parameters.Add("@newId", SqlDbType.Int).Direction = ParameterDirection.Output;
             }
             cmd.CommandType = CommandType.Text;
@@ -386,13 +386,13 @@ namespace ENetCare.Repository
 
         public static void UpdatePackageTransit(SqlConnection connection, PackageTransit transit)
         {            // Define Insert Query with Parameter
-            string cmdStr = "UPDATE dbo.PackageTransit" +
-                           "SET PackageId = @PackageId,"+
-                                "SenderCentreId = @SenderCentreId,"+
-                                "ReceiverCentreId = @ReceiverCentreId,"+
-                                "DateSent = @DateSent,"+
+            string cmdStr = "UPDATE dbo.PackageTransit " +
+                           "SET PackageId = @PackageId, "+
+                                "SenderCentreId = @SenderCentreId, "+
+                                "ReceiverCentreId = @ReceiverCentreId, "+
+                                "DateSent = @DateSent, "+
                                 "DateReceived = @DateReceived,"+
-                                "DateCancelled = @DateCancelled"+
+                                "DateCancelled = @DateCancelled "+
                             "WHERE TransitId = @TransitId";
 
             using (var cmd = new SqlCommand(cmdStr, connection))
@@ -400,9 +400,9 @@ namespace ENetCare.Repository
                 cmd.Parameters.AddWithValue("@PackageId", transit.Package.PackageId);
                 cmd.Parameters.AddWithValue("@SenderCentreId", transit.SenderCentre.CentreId);
                 cmd.Parameters.AddWithValue("@ReceiverCentreId", transit.ReceiverCentre.CentreId);
-                cmd.Parameters.AddWithValue("@DateSent", DateTime.Today);
-                cmd.Parameters.AddWithValue("@DateReceived",transit.DateReceived == null ? DBNull.Value : (object)transit.DateReceived );
-                cmd.Parameters.AddWithValue("@DateCancelled", transit.DateCancelled == null ? DBNull.Value : (object)transit.DateCancelled);
+                cmd.Parameters.AddWithValue("@DateSent", transit.DateSent);
+                cmd.Parameters.AddWithValue("@DateReceived",transit.DateReceived == null ? DBNull.Value : (object)transit.DateReceived.Value);
+                cmd.Parameters.AddWithValue("@DateCancelled", transit.DateCancelled == null ? DBNull.Value : (object)transit.DateCancelled.Value);
                 cmd.Parameters.AddWithValue("@TransitId", transit.TransitId);
 
                 int effected = cmd.ExecuteNonQuery();
@@ -451,28 +451,37 @@ namespace ENetCare.Repository
         
           
         
-        public static PackageTransit GetPackageTransit(SqlConnection connection,Package package, DistributionCentre reciever)
+        public static PackageTransit GetPackageTransit(SqlConnection connection,Package package, DistributionCentre receiver)
         {
             PackageTransit packageTransit = null;
             // Define Update Query with Parameter
-            string query = "SELECT PackageId, SenderCentreId, ReceiverCentreId," +
+            string query = "SELECT TransitId, PackageId, SenderCentreId, ReceiverCentreId, " +
                               "DateSent, DateReceived, DateCancelled " +
-                            "FROM dbo.PackageTransit" +
-                            "WHERE PackageId = @PackageId and" +
-                              "ReceiverCentreId = @ReceiverCentreId" +
-                              "and DateReceived is null";
+                            "FROM dbo.PackageTransit " +
+                            "WHERE PackageId = @PackageId and " +
+                              "ReceiverCentreId = ISNULL(@ReceiverCentreId, ReceiverCentreId) " +
+                              "and DateReceived is null and DateCancelled is null";
 
             var cmd = new SqlCommand(query);
             cmd.Connection = connection;
+
+            cmd.Parameters.AddWithValue("@PackageId", package.PackageId);            
+            cmd.Parameters.AddWithValue("@ReceiverCentreId", receiver == null ? DBNull.Value : (object)receiver.CentreId);
 
             using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
             {
                 if (reader.Read())
                 {
                     packageTransit = new PackageTransit();
-                    packageTransit.TransitId = Convert.ToInt32(reader["transitId"]);
+                    packageTransit.TransitId = Convert.ToInt32(reader["TransitId"]);
+
+                    packageTransit.Package = new Package();
                     packageTransit.Package.PackageId = Convert.ToInt32(reader["PackageId"]);
+
+                    packageTransit.SenderCentre = new DistributionCentre();
                     packageTransit.SenderCentre.CentreId = Convert.ToInt32(reader["SenderCentreId"]);
+
+                    packageTransit.ReceiverCentre = new DistributionCentre();
                     packageTransit.ReceiverCentre.CentreId = Convert.ToInt32(reader["ReceiverCentreId"]);
                     packageTransit.DateSent = Convert.ToDateTime(reader["DateSent"]);
                     if (reader["DateReceived"] != DBNull.Value)
@@ -481,7 +490,7 @@ namespace ENetCare.Repository
                     }
                     if (reader["DateCancelled"] != DBNull.Value)
                     {
-                        packageTransit.DateReceived = Convert.ToDateTime(reader["DateCancelled"]);
+                        packageTransit.DateCancelled = Convert.ToDateTime(reader["DateCancelled"]);
                     }
                 }
             }

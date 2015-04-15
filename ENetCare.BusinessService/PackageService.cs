@@ -17,6 +17,12 @@ namespace ENetCare.BusinessService
             _packageRepository = packageRepository;
         }
 
+        /// <summary>
+        /// Calculates Expiration Date based on the Shelf Life settings of the Standard Package Type
+        /// </summary>
+        /// <param name="packageType"></param>
+        /// <param name="startDate"></param>
+        /// <returns></returns>
         public DateTime CalculateExpirationDate(StandardPackageType packageType, DateTime startDate)
         {
             if (packageType == null)
@@ -28,6 +34,15 @@ namespace ENetCare.BusinessService
                 return startDate.AddDays(packageType.ShelfLifeUnits);
         }
 
+        /// <summary>
+        /// Registers and Creates new Packages of a Standard Packahe Type for a given location and
+        /// has the specified expiration date. The Barcode is generated from the Package Type Id, Expiration Date and Package Id
+        /// </summary>
+        /// <param name="packageType"></param>
+        /// <param name="location"></param>
+        /// <param name="expirationDate"></param>
+        /// <param name="barcode"></param>
+        /// <returns></returns>
         public Result Register(StandardPackageType packageType, DistributionCentre location, DateTime expirationDate, out string barcode)
         {
             var result = new Result
@@ -52,6 +67,11 @@ namespace ENetCare.BusinessService
             return result;
         }
 
+        /// <summary>
+        /// Retrieve a package from its barcode
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <returns></returns>
         public Package Retrieve(string barcode)
         {
             if (string.IsNullOrEmpty(barcode))
@@ -60,11 +80,20 @@ namespace ENetCare.BusinessService
             return _packageRepository.Get(null, barcode);
         }
 
+        /// <summary>
+        /// List all the Standard Package Types in the database
+        /// </summary>
+        /// <returns></returns>
         public List<StandardPackageType> GetAllStandardPackageTypes()
         {
             return _packageRepository.GetAllStandardPackageTypes();
         }
 
+        /// <summary>
+        /// Returns one Standard Package Type from its id
+        /// </summary>
+        /// <param name="packageId"></param>
+        /// <returns></returns>
         public StandardPackageType GetStandardPackageType(int packageId)
         {
             return _packageRepository.GetStandardPackageType(packageId);
@@ -123,23 +152,20 @@ namespace ENetCare.BusinessService
                 receiveResult.Success = false;
                 return receiveResult;
             }
-            List<PackageTransit> activeTransits = _packageRepository.GetActiveTransitsByPackage(package);
-            if (activeTransits.Count() == 0)                         // Case: not found
+            PackageTransit activeTransit = _packageRepository.GetTransit(package, null);
+
+            // If there is an active transit set Date Received or Date Cancelled and update
+            // Even if there is no transit record the receive should still work
+            if (activeTransit != null)
             {
-                receiveResult.ErrorMessage = TransitResult.TransitNotFound;
-                receiveResult.Success = false;
-                return receiveResult;
+                if (activeTransit.ReceiverCentre.CentreId == receiverCentre.CentreId)
+                    activeTransit.DateReceived = date;
+                else
+                    activeTransit.DateCancelled = date; // something went wrong with the transit so just cancel it
+
+                _packageRepository.UpdateTransit(activeTransit);
             }
-            if (activeTransits.Count() > 1)                         // Case: many found
-            {
-                receiveResult.ErrorMessage = TransitResult.MoreThanOneTransitForPackage;
-                receiveResult.Success = false;
-                return receiveResult;
-            }
-            PackageTransit transit = activeTransits.ElementAt(0);   // get the only item found
-            if (receiverCentre!=transit.ReceiverCentre) receiveResult.ErrorMessage = TransitResult.WrongReceiver;
-            transit.DateReceived = DateTime.Today;                  // set transit as received
-            _packageRepository.UpdateTransit(transit);              // update transits DB
+
             package.CurrentStatus = PackageStatus.InStock;          // set packagestatus
             package.CurrentLocation = receiverCentre;               // set package location
             _packageRepository.Update(package);                     // update packages DB
@@ -242,6 +268,14 @@ namespace ENetCare.BusinessService
             return result;
         }
 
+        /// <summary>
+        /// For a given Standard Package Type and a list of scanned barcodes work out which packages are Lost
+        /// and which packages have been found. Tidy up the transit rows for packages for newly found packages.
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <param name="packageType"></param>
+        /// <param name="barCodes"></param>
+        /// <returns></returns>
         public Result PerformAudit(Employee employee, StandardPackageType packageType, List<string> barCodes)
         {
             Result result = new Result
