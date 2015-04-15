@@ -81,14 +81,14 @@ namespace ENetCare.Repository
             string queryFirstBit = "INSERT Employee VALUES (";
             string queryLastBit = ")";
             string[] ins = new string[8];
-            ins[0] = "'fsmith', 'password', 'Fred Smith', 'fsmith@EnetCare.com.au', 'AGENT', 1";
-            ins[1] = "'jbrown', 'password', 'John Brown', 'jbrown@EnetCare.com.au', 'DOCTOR', 2";
-            ins[2] = "'sbrown', 'password', 'Sam Brown', 'sbrown@EnetCare.com.au', 'DOCTOR', 3";
-            ins[3] = "'hrogers', 'password', 'Harry Rogers', 'hrogers@EnetCare.com.au', 'MANAGER', 4";
-            ins[4] = "'ben',   'password', 'Ben',   'Ben@EnetCare.com.au',   'AGENT', 11";
-            ins[5] = "'ramin', 'password', 'Ramin', 'Ramin@EnetCare.com.au', 'AGENT', 12";
-            ins[6] = "'ihab',  'password', 'Ihab',  'Ihab@EnetCare.com.au',  'AGENT', 13";
-            ins[7] = "'pablo', 'password', 'Pablo', 'Pablo@EnetCare.com.au', 'AGENT', 14";
+            ins[0] = "'fsmith',  'V1v8i+S2L8gm+v9o/PNE9z+Bngc=', 'Fred Smith', 'fsmith@EnetCare.com.au', 'AGENT', 1";
+            ins[1] = "'jbrown',  'V1v8i+S2L8gm+v9o/PNE9z+Bngc=', 'John Brown', 'jbrown@EnetCare.com.au', 'DOCTOR', 2";
+            ins[2] = "'sbrown',  'V1v8i+S2L8gm+v9o/PNE9z+Bngc=', 'Sam Brown', 'sbrown@EnetCare.com.au', 'DOCTOR', 3";
+            ins[3] = "'hrogers', 'V1v8i+S2L8gm+v9o/PNE9z+Bngc=', 'Harry Rogers', 'hrogers@EnetCare.com.au', 'MANAGER', 4";
+            ins[4] = "'ben',     'V1v8i+S2L8gm+v9o/PNE9z+Bngc=', 'Ben',   'Ben@EnetCare.com.au',   'AGENT', 11";
+            ins[5] = "'ramin',   'V1v8i+S2L8gm+v9o/PNE9z+Bngc=', 'Ramin', 'Ramin@EnetCare.com.au', 'AGENT', 12";
+            ins[6] = "'ihab',    'V1v8i+S2L8gm+v9o/PNE9z+Bngc=', 'Ihab',  'Ihab@EnetCare.com.au',  'AGENT', 13";
+            ins[7] = "'pablo',   'V1v8i+S2L8gm+v9o/PNE9z+Bngc=', 'Pablo', 'Pablo@EnetCare.com.au', 'AGENT', 14";
             foreach (string queryVals in ins)
             {
                 string query = queryFirstBit + queryVals + queryLastBit;
