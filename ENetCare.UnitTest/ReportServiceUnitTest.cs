@@ -18,6 +18,7 @@ namespace ENetCare.UnitTest
     [TestClass]
     public class ReportServiceUnitTest
     {
+        private string connString = "Data Source=.\\SQLEXPRESS;Initial Catalog=ENetCare;Integrated Security=True;MultipleActiveResultSets=True";
 
         public ReportServiceUnitTest()
         {
@@ -49,29 +50,25 @@ namespace ENetCare.UnitTest
         }
 
         [TestMethod]
-        public void TestMockGetStocktaking()
+        public void TestReport_MockStocktaking()
         {
             MockReportRepository repo = new MockReportRepository();
             ReportService _reportService = new ReportService(repo);
-            //Employee user = MockDataAccess.GetEmployee(2);
-            //DistributionCentre centre = user.Location;
-            List<StocktakingPackage> list = _reportService.GetStocktaking(4);
-            foreach (StocktakingPackage p in list) Debug.WriteLine(p);
-            Debug.WriteLine("number of items: " + list.Count());
-            Assert.AreEqual(4, 4);
+            List<StocktakingPackage> spList = _reportService.GetStocktaking(4);
+            foreach (StocktakingPackage p in spList) Debug.WriteLine(p);
+            Debug.WriteLine("Number of items: " + spList.Count());
+            Assert.IsTrue(spList.Count() > 0); 
         }
 
         [TestMethod]
-        public void TestGetStocktaking()
+        public void TestReport_Stocktaking()
         {
-            string connS = "Data Source=.\\SQLEXPRESS;Initial Catalog=ENetCare;Integrated Security=True;MultipleActiveResultSets=True";
-            ReportRepository repo = new ReportRepository(connS);
+            ReportRepository repo = new ReportRepository(connString);
             ReportService _reportService = new ReportService(repo);
-            Employee user = MockDataAccess.GetEmployee(4);
-            DistributionCentre centre = user.Location;
-            List<StocktakingPackage> list = _reportService.GetStocktaking(centre.CentreId);
-
-            Assert.AreEqual(4, 4);
+            List<StocktakingPackage> spList = _reportService.GetStocktaking(2);
+            foreach (StocktakingPackage sp in spList) Debug.WriteLine(sp);
+            Debug.WriteLine("Number of items: " + spList.Count());
+            Assert.IsTrue(spList.Count() >0);
         }
 
 

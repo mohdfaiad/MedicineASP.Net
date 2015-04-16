@@ -15,5 +15,8 @@ namespace ENetCare.Repository.ViewData
         public decimal CostPerPackage { get; set; }
         public int CurrentLocationCentreId { get; set; }
         public DateTime ExpirationDate { get; set; }
+
+        public string ToString()
+            { return "Id)"+PackageId+" / "+PackageTypeDescription+ " / "+CostPerPackage+ " / Loc:" + CurrentLocationCentreId; }
     }
 }

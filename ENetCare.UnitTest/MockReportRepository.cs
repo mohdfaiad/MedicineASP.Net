@@ -76,6 +76,7 @@ namespace ENetCare.UnitTest
                     sP.PackageId = p.PackageId;
                     sP.CurrentLocationCentreId = p.CurrentLocation.CentreId;
                     sP.ExpirationDate = p.ExpirationDate;
+                    sList.Add(sP);
                     }
             return sList;
         }

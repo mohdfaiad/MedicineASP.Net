@@ -223,7 +223,7 @@ namespace ENetCare.Repository
 
         public static List<StocktakingPackage> GetStocktaking(SqlConnection connection, int CentreId)
         {
-            string query = "select PackageTypeId, PackageTypeDescription, CostPerPackage, NumberOfPackages, TotalValue " +
+            string query = "select PackageId, BarCode, PackageTypeId, PackageTypeDescription, CostPerPackage, CurrentLocationCentreId, ExpirationDate " +
                             "from StockTaking order by PackageTypeId";
             List<StocktakingPackage> stocks = new List<StocktakingPackage>();
             var cmd = new SqlCommand(query);
