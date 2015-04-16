@@ -15,5 +15,7 @@ namespace ENetCare.Repository.ViewData
         public string DistributionCentreName { get; set; }
         public int NumberOfPackages { get; set; }
         public decimal TotalValue { get; set; }
+
+        public override string ToString() { return "TypeId)"+PackageTypeId+" / "+PackageTypeDescription+" / CentreId)"+DistributionCentreId+" / TotValue:"+TotalValue; }
     }
 }

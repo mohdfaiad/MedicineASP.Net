@@ -15,8 +15,17 @@ namespace ENetCare.Repository.ViewData
         public decimal CostPerPackage { get; set; }
         public int CurrentLocationCentreId { get; set; }
         public DateTime ExpirationDate { get; set; }
+        public int DaysLeft { get; set; }
 
-        public string ToString()
+        public override string ToString()
             { return "Id)"+PackageId+" / "+PackageTypeDescription+ " / "+CostPerPackage+ " / Loc:" + CurrentLocationCentreId; }
+
+        public void setDaysLeft() { DaysLeft = DaysLeftToExpiration(); }
+
+        public int DaysLeftToExpiration()
+        {
+            TimeSpan diff = ExpirationDate.Date - DateTime.Today;
+            return (int)diff.TotalDays;
+        }
     }
 }

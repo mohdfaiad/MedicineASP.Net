@@ -107,7 +107,7 @@
     <Content Include="Report\DistributionCentreStock.aspx" />
     <Content Include="Report\DoctorActivity.aspx" />
     <Content Include="Report\GlobalStock.aspx" />
-    <Content Include="Report\Stocktacking.aspx" />
+    <Content Include="Report\Stocktaking.aspx" />
     <Content Include="Report\ValueInTransit.aspx" />
     <Content Include="TablesEditor.aspx" />
     <Content Include="TestPage.html" />
@@ -253,12 +253,12 @@
     <Compile Include="Report\GlobalStock.aspx.designer.cs">
       <DependentUpon>GlobalStock.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Report\Stocktacking.aspx.cs">
-      <DependentUpon>Stocktacking.aspx</DependentUpon>
+    <Compile Include="Report\Stocktaking.aspx.cs">
+      <DependentUpon>Stocktaking.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Report\Stocktacking.aspx.designer.cs">
-      <DependentUpon>Stocktacking.aspx</DependentUpon>
+    <Compile Include="Report\Stocktaking.aspx.designer.cs">
+      <DependentUpon>Stocktaking.aspx</DependentUpon>
     </Compile>
     <Compile Include="Report\ValueInTransit.aspx.cs">
       <DependentUpon>ValueInTransit.aspx</DependentUpon>

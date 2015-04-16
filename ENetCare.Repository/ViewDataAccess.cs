@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -232,7 +233,7 @@ namespace ENetCare.Repository
             {
                 while (reader.Read())
                 {
-                    int currLocationId = -45;
+                    //int currLocationId = -45;
                     var stock = new StocktakingPackage();
                     if (reader["PackageId"] != DBNull.Value)
                         stock.PackageId = Convert.ToInt32(reader["PackageId"]);
@@ -245,12 +246,14 @@ namespace ENetCare.Repository
                     if (reader["CostPerPackage"] != DBNull.Value)
                         stock.CostPerPackage = Convert.ToDecimal(reader["CostPerPackage"]);
                     if (reader["CurrentLocationCentreId"] != DBNull.Value)
-                        currLocationId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
+                        stock.CurrentLocationCentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
                     if (reader["ExpirationDate"] != DBNull.Value)
                         stock.ExpirationDate = Convert.ToDateTime(reader["ExpirationDate"]);
-                    if(currLocationId==CentreId) stocks.Add(stock);
+                    stock.setDaysLeft();
+                    if(stock.CurrentLocationCentreId==CentreId) stocks.Add(stock);
                 }
             }
+            Debug.WriteLine("ViewDataAccess returns " + stocks.Count() + " items");
             return stocks;
         }
 

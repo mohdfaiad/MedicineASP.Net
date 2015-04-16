@@ -18,7 +18,7 @@ namespace ENetCare.UnitTest
 
 
         [TestMethod]
-        public void TestMockTables()
+        public void TestMockDb_ShowAllTables()
         {
 
             List<DistributionCentre> distList = MockDataAccess.GetAllDistibutionCentres();
@@ -29,16 +29,13 @@ namespace ENetCare.UnitTest
             Debug.WriteLine("\n\n EMPLOYEES : ");
             foreach (Employee emp in employeeList) Debug.WriteLine(emp);
 
-
             List<StandardPackageType> typeList = MockDataAccess.GetAllPackageTypes();
             Debug.WriteLine("\n\n STANDARD PACKAGE TYPES : ");
             foreach (StandardPackageType t in typeList) Debug.WriteLine(t);
 
-
             List<Package> packageList = MockDataAccess.GetAllPackages();
             Debug.WriteLine("\n\n PACKAGES : ");
             foreach (Package p in packageList) Debug.WriteLine(p);
-
 
             List<PackageTransit> transitList = MockDataAccess.GetAllPackageTransits();
             Debug.WriteLine("\n\n PACKAGE TRANSITS : ");

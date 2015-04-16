@@ -13,5 +13,7 @@ namespace ENetCare.Repository.ViewData
         public int LossRatioNumerator { get; set; }
         public int LossRatioDenominator { get; set; }
         public decimal TotalLossDiscardedValue { get; set; }
+
+        public override string ToString() { return "CentreId)" + DistributionCentreId + " / Loss Value :" + TotalLossDiscardedValue;  }
     }
 }

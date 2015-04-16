@@ -26,47 +26,79 @@ namespace ENetCare.UnitTest
         }
 
         [TestMethod]
-        public void TestGetDistributionCentreStock()
+        public void TestReport_Mock_GetDistributionCentreStock()
         {
             IReportRepository reportRepository = new MockReportRepository();
             ReportService reportService = new ReportService(reportRepository);
-
             var stockList = reportService.GetDistributionCentreStock();
 
+            foreach (DistributionCentreStock s in stockList) Debug.WriteLine(s.ToString());
+            Debug.WriteLine("Number of items: " + stockList.Count());
             Assert.AreEqual<int>(1, stockList.Count());
             Assert.AreEqual<decimal>(10, stockList[0].CostPerPackage);
         }
 
         [TestMethod]
-        public void TestGetDistributionCentreLosses()
+        public void TestReport_GetDistributionCentreStock()
+        {
+            ReportRepository reportRepository = new ReportRepository(connString);
+            ReportService reportService = new ReportService(reportRepository);
+            var stockList = reportService.GetDistributionCentreStock();
+
+            foreach (DistributionCentreStock s in stockList) Debug.WriteLine(s.ToString());
+            Debug.WriteLine("Number of items: " + stockList.Count());
+            Assert.IsTrue(stockList.Count()>0);
+            //Assert.AreEqual<int>(1, stockList.Count());
+            //Assert.AreEqual<decimal>(10, stockList[0].CostPerPackage);
+        }
+
+        [TestMethod]
+        public void TestReport_Mock_GetDistributionCentreLosses()
         {
             IReportRepository reportRepository = new MockReportRepository();
             ReportService reportService = new ReportService(reportRepository);
-
             var lossesList = reportService.GetDistributionCentreLosses();
 
+            foreach (DistributionCentreLosses l in lossesList) Debug.WriteLine(l.ToString());
+            Debug.WriteLine("Number of items: " + lossesList.Count());
             Assert.AreEqual<int>(1, lossesList.Count());
             Assert.AreEqual<decimal>(15, lossesList[0].LossRatioDenominator);
         }
 
         [TestMethod]
-        public void TestReport_MockStocktaking()
+        public void TestReport_GetDistributionCentreLosses()
+        {
+            ReportRepository reportRepository = new ReportRepository(connString);
+            ReportService reportService = new ReportService(reportRepository);
+            var lossesList = reportService.GetDistributionCentreLosses();
+
+            foreach (DistributionCentreLosses l in lossesList) Debug.WriteLine(l.ToString());
+            Debug.WriteLine("Number of items: " + lossesList.Count());
+            Assert.IsTrue(lossesList.Count()>0);
+            //Assert.AreEqual<int>(1, lossesList.Count());
+            //Assert.AreEqual<decimal>(15, lossesList[0].LossRatioDenominator);
+        }
+
+        [TestMethod]
+        public void TestReport_Mock_GetStocktaking()
         {
             MockReportRepository repo = new MockReportRepository();
             ReportService _reportService = new ReportService(repo);
             List<StocktakingPackage> spList = _reportService.GetStocktaking(4);
-            foreach (StocktakingPackage p in spList) Debug.WriteLine(p);
+
+            foreach (StocktakingPackage p in spList) Debug.WriteLine(p.ToString());
             Debug.WriteLine("Number of items: " + spList.Count());
             Assert.IsTrue(spList.Count() > 0); 
         }
 
         [TestMethod]
-        public void TestReport_Stocktaking()
+        public void TestReport_GetStocktaking()
         {
             ReportRepository repo = new ReportRepository(connString);
             ReportService _reportService = new ReportService(repo);
-            List<StocktakingPackage> spList = _reportService.GetStocktaking(2);
-            foreach (StocktakingPackage sp in spList) Debug.WriteLine(sp);
+            List<StocktakingPackage> spList = _reportService.GetStocktaking(1);
+
+            foreach (StocktakingPackage sp in spList) Debug.WriteLine(sp.ToString());
             Debug.WriteLine("Number of items: " + spList.Count());
             Assert.IsTrue(spList.Count() >0);
         }

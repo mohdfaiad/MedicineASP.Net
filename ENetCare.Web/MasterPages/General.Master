@@ -33,7 +33,7 @@
                 StaticEnableDefaultPopOutImage="false"
                 StaticDisplayLevels="2"  
                 MaximumDynamicDisplayLevels="2">
-        <StaticMenuStyle CssClass="primaryStaticMenu"/>
+        <StaticMenuStyle  CssClass="primaryStaticMenu"/>
         <StaticMenuItemStyle CssClass="primaryStaticMenuItem"/>
         <StaticHoverStyle CssClass="primaryStaticHover"/>   
         <DynamicMenuStyle CssClass="primaryDynamicMenu" />     

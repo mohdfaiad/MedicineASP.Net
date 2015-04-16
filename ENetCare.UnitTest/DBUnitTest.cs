@@ -59,7 +59,7 @@ namespace ENetCare.UnitTest                             // (P. 04-04-2015)
         }
 
         [TestMethod]
-        public void TestDb_GetAndShowAllTables()
+        public void TestDb_ShowAllTables()
         {
             enetConnection.Open();
             List<DistributionCentre> distList = DataAccess.GetAllDistributionCentres(enetConnection);
@@ -124,7 +124,7 @@ namespace ENetCare.UnitTest                             // (P. 04-04-2015)
         }
 
         [TestMethod]
-        public void TestRepo_GetEmployees()                   // (P. 04-04-2015) 
+        public void TestRepository_GetEmployees()                   // (P. 04-04-2015) 
         {
             EmployeeRepository eRep = new EmployeeRepository(_connectionString);
             List<Employee> employeeList = eRep.getAllEmployees();
@@ -134,7 +134,7 @@ namespace ENetCare.UnitTest                             // (P. 04-04-2015)
         }
 
         [TestMethod]
-        public void TestRepo_GetPackageTypes()       // (P. 04-04-2015) 
+        public void TestRepository_GetPackageTypes()       // (P. 04-04-2015) 
         {
             PackageRepository pRep = new PackageRepository(_connectionString);
             List<StandardPackageType> typeList = pRep.GetAllStandardPackageTypes();
