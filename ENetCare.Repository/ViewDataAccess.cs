@@ -221,13 +221,10 @@ namespace ENetCare.Repository
             return packageList;
         }
 
-
-
-
         public static List<StocktakingPackage> GetStocktaking(SqlConnection connection, int CentreId)
         {
             string query = "select PackageTypeId, PackageTypeDescription, CostPerPackage, NumberOfPackages, TotalValue " +
-                            "from GlobalStock WHERE CurrentLocationCentreId=" + CentreId +  " order by PackageTypeId";
+                            "from StockTaking order by PackageTypeId";
             List<StocktakingPackage> stocks = new List<StocktakingPackage>();
             var cmd = new SqlCommand(query);
             cmd.Connection = connection;
@@ -235,21 +232,25 @@ namespace ENetCare.Repository
             {
                 while (reader.Read())
                 {
+                    int currLocationId = -45;
                     var stock = new StocktakingPackage();
+                    if (reader["PackageId"] != DBNull.Value)
+                        stock.PackageId = Convert.ToInt32(reader["PackageId"]);
+                    if (reader["BarCode"] != DBNull.Value)
+                        stock.BarCode = Convert.ToString(reader["barcode"]);
                     if (reader["PackageTypeId"] != DBNull.Value)
                         stock.PackageTypeId = Convert.ToInt32(reader["PackageTypeId"]);
                     if (reader["PackageTypeDescription"] != DBNull.Value)
                         stock.PackageTypeDescription = (string)reader["PackageTypeDescription"];
                     if (reader["CostPerPackage"] != DBNull.Value)
                         stock.CostPerPackage = Convert.ToDecimal(reader["CostPerPackage"]);
-                    if (reader["NumberOfPackages"] != DBNull.Value)
-                        stock.NumberOfPackages = Convert.ToInt32(reader["NumberOfPackages"]);
-                    if (reader["TotalValue"] != DBNull.Value)
-                        stock.TotalValue = Convert.ToDecimal(reader["TotalValue"]);
-                    stocks.Add(stock);
+                    if (reader["CurrentLocationCentreId"] != DBNull.Value)
+                        currLocationId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
+                    if (reader["ExpirationDate"] != DBNull.Value)
+                        stock.ExpirationDate = Convert.ToDateTime(reader["ExpirationDate"]);
+                    if(currLocationId==CentreId) stocks.Add(stock);
                 }
             }
-
             return stocks;
         }
 

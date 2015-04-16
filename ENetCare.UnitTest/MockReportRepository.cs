@@ -64,7 +64,20 @@ namespace ENetCare.UnitTest
 
         public List<StocktakingPackage> GetStocktaking(int CentreId)
         {
-            throw new NotImplementedException();
+            List<StocktakingPackage> sList = new List<StocktakingPackage>();
+            List<Package> pList = MockDataAccess.GetAllPackages();
+            foreach(Package p in pList)
+                if(p.CurrentLocation.CentreId==CentreId) {
+                    StocktakingPackage sP=new StocktakingPackage();            
+                    sP.PackageTypeId=p.PackageType.PackageTypeId;
+                    sP.PackageTypeDescription = p.PackageType.Description;
+                    sP.CostPerPackage = p.PackageType.Value;
+                    sP.BarCode = p.BarCode;
+                    sP.PackageId = p.PackageId;
+                    sP.CurrentLocationCentreId = p.CurrentLocation.CentreId;
+                    sP.ExpirationDate = p.ExpirationDate;
+                    }
+            return sList;
         }
 
         public List<ValueInTransit> GetValueInTransit()
