@@ -12,13 +12,12 @@ namespace ENetCare.Repository.ViewData
         public string BarCode { get; set;  }
         public int PackageTypeId { get; set; }
         public string PackageTypeDescription { get; set; }
-        public decimal CostPerPackage { get; set; }
-        public int CurrentLocationCentreId { get; set; }
+        public decimal CostPerPackage { get; set; }        
         public DateTime ExpirationDate { get; set; }
         public int DaysLeft { get; set; }
 
         public override string ToString()
-            { return "Id)"+PackageId+" / "+PackageTypeDescription+ " / "+CostPerPackage+ " / Loc:" + CurrentLocationCentreId; }
+            { return "Id)"+PackageId+" / "+PackageTypeDescription+ " / "+CostPerPackage; }
 
         public void setDaysLeft() { DaysLeft = DaysLeftToExpiration(); }
 

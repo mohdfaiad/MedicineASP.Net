@@ -222,18 +222,22 @@ namespace ENetCare.Repository
             return packageList;
         }
 
-        public static List<StocktakingPackage> GetStocktaking(SqlConnection connection, int CentreId)
+        public static List<StocktakingPackage> GetStocktaking(SqlConnection connection, int centreId)
         {
-            string query = "select PackageId, BarCode, PackageTypeId, PackageTypeDescription, CostPerPackage, CurrentLocationCentreId, ExpirationDate " +
-                            "from StockTaking order by PackageTypeId";
+            string query = "select PackageId, BarCode, PackageTypeId, PackageTypeDescription, CostPerPackage, ExpirationDate " +
+                            "from StockTaking " +
+                            "where CurrentLocationCentreId = @LocationCentreId " +
+                            "order by PackageTypeId, ExpirationDate";
             List<StocktakingPackage> stocks = new List<StocktakingPackage>();
             var cmd = new SqlCommand(query);
             cmd.Connection = connection;
+
+            cmd.Parameters.Add("@LocationCentreId", SqlDbType.Int).Value = centreId;
+
             using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
             {
                 while (reader.Read())
-                {
-                    //int currLocationId = -45;
+                {                    
                     var stock = new StocktakingPackage();
                     if (reader["PackageId"] != DBNull.Value)
                         stock.PackageId = Convert.ToInt32(reader["PackageId"]);
@@ -245,12 +249,10 @@ namespace ENetCare.Repository
                         stock.PackageTypeDescription = (string)reader["PackageTypeDescription"];
                     if (reader["CostPerPackage"] != DBNull.Value)
                         stock.CostPerPackage = Convert.ToDecimal(reader["CostPerPackage"]);
-                    if (reader["CurrentLocationCentreId"] != DBNull.Value)
-                        stock.CurrentLocationCentreId = Convert.ToInt32(reader["CurrentLocationCentreId"]);
                     if (reader["ExpirationDate"] != DBNull.Value)
                         stock.ExpirationDate = Convert.ToDateTime(reader["ExpirationDate"]);
                     stock.setDaysLeft();
-                    if(stock.CurrentLocationCentreId==CentreId) stocks.Add(stock);
+                    stocks.Add(stock);
                 }
             }
             Debug.WriteLine("ViewDataAccess returns " + stocks.Count() + " items");

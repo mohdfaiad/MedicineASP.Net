@@ -38,9 +38,9 @@ namespace ENetCare.BusinessService
             return _reportRepository.GetGlobalStock();
         }
 
-        public List<StocktakingPackage> GetStocktaking(int CentreId)
+        public List<StocktakingPackage> GetStocktaking(int centreId)
         {
-            return _reportRepository.GetStocktaking(CentreId);
+            return _reportRepository.GetStocktaking(centreId);
         }
   
         public List<ValueInTransit> GetValueInTransit()

@@ -37,16 +37,9 @@
                 </ItemTemplate>
             </asp:TemplateField>
                
-            <asp:TemplateField HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" ItemStyle-CssClass="percent-10" HeaderText="Current Location">
-                <ItemTemplate>
-                    <asp:Literal ID="litCurrentLocationCentreId" runat="server" Text='<%# Eval("CurrentLocationCentreId") %>'></asp:Literal>
-                </ItemTemplate>
-            </asp:TemplateField>
-
-
             <asp:TemplateField HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" ItemStyle-CssClass="percent-10" HeaderText="Expiration Date">
                 <ItemTemplate>
-                    <asp:Literal ID="litExpirationDate" runat="server" Text='<%# Eval("ExpirationDate") %>'></asp:Literal>
+                    <asp:Literal ID="litExpirationDate" runat="server" Text='<%# string.Format("{0:d}", Eval("ExpirationDate")) %>'></asp:Literal>
                 </ItemTemplate>
             </asp:TemplateField>
        

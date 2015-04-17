@@ -93,13 +93,13 @@ namespace ENetCare.Repository.Repository
         }
 
 
-        public List<StocktakingPackage> GetStocktaking(int CentreId)
+        public List<StocktakingPackage> GetStocktaking(int centreId)
         {
             List<StocktakingPackage> packageList = null;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                packageList = ViewDataAccess.GetStocktaking(connection, CentreId);
+                packageList = ViewDataAccess.GetStocktaking(connection, centreId);
             }
             return packageList;
         }

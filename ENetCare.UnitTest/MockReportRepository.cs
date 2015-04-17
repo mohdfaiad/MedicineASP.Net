@@ -73,8 +73,7 @@ namespace ENetCare.UnitTest
                     sP.PackageTypeDescription = p.PackageType.Description;
                     sP.CostPerPackage = p.PackageType.Value;
                     sP.BarCode = p.BarCode;
-                    sP.PackageId = p.PackageId;
-                    sP.CurrentLocationCentreId = p.CurrentLocation.CentreId;
+                    sP.PackageId = p.PackageId;                    
                     sP.ExpirationDate = p.ExpirationDate;
                     sList.Add(sP);
                     }

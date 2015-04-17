@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ENetCare.Repository.ViewData;
 using System.Diagnostics;
+using ENetCare.Web.Membership;
 
 
 namespace ENetCare.Web.Report
@@ -24,7 +25,10 @@ namespace ENetCare.Web.Report
         {
             IReportRepository repository = new ReportRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             _reportService = new ReportService(repository);
-            grd.DataSource = _reportService.GetStocktaking(1);
+
+            EmployeeMembershipUser user = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
+
+            grd.DataSource = _reportService.GetStocktaking(user.DistributionCentreId);
             grd.DataBind();
         }
 
@@ -39,17 +43,17 @@ namespace ENetCare.Web.Report
                 decimal totalValue = Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "CostPerPackage").ToString());
                 _grandTotalValue += totalValue;
                 int daysLeft = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "DaysLeft").ToString());
-                if (daysLeft < 8) e.Row.BackColor = System.Drawing.Color.Orange;
-                if (daysLeft < 1) e.Row.BackColor = System.Drawing.Color.Red;
+                if (daysLeft < 8) e.Row.ForeColor = System.Drawing.Color.Orange;
+                if (daysLeft < 1) e.Row.ForeColor = System.Drawing.Color.Red;
             }
             if (e.Row.RowType == DataControlRowType.Footer)
             {
                 Literal litGrandTotalValue = (Literal)e.Row.FindControl("litGrandTotalValue");
                 litGrandTotalValue.Text = _grandTotalValue.ToString("C2");
 
-                e.Row.Cells[0].ColumnSpan = 6;
+                e.Row.Cells[0].ColumnSpan = 5;
                 e.Row.Cells[0].Text = "Grand Total";
-                for (int i = 5; i >= 1; i--)
+                for (int i = 4; i >= 1; i--)
                     e.Row.Cells.RemoveAt(i);
             }
 
