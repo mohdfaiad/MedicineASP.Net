@@ -12,7 +12,7 @@
                 <ul>
                 <li> Ben Rogers </li>
                 <li> Ihab Mayaz Khan </li>
-                <li> Romin Hafezi </li>
+                <li> Ramin Hafezi </li>
                 <li> Pablo Etchandy </li>
                 </ul>
                 <h2><br/><br/><br/><br/> UTS - April 2015 </h2>
