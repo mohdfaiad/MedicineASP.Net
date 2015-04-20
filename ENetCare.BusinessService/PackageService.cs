@@ -207,46 +207,10 @@ namespace ENetCare.BusinessService
                 Success = true
             };
 
-            Package tempPackage = Retrieve(barCode);
-            if (tempPackage == null)
-            {
-                result.Success = false;
-                result.ErrorMessage = PackageResult.BarCodeNotFound + tempPackage.BarCode;
-                return result;
-            }
-
             if (employee.EmployeeType == EmployeeType.Manager)
             {
                 result.Success = false;
                 result.ErrorMessage = PackageResult.EmployeeNotAuthorized;
-                return result;
-            }
-
-            if (employee.Location.CentreId != tempPackage.CurrentLocation.CentreId)
-            {
-                result.Success = false;
-                result.ErrorMessage = PackageResult.EmployeeInDifferentLocation + barCode;
-                return result;
-            }
-
-            if (tempPackage.CurrentStatus == PackageStatus.Distributed)
-            {
-                result.Success = false;
-                result.ErrorMessage = PackageResult.PackageAlreadyDistributed + tempPackage.BarCode;
-                return result;
-            }
-
-            else if (tempPackage.CurrentStatus == PackageStatus.InTransit)
-            {
-                result.Success = false;
-                result.ErrorMessage = PackageResult.PackageInTransit + tempPackage.BarCode;
-                return result;
-            }
-
-            if (distributionCentre.CentreId != tempPackage.CurrentLocation.CentreId)
-            {
-                result.Success = false;
-                result.ErrorMessage = PackageResult.PackageElsewhere + tempPackage.BarCode;
                 return result;
             }
 
@@ -255,6 +219,38 @@ namespace ENetCare.BusinessService
                 PackageType = packageType,
                 CurrentLocation = distributionCentre,
                 CurrentStatus = PackageStatus.Distributed,
+                PackageId = packageId,
+                ExpirationDate = expirationDate,
+                DistributedBy = employee,
+                BarCode = barCode
+            };
+
+            _packageRepository.Update(package);
+
+            result.Id = package.PackageId;
+
+            return result;
+        }
+
+        public Result Discard(string barCode, DistributionCentre distributionCentre, Employee employee, DateTime expirationDate, StandardPackageType packageType, int packageId)
+        {
+            var result = new Result
+            {
+                Success = true
+            };
+
+            if (employee.EmployeeType == EmployeeType.Manager)
+            {
+                result.Success = false;
+                result.ErrorMessage = PackageResult.EmployeeNotAuthorized;
+                return result;
+            }
+
+            Package package = new Package
+            {
+                PackageType = packageType,
+                CurrentLocation = distributionCentre,
+                CurrentStatus = PackageStatus.Discarded,
                 PackageId = packageId,
                 ExpirationDate = expirationDate,
                 DistributedBy = employee,
