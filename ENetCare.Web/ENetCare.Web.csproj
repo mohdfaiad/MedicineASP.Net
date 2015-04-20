@@ -67,6 +67,7 @@
     <Content Include="Global.asax" />
     <Content Include="Logout.aspx" />
     <Content Include="Package\Audit.aspx" />
+    <Content Include="Package\Discard.aspx" />
     <Content Include="Package\Distribute.aspx" />
     <Content Include="EditEmployee.aspx" />
     <Content Include="Home.aspx" />
@@ -162,6 +163,13 @@
     </Compile>
     <Compile Include="Package\Audit.aspx.designer.cs">
       <DependentUpon>Audit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Package\Discard.aspx.cs">
+      <DependentUpon>Discard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Package\Discard.aspx.designer.cs">
+      <DependentUpon>Discard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Package\Distribute.aspx.cs">
       <DependentUpon>Distribute.aspx</DependentUpon>
