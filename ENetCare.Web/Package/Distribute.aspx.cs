@@ -2,6 +2,7 @@
 using ENetCare.Repository.Data;
 using ENetCare.Repository.Repository;
 using ENetCare.Web.Membership;
+using ENetCare.Web.UserControl;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,10 +17,13 @@ namespace ENetCare.Web
     public partial class Distribute : System.Web.UI.Page
     {
         private PackageService _packageService;
+        private Employee employee;
         protected void Page_Load(object sender, EventArgs e)
         {
             IPackageRepository packageRepository = new PackageRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             _packageService = new PackageService(packageRepository);
+
+            ucPackageBarcode.AddValidate += PackageBarcodeOnAdd;
 
             if (!Page.IsPostBack)
             {
@@ -44,13 +48,12 @@ namespace ENetCare.Web
             }
 
             DistributionCentre centre = (DistributionCentre)ViewState["DistributionCentre"];
-
             IEmployeeRepository repository = new EmployeeRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             var employeeService = new EmployeeService(repository);
 
             string employeeUsername = (string)ViewState["EmployeeUsername"];
 
-            Employee employee = employeeService.Retrieve(employeeUsername);
+            employee = employeeService.Retrieve(employeeUsername);
 
             DateTime expirationDate = DateTime.Now;
 
@@ -83,7 +86,40 @@ namespace ENetCare.Web
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Distribute.aspx");
+            Response.Redirect("/Distribute.aspx");
+        }
+
+        private void PackageBarcodeOnAdd(object sender, BarCodeAddValidateEventArgs eventArgs)
+        {
+            eventArgs.Success = true;
+
+            DistributionCentre centre = (DistributionCentre)ViewState["DistributionCentre"];
+
+            if (eventArgs.Package == null)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.BarCodeNotFound;
+            }
+            if (eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageElsewhere;
+            }
+            if (eventArgs.Package.CurrentStatus == PackageStatus.Distributed)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageAlreadyDistributed;
+            }
+            if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageInTransit;
+            }
+            if (eventArgs.Package.CurrentStatus == PackageStatus.Discarded)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageAlreadyDiscarded;
+            }
         }
     }
 }
