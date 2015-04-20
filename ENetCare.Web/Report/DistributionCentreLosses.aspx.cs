@@ -49,7 +49,13 @@ namespace ENetCare.Web.Report
                 if (denominator == 0 || numerator == 0)
                     litLossRatio.Text = "-";
                 else
-                    litLossRatio.Text = ((decimal)numerator / (decimal)denominator).ToString("P4");
+                {
+                    decimal lossRatio = (decimal)numerator / (decimal)denominator;
+                    if (lossRatio > 0.09M)
+                        e.Row.Font.Bold = true;
+
+                    litLossRatio.Text = lossRatio.ToString("P4");
+                }
 
             }
             if (e.Row.RowType == DataControlRowType.Footer)
