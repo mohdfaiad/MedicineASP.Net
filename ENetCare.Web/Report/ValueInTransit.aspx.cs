@@ -10,6 +10,12 @@ using System.Web.UI.WebControls;
 
 namespace ENetCare.Web.Report
 {
+    /// <summary>
+    /// Value in Transit: This report shows total value and number of packages in transit
+    /// between distribution centres (i.e., a total value for possible pairs of distribution centres).
+    /// It only shows pairs of distribution centres that have packages in transit. 
+    /// It also has a grand total for all products in transit.
+    /// </summary>
     public partial class ValueInTransit : System.Web.UI.Page
     {
         private decimal _grandTotalValue = 0M;

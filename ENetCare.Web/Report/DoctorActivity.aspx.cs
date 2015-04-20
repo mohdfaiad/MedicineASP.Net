@@ -10,6 +10,10 @@ using System.Web.UI.WebControls;
 
 namespace ENetCare.Web.Report
 {
+    /// <summary>
+    /// Doctor Activity: This report shows the quantity, package types and values
+    /// of packages distributed by a given doctor. It also has a grand total.
+    /// </summary>
     public partial class DoctorActivity : System.Web.UI.Page
     {
         private decimal _grandTotalValue = 0M;

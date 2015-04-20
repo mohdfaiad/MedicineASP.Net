@@ -10,6 +10,11 @@ using System.Web.UI.WebControls;
 
 namespace ENetCare.Web.Report
 {
+    /// <summary>
+    /// Distribution Centre Stock: This report shows the quantity and total value 
+    /// for each product type in stock at a given distribution centre. 
+    /// It also has a grand total for all products at the distribution centre.
+    /// </summary>
     public partial class DistributionCentreStock : System.Web.UI.Page
     {
         private decimal _subTotalValue = 0M;

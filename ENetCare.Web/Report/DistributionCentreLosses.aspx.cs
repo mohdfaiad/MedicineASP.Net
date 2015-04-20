@@ -10,6 +10,12 @@ using System.Web.UI.WebControls;
 
 namespace ENetCare.Web.Report
 {
+    /// <summary>
+    /// Distribution Centre Losses: This report shows the loss ratio and total value
+    /// of lost/discarded packages for each distribution centre.
+    /// Any distribution centre with a loss ratio larger than 9% should be highlighted.
+    /// The loss ratio is calculated according to the following formula: (#Lost + #Discarded) / (#Distributed + #Lost + #Discarded)
+    /// </summary>
     public partial class DistributionCentreLosses : System.Web.UI.Page
     {
         private decimal _grandTotalValue = 0M;

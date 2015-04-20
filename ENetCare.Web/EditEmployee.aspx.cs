@@ -12,6 +12,10 @@ using System.Web.UI.WebControls;
 
 namespace ENetCare.Web
 {
+    /// <summary>
+    /// Web Page to edit the logged in Employee properties such as Distribution Centre
+    /// and Employee Type (Agent, Doctor or Manager)
+    /// </summary>
     public partial class EditEmployee : System.Web.UI.Page
     {
         private EmployeeService _employeeService;

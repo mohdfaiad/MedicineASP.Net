@@ -10,6 +10,12 @@ using System.Web.UI.WebControls;
 
 namespace ENetCare.Web.Report
 {
+    /// <summary>
+    /// Global Stock: This report shows the quantity and total value for each
+    /// product type in stock across all distribution centres. 
+    /// It also has a grand total for all products in stock at a charity. 
+    /// It does not include products currently in transit.
+    /// </summary>
     public partial class GlobalStock : System.Web.UI.Page
     {
         private decimal _grandTotalValue = 0M;

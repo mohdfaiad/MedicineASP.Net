@@ -14,6 +14,11 @@ namespace ENetCare.Repository
 {
     public class ViewDataAccess
     {
+        /// <summary>
+        /// Query for Distribution Centre Stock Report
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
         public static List<DistributionCentreStock> GetDistributionCentreStock(SqlConnection connection)
         {                                                   
             var stockList = new List<DistributionCentreStock>();
@@ -46,6 +51,11 @@ namespace ENetCare.Repository
             return stockList;
         }
 
+        /// <summary>
+        /// Query for Distribution Centre Losses Report
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
         public static List<DistributionCentreLosses> GetDistributionCentreLosses(SqlConnection connection)
         {
             string query = "select DistributionCentreId, DistributionCenterName, LossRatioNumerator, LossRatioDenominator, TotalLossDiscardedValue " +
@@ -77,6 +87,11 @@ namespace ENetCare.Repository
             return centreList;
         }
 
+        /// <summary>
+        /// Query for Doctor Activity Report
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
         public static List<DoctorActivity> GetDoctorActivity(SqlConnection connection)
         {
             string query = "select DoctorId, DoctorName, PackageTypeId, PackageTypeDescription, PackageCount, TotalPackageValue " +
@@ -108,6 +123,11 @@ namespace ENetCare.Repository
             return doctors;
         }
 
+        /// <summary>
+        /// Query for Global Stock Report
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
         public static List<GlobalStock> GetGlobalStock(SqlConnection connection)
         {
             string query = "select PackageTypeId, PackageTypeDescription, CostPerPackage, NumberOfPackages, TotalValue " +
@@ -138,6 +158,11 @@ namespace ENetCare.Repository
             return stocks;
         }
 
+        /// <summary>
+        /// Query for Value In Transit Report
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
         public static List<ValueInTransit> GetValueInTransit(SqlConnection connection)
         {
             string query = "select SenderDistributionCentreId, SenderDistributionCentreName, ReceiverDistributionCentreId, RecieverDistributionCentreName, TotalPackages, TotalValue " +
@@ -172,6 +197,14 @@ namespace ENetCare.Repository
 
         }
 
+        /// <summary>
+        /// Query for Reconciled Package screen in Package Audit Wizard
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="currentLocation"></param>
+        /// <param name="packageType"></param>
+        /// <param name="barCodeXml"></param>
+        /// <returns></returns>
         public static List<ReconciledPackage> GetReconciledPackages(SqlConnection connection, DistributionCentre currentLocation, StandardPackageType packageType, XElement barCodeXml)
         {
             string query = "SELECT PackageId, BarCode, CurrentLocationCentreId, d.Name as CurrentLocationCentreName, CurrentStatus, 'INSTOCK' AS NewStatus " +
@@ -222,6 +255,12 @@ namespace ENetCare.Repository
             return packageList;
         }
 
+        /// <summary>
+        /// Query for Stocktaking Report
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="centreId"></param>
+        /// <returns></returns>
         public static List<StocktakingPackage> GetStocktaking(SqlConnection connection, int centreId)
         {
             string query = "select PackageId, BarCode, PackageTypeId, PackageTypeDescription, CostPerPackage, ExpirationDate " +
@@ -258,7 +297,5 @@ namespace ENetCare.Repository
             Debug.WriteLine("ViewDataAccess returns " + stocks.Count() + " items");
             return stocks;
         }
-
-
     }
 }

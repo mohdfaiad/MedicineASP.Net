@@ -14,6 +14,11 @@ using ENetCare.Web.Membership;
 
 namespace ENetCare.Web.Report
 {
+    /// <summary>
+    /// Stocktaking report of all packages held at the current distribution centre.
+    /// Any expired package should be shown in red. 
+    /// Any package due to expire within 7 days should be shown in orange.
+    /// </summary>
     public partial class Stocktaking : System.Web.UI.Page
     {
 

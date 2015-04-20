@@ -18,6 +18,11 @@ namespace ENetCare.Repository.Repository
         {
             _connectionString = connectionString;
         }     
+        
+        /// <summary>
+        /// Repository for Distribution Centre Stock Report
+        /// </summary>
+        /// <returns></returns>
         public List<DistributionCentreStock> GetDistributionCentreStock()
         {
             List<DistributionCentreStock> stockList = null;
@@ -30,6 +35,10 @@ namespace ENetCare.Repository.Repository
             return stockList;
         }
 
+        /// <summary>
+        /// Repository for Distribution Centre Losses Report
+        /// </summary>
+        /// <returns></returns>
         public List<DistributionCentreLosses> GetDistributionCentreLosses()
         {
             List<DistributionCentreLosses> centreList = null;
@@ -42,6 +51,10 @@ namespace ENetCare.Repository.Repository
             return centreList;
         }
 
+        /// <summary>
+        /// Repository for Doctor Activity Report
+        /// </summary>
+        /// <returns></returns>
         public List<DoctorActivity> GetDoctorActivity()
         {
             List<DoctorActivity> doctors = null;
@@ -54,6 +67,10 @@ namespace ENetCare.Repository.Repository
             return doctors;
         }
 
+        /// <summary>
+        /// Repository for Global Stock Report
+        /// </summary>
+        /// <returns></returns>
         public List<GlobalStock> GetGlobalStock()
         {
             List<GlobalStock> stocks = null;
@@ -66,6 +83,10 @@ namespace ENetCare.Repository.Repository
             return stocks;
         }
 
+        /// <summary>
+        /// Repository for Value In Transit Report
+        /// </summary>
+        /// <returns></returns>
         public List<ValueInTransit> GetValueInTransit()
         {
             List<ValueInTransit> valueList = null;
@@ -78,6 +99,13 @@ namespace ENetCare.Repository.Repository
             return valueList;
         }
 
+        /// <summary>
+        /// Repository for Reconciled Package screen in Package Audit Wizard
+        /// </summary>
+        /// <param name="currentLocation"></param>
+        /// <param name="packageType"></param>
+        /// <param name="barCodeList"></param>
+        /// <returns></returns>
         public List<ReconciledPackage> GetReconciledPackages(DistributionCentre currentLocation, StandardPackageType packageType, List<string> barCodeList)
         {
             List<ReconciledPackage> packageList = null;
@@ -92,7 +120,11 @@ namespace ENetCare.Repository.Repository
             return packageList;
         }
 
-
+        /// <summary>
+        /// Repository for Stocktaking Report
+        /// </summary>
+        /// <param name="centreId"></param>
+        /// <returns></returns>
         public List<StocktakingPackage> GetStocktaking(int centreId)
         {
             List<StocktakingPackage> packageList = null;
@@ -103,7 +135,5 @@ namespace ENetCare.Repository.Repository
             }
             return packageList;
         }
-
-
     }
 }

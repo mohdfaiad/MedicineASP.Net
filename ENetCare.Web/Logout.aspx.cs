@@ -8,6 +8,9 @@ using System.Web.UI.WebControls;
 
 namespace ENetCare.Web
 {
+    /// <summary>
+    /// Web page to logout current logged in employee
+    /// </summary>
     public partial class Logout : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
