@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace ENetCare.BusinessService
 {
-    class PackageResult
+    public class PackageResult
     {
-        public const string BarCodeNotFound = "Bar Code not found: ";
-        public const string PackageElsewhere = "Package is NOT located in this distribution centre: ";
-        public const string PackageAlreadyDistributed = "Package has been already distributed: ";
-        public const string PackageInTransit = "The following package is in Transit: ";
+        public const string BarCodeNotFound = "Bar Code not found";
+        public const string PackageElsewhere = "That Package is NOT located in this distribution centre";
+        public const string PackageAlreadyDistributed = "That Package has been distributed";
+        public const string PackageInTransit = "That Package is in Transit";
+        public const string PackageAlreadyDiscarded = "That Package has been Discarded";
+        public const string PackageNotExpired = "That package cannot be discarded until it has expired on ";
         public const string EmployeeNotAuthorized = "You are not authorized to distribute packages";
-        public const string EmployeeInDifferentLocation = "The following package is not in the current distribution centre: ";
+        public const string EmployeeInDifferentLocation = "That Package is NOT located in this distribution centre";
     }
 }
