@@ -75,9 +75,9 @@ namespace ENetCare.Repository
                 cmd.Parameters.AddWithValue("@Package", SqlDbType.Int).Value = (int)transit.Package.PackageId;
                 cmd.Parameters.AddWithValue("@SenderCentre", SqlDbType.Int).Value = (int)transit.SenderCentre.CentreId;
                 cmd.Parameters.AddWithValue("@ReceiverCentre", SqlDbType.Int).Value = (int)transit.ReceiverCentre.CentreId;
-                cmd.Parameters.AddWithValue("@DateSent", SqlDbType.Date).Value = (DateTime)transit.DateSent;
-                cmd.Parameters.AddWithValue("@DateReceived", SqlDbType.Date).Value = (DateTime)transit.DateReceived;
-                cmd.Parameters.AddWithValue("@DateCancelled", SqlDbType.Date).Value = (DateTime)transit.DateCancelled;
+                cmd.Parameters.AddWithValue("@DateSent", SqlDbType.DateTime).Value = (DateTime)transit.DateSent;
+                cmd.Parameters.AddWithValue("@DateReceived", SqlDbType.DateTime).Value = (DateTime)transit.DateReceived;
+                cmd.Parameters.AddWithValue("@DateCancelled", SqlDbType.DateTime).Value = (DateTime)transit.DateCancelled;
                 int effected = cmd.ExecuteNonQuery();                
             }
 
@@ -376,15 +376,15 @@ namespace ENetCare.Repository
                 cmd.Parameters.Add("@Package", SqlDbType.Int).Value = (int)packageT.Package.PackageId;
                 cmd.Parameters.Add("@SenderCentre", SqlDbType.Int).Value = (int)packageT.SenderCentre.CentreId;
                 cmd.Parameters.Add("@ReceiverCentre", SqlDbType.Int).Value = (int)packageT.ReceiverCentre.CentreId;
-                cmd.Parameters.Add("@DateSent", SqlDbType.Date).Value = (DateTime)packageT.DateSent;
+                cmd.Parameters.Add("@DateSent", SqlDbType.DateTime).Value = (DateTime)packageT.DateSent;
                 if (packageT.DateReceived == null)
-                    cmd.Parameters.Add("@DateReceived", SqlDbType.Date).Value = DBNull.Value;
+                    cmd.Parameters.Add("@DateReceived", SqlDbType.DateTime).Value = DBNull.Value;
                 else
-                    cmd.Parameters.Add("@DateReceived", SqlDbType.Date).Value = (DateTime)packageT.DateReceived;
+                    cmd.Parameters.Add("@DateReceived", SqlDbType.DateTime).Value = (DateTime)packageT.DateReceived;
                 if (packageT.DateCancelled == null)
-                    cmd.Parameters.Add("@DateCancelled", SqlDbType.Date).Value = DBNull.Value;
+                    cmd.Parameters.Add("@DateCancelled", SqlDbType.DateTime).Value = DBNull.Value;
                 else
-                    cmd.Parameters.Add("@DateCancelled", SqlDbType.Date).Value = (DateTime)packageT.DateCancelled;
+                    cmd.Parameters.Add("@DateCancelled", SqlDbType.DateTime).Value = (DateTime)packageT.DateCancelled;
                 cmd.Parameters.Add("@newId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 cmd.CommandType = CommandType.Text;
@@ -394,7 +394,6 @@ namespace ENetCare.Repository
                 return (int)cmd.Parameters["@newId"].Value;
             }
         }
-
 
         public static void UpdatePackageTransit(SqlConnection connection, PackageTransit transit)
         {            // Define Insert Query with Parameter
