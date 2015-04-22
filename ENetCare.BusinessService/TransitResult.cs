@@ -16,5 +16,7 @@ namespace ENetCare.BusinessService
         public const string TransitNotFound = "Transit not found";
         public const string MoreThanOneTransitForPackage = "More than one active transit exists for that package";
         public const string WrongReceiver = "Package was supposed to arrive at a different centre.";
+        public const string ReceiverCentreNull = "Please Select the Correct Receiver Centre";
+        public const string InvalidSendDate = "Please select the Correct Date to send the Package.";
     }
 }

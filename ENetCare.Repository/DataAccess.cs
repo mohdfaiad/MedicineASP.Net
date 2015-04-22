@@ -365,24 +365,34 @@ namespace ENetCare.Repository
         
         public static int InsertPackageTransit(SqlConnection connection, PackageTransit packageT)
         {                                                                       // (p. 24/03/15 ) 
-            string query = " INSERT INTO dbo.PackageTransit (Package , SenderCentre,  " +
-                           " ReceiverCentre, DateSent, DateReceived, DateCancelled)  " +
-                           "  SET @newId = SCOPE_IDENTITY();";
-            var cmd = new SqlCommand(query);
-            cmd.Connection = connection;
-            using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default))
+            string query = " INSERT INTO dbo.PackageTransit (PackageId , SenderCentreId,  " +
+                           " ReceiverCentreId, DateSent, DateReceived, DateCancelled)  " +
+                           " VALUES (@Package , @SenderCentre, @ReceiverCentre, @DateSent, @DateReceived, @DateCancelled)" +
+                           " SET @newId = SCOPE_IDENTITY();";
+            //var cmd = new SqlCommand(query);
+            //cmd.Connection = connection;
+            using (var cmd = new SqlCommand(query, connection)/*SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default)*/)
             {
                 cmd.Parameters.Add("@Package", SqlDbType.Int).Value = (int)packageT.Package.PackageId;
                 cmd.Parameters.Add("@SenderCentre", SqlDbType.Int).Value = (int)packageT.SenderCentre.CentreId;
                 cmd.Parameters.Add("@ReceiverCentre", SqlDbType.Int).Value = (int)packageT.ReceiverCentre.CentreId;
                 cmd.Parameters.Add("@DateSent", SqlDbType.Date).Value = (DateTime)packageT.DateSent;
-                cmd.Parameters.Add("@DateReceived", SqlDbType.Date).Value = (DateTime)packageT.DateReceived;
-                cmd.Parameters.Add("@DateCancelled", SqlDbType.Date).Value = (DateTime)packageT.DateCancelled;
+                if (packageT.DateReceived == null)
+                    cmd.Parameters.Add("@DateReceived", SqlDbType.Date).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@DateReceived", SqlDbType.Date).Value = (DateTime)packageT.DateReceived;
+                if (packageT.DateCancelled == null)
+                    cmd.Parameters.Add("@DateCancelled", SqlDbType.Date).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@DateCancelled", SqlDbType.Date).Value = (DateTime)packageT.DateCancelled;
                 cmd.Parameters.Add("@newId", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                cmd.CommandType = CommandType.Text;
+                string qry = cmd.CommandText;
+                int effect = cmd.ExecuteNonQuery();
+                //cmd.ExecuteScalar();
+                return (int)cmd.Parameters["@newId"].Value;
             }
-            cmd.CommandType = CommandType.Text;
-            cmd.ExecuteScalar();
-            return (int)cmd.Parameters["@newId"].Value;
         }
 
 

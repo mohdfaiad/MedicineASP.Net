@@ -10,6 +10,7 @@ namespace ENetCare.BusinessService
 {
     public class PackageService
     {
+        private readonly int zero = 0;
         private IPackageRepository _packageRepository;
      
         public PackageService(IPackageRepository packageRepository)
@@ -139,6 +140,82 @@ namespace ENetCare.BusinessService
             package.CurrentLocation = null;                         // Remove current location 
             _packageRepository.Update(package);                     // Update package
             sendResult.Success = true;
+            return sendResult;
+        }
+
+        /// <summary>
+        /// Extended Send method which take Sender and Receiver Center and also do more check
+        /// </summary>
+        /// <param name="barCode"></param>
+        /// <param name="senderCentre"></param>
+        /// <param name="receiverCentre"></param>
+        /// <param name="sendDate"></param>
+        /// <returns> Result </returns>
+        public Result Send(Package package, DistributionCentre senderCentre, DistributionCentre receiverCentre, DateTime sendDate)
+        {                                                          
+            Result sendResult = new Result();
+            //Package package;
+            //package = _packageRepository.GetPackageWidthBarCode(barCode);
+
+            if (package == null)                         // Case: not found
+            {
+                sendResult.ErrorMessage = TransitResult.BarCodeNotFound;
+                sendResult.Success = false;
+                return sendResult;
+            }
+            if (package.CurrentStatus != PackageStatus.InStock)  // Case: not in stock 
+            {
+                sendResult.ErrorMessage = TransitResult.PackageNotInStock;
+                sendResult.Success = false;
+                return sendResult;
+            }
+            if (package.CurrentLocation.Name != senderCentre.Name)    //  Case: not in this centre
+            {
+                sendResult.ErrorMessage = TransitResult.PackageElsewhere;
+                sendResult.Success = false;
+                return sendResult;
+            }
+            if (package.CurrentLocation.Name == receiverCentre.Name)          // Case:  Desitiny = Sending Centre
+            {
+                sendResult.ErrorMessage = TransitResult.PackageAlreadyAtDestination;
+                sendResult.Success = false;
+                return sendResult;
+            }
+            if (receiverCentre == null)         // Case: Receiver Centre 
+            {
+                sendResult.ErrorMessage = TransitResult.ReceiverCentreNull;
+                sendResult.Success = false;
+                return sendResult;
+            }
+            // System.DateTime.Now.AddDays(-1) -> to get yesterday. might send the package on the same day
+            int timeCompare = DateTime.Compare(System.DateTime.Now.AddDays(-1), sendDate);
+            //timeCompare DateTime.Compare(t1,t2) 
+            //Less than zero t1 is earlier than t2. | Zero t1 is the same as t2. | Greater than zero t1 is later than t2. 
+            if (timeCompare > zero)
+            {
+                sendResult.ErrorMessage = TransitResult.InvalidSendDate;
+                sendResult.Success = false;
+                return sendResult;
+            }
+            
+            package.CurrentStatus = PackageStatus.InTransit;        // Proceed to set it as intransit
+            package.CurrentLocation = null;                         // Remove current location 
+            _packageRepository.Update(package);                     // Update package
+            sendResult.Success = true;
+
+            PackageTransit packageTransit = new PackageTransit
+            {
+                Package = package,
+                DateSent = sendDate,
+                DateReceived = null,
+                DateCancelled = null,
+                SenderCentre = senderCentre,
+                ReceiverCentre = receiverCentre,
+            };
+            int TransitId = _packageRepository.InsertTransit(packageTransit);
+            //packageTransit.TransitId = TransitId;
+            //_packageRepository.UpdateTransit(packageTransit);
+
             return sendResult;
         }
 
