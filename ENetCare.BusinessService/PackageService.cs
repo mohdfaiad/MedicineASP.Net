@@ -169,7 +169,7 @@ namespace ENetCare.BusinessService
                 sendResult.Success = false;
                 return sendResult;
             }
-            if (package.CurrentLocation.Name != senderCentre.Name)    //  Case: not in this centre
+            if (package.CurrentLocation.CentreId != senderCentre.CentreId)    //  Case: not in this centre
             {
                 sendResult.ErrorMessage = TransitResult.PackageElsewhere;
                 sendResult.Success = false;
