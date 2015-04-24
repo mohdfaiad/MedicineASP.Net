@@ -59,6 +59,8 @@ namespace ENetCare.Web
                 return;
             }
 
+            StringBuilder successMessage = new StringBuilder(10);
+
             DateTime sendDate = DateTime.Parse(Request.Form[txtSendDate.UniqueID]);
 
             int selectedCentreId = int.Parse(ddlDestination.SelectedValue);
@@ -81,22 +83,30 @@ namespace ENetCare.Web
                     var err = new CustomValidator();
                     err.ValidationGroup = "sendDetails";
                     err.IsValid = false;
-                    err.ErrorMessage = result.ErrorMessage;
+                    err.ErrorMessage = string.Format("{0} - {1}", barcodes[i], result.ErrorMessage);
                     Page.Validators.Add(err);
 
                     pnlErrorMessage.Visible = true;
                     litErrorMessage.Text = "There are errors";
-                    return;
                 }
                 else
                 {
-                    pnlSuccessMsg.Visible = true;
-                    LitSuccessMsg.Text = "Package(s) Send Successfully! Click OK to Home Page or Next To Continue";
-                    ucPackageBarcode.Visible = false;
-                }
+                    if (successMessage.Length == 0)
+                    {
+                        successMessage.Append("The following barcodes were sent");
+                    }
 
+                    successMessage.AppendFormat(", {0}", barcodes[i]);
+                }
             }
 
+            if (successMessage.Length > 0)
+            {
+                pnlMessage.Visible = true;
+                litMessage.Text = successMessage.ToString();
+            }
+
+            ucPackageBarcode.Visible = false;
             txtSendDate.Enabled = false;
             ddlDestination.Enabled = false;
             btnSave.Enabled = false;

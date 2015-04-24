@@ -46,6 +46,8 @@ namespace ENetCare.Web
                 return;
             }
 
+            StringBuilder successMessage = new StringBuilder(10);
+
             DistributionCentre centre = (DistributionCentre)ViewState["DistributionCentre"];
 
             IEmployeeRepository repository = new EmployeeRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
@@ -72,21 +74,37 @@ namespace ENetCare.Web
                     var err = new CustomValidator();
                     err.ValidationGroup = "destinationDetails";
                     err.IsValid = false;
-                    err.ErrorMessage = result.ErrorMessage;
+                    err.ErrorMessage = string.Format("{0} - {1}", barcodes[i], result.ErrorMessage);
                     Page.Validators.Add(err);
 
                     pnlErrorMessage.Visible = true;
-                    litErrorMessage.Text = "There are errors";
-                    return;
+                    litErrorMessage.Text = "There are errors";                    
+                }
+                else
+                {
+                    if (successMessage.Length == 0)
+                    {
+                        successMessage.Append("The following barcodes were discarded");
+                    }
+
+                    successMessage.AppendFormat(", {0}", barcodes[i]);
                 }
             }
 
-            Response.Redirect("Discard.aspx");
+            if (successMessage.Length > 0)
+            {
+                pnlMessage.Visible = true;
+                litMessage.Text = successMessage.ToString();
+            }
+
+            ucPackageBarcode.Visible = false;
+            btnSave.Enabled = false;
+            btnClose.Enabled = true;
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
+        protected void btnClose_OnClick(object sender, EventArgs e)
         {
-            Response.Redirect("/Home.aspx");
+            Response.Redirect("~/Home.aspx");
         }
 
         private void PackageBarcodeOnAdd(object sender, BarCodeAddValidateEventArgs eventArgs)
