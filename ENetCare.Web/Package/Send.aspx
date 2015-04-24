@@ -61,8 +61,9 @@
             </td>
         </tr>
     </table>
-    <asp:Button ID="btnCancel" Width="80" runat="server" CausesValidation="true" Text="Cancel" OnClick="btnCancel_Click"  />
-    <asp:Button ID="btnSave" Width="80" runat="server" CausesValidation="true" Text="Save" OnClick="btnSave_OnClick" />
+    <asp:Button ID="btnClose" Width="60" runat="server" CausesValidation="true" Text="Close" OnClick="btnClose_Click"  />
+    <asp:Button ID="btnSave" Width="60" runat="server" CausesValidation="true" Text="Save" OnClick="btnSave_OnClick" />
+    <asp:Button ID="btnNext" Width="60" runat="server" CausesValidation="true" Text="Next" OnClick="btnNext_OnClick" Visible="false" />
     
     <asp:Panel ID="pnlSuccessMsg" runat="server" Visible="false" CssClass="message error">
         <asp:Literal ID="LitSuccessMsg" runat="server" />
