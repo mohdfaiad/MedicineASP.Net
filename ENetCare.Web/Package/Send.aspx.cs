@@ -100,7 +100,6 @@ namespace ENetCare.Web
             txtSendDate.Enabled = false;
             ddlDestination.Enabled = false;
             btnSave.Enabled = false;
-            btnClose.Text = "OK";
             btnClose.Enabled = true;
             btnNext.Visible = true;
         }
@@ -109,10 +108,12 @@ namespace ENetCare.Web
         {
             Response.Redirect("~/Home.aspx");
         }
+
         protected void btnNext_OnClick(object sender, EventArgs e)
         {
             Response.Redirect("~/Package/Send.aspx");
         }
+
         private void PackageBarcodeOnAdd(object sender, BarCodeAddValidateEventArgs eventArgs)
         {
             eventArgs.Success = true;
