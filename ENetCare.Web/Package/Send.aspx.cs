@@ -28,8 +28,9 @@ namespace ENetCare.Web
             IEmployeeRepository repository = new EmployeeRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             _employeeService = new EmployeeService(repository);
 
-            if (!Page.IsPostBack)
-            {
+            ucPackageBarcode.AddValidate += PackageBarcodeOnAdd;
+
+            if (!Page.IsPostBack){
                 var centres = _employeeService.GetAllDistributionCentres();
 
                 ddlDestination.DataTextField = "Name";
@@ -38,12 +39,14 @@ namespace ENetCare.Web
                 ddlDestination.DataBind();
                 
                 SetSendDateTextBox(DateTime.Today);
-                ViewState["DistributionCentre"] = centres;
+
+                EmployeeMembershipUser user = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
+                DistributionCentre _senderCentre = _employeeService.GetDistributionCentre(user.DistributionCentreId);
+                ViewState["senderCentre"] = _senderCentre;
             }
-            else if (!string.IsNullOrEmpty(Request.Form[txtSendDate.UniqueID]))
-            {
-                DateTime receiveDate = DateTime.Parse(Request.Form[txtSendDate.UniqueID]);
-                SetSendDateTextBox(receiveDate);
+            else if (!string.IsNullOrEmpty(Request.Form[txtSendDate.UniqueID])){
+                DateTime sendDate = DateTime.Parse(Request.Form[txtSendDate.UniqueID]);
+                SetSendDateTextBox(sendDate);
             }
         }
 
@@ -56,15 +59,15 @@ namespace ENetCare.Web
                 return;
             }
 
-            //string employeeUsername = (string)ViewState["EmployeeUsername"];
             DateTime sendDate = DateTime.Parse(Request.Form[txtSendDate.UniqueID]);
 
             int selectedCentreId = int.Parse(ddlDestination.SelectedValue);
             DistributionCentre _receiverCentre = _employeeService.GetDistributionCentre(selectedCentreId);
 
-            EmployeeMembershipUser user = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
-            DistributionCentre _senderCentre = _employeeService.GetDistributionCentre(user.DistributionCentreId);
-            
+            //EmployeeMembershipUser user = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
+            //DistributionCentre _senderCentre = _employeeService.GetDistributionCentre(user.DistributionCentreId);
+
+            DistributionCentre _senderCentre = (DistributionCentre)ViewState["senderCentre"];
             List<string> barcodes = ucPackageBarcode.GetBarcodes();
             for (int i = 0; i < barcodes.Count(); i++)
             {
@@ -72,7 +75,6 @@ namespace ENetCare.Web
 
                 Package package = _packageService.Retrieve(barcodes[i]);
 
-                // Remove Current Lcoation and Set to InTransit the Package Status
                 var result = _packageService.Send(package, _senderCentre, _receiverCentre, sendDate);
                 if (!result.Success)
                 {
@@ -89,26 +91,33 @@ namespace ENetCare.Web
                 else
                 {
                     pnlSuccessMsg.Visible = true;
-                    LitSuccessMsg.Text = "Package(s) Send Successfully! Click OK to Continue";
+                    LitSuccessMsg.Text = "Package(s) Send Successfully! Click OK to Home Page or Next To Continue";
+                    ucPackageBarcode.Visible = false;
                 }
+
             }
 
             txtSendDate.Enabled = false;
             ddlDestination.Enabled = false;
             btnSave.Enabled = false;
-            btnCancel.Text = "OK";
-            btnCancel.Enabled = true;
+            btnClose.Text = "OK";
+            btnClose.Enabled = true;
+            btnNext.Visible = true;
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
+        protected void btnClose_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Send.aspx");
+            Response.Redirect("~/Home.aspx");
+        }
+        protected void btnNext_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Package/Send.aspx");
         }
         private void PackageBarcodeOnAdd(object sender, BarCodeAddValidateEventArgs eventArgs)
         {
             eventArgs.Success = true;
 
-            DistributionCentre centre = (DistributionCentre)ViewState["DistributionCentre"];
+            DistributionCentre centre = (DistributionCentre)ViewState["senderCentre"];
 
             if (eventArgs.Package == null)
             {
@@ -141,5 +150,7 @@ namespace ENetCare.Web
         {
             txtSendDate.Text = string.Format("{0:dd/MM/yyyy}", sendDate);
         }
+
+        
     }
 }
