@@ -228,6 +228,14 @@ namespace ENetCare.Repository
             AddPackage(type2, "04867393563", centreThree, PackageStatus.InStock, DateTime.Parse("12/10/2016"));
             AddPackage(type2, "09423752364", centreThree, PackageStatus.InTransit, DateTime.Parse("12/09/2016"));
             AddPackage(type3, "76523442745", centreThree, PackageStatus.InStock, DateTime.Parse("12/08/2016"));
+
+            AddPackage(type2, "0000000000", mainCentre, PackageStatus.InStock, DateTime.Parse("25/04/2016"));
+            AddPackage(type3, "1232655456", mainCentre, PackageStatus.InTransit, DateTime.Parse("25/04/2016"));
+            AddPackage(type2, "1278710000", mainCentre, PackageStatus.Discarded, DateTime.Parse("25/04/2016"));
+            //No:15
+            AddPackage(type4, "9875400000", mainCentre, PackageStatus.InStock, DateTime.Parse("25/04/2016"));
+            AddPackage(type4, "0000215488", mainCentre, PackageStatus.InStock, DateTime.Parse("25/04/2016"));
+            AddPackage(type2, "0000000000", mainCentre, PackageStatus.InStock, DateTime.Parse("25/04/2016"));
         }
 
 
