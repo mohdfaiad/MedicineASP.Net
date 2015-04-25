@@ -165,6 +165,87 @@ namespace ENetCare.UnitTest
             return newTransitId;
         }
 
+        private Result SendPackage(int packageId, int senderCenterId, int receiverCenterId)
+        {
+            IPackageRepository _mockPackageRepository = new MockPackageRepository();
+            PackageService _packageServices = new PackageService(_mockPackageRepository);
+            Package _package = MockDataAccess.GetPackage(packageId);
+            DistributionCentre _senderLocation = MockDataAccess.GetDistributionCentre(senderCenterId);
+            DistributionCentre _destinationLocation = MockDataAccess.GetDistributionCentre(receiverCenterId);
+            return _packageServices.Send(_package, _senderLocation, _destinationLocation , DateTime.Today);
+        }
+        [TestMethod]
+        // Try to send Package into the Sender Centre location
+        public void TestSendPackage_SameLocation()
+        {
+            IPackageRepository _mockPackageRepository = new MockPackageRepository();
+            PackageService _packageServices = new PackageService(_mockPackageRepository);
+            Package _package = MockDataAccess.GetPackage(3);
+            DistributionCentre _senderLocation = MockDataAccess.GetDistributionCentre(2);
+            DateTime _sendDate = DateTime.Today;
+            var _result = _packageServices.Send(_package, _senderLocation, _senderLocation, _sendDate);
+            Assert.AreEqual<bool>(false, _result.Success);
+        }
+
+        [TestMethod]
+        // Try to send Package which is not abvailable
+        public void TestSendPackage_PackageNotFond()
+        {
+            IPackageRepository _mockPackageRepository = new MockPackageRepository();
+            PackageService _packageServices = new PackageService(_mockPackageRepository);
+            DistributionCentre _senderLocation = MockDataAccess.GetDistributionCentre(1);
+            DistributionCentre _destinationLocation = MockDataAccess.GetDistributionCentre(2);
+            DateTime _sendDate = DateTime.Today;
+            Package _package = null;
+            var _result = _packageServices.Send(_package, _senderLocation, _destinationLocation, _sendDate);
+            Assert.AreEqual<string>(_result.ErrorMessage, "Bar Code not found");
+        }
         
+        [TestMethod]
+        // Try to send package to null destination centre
+        public void TestSendPackage_SendToNullCentre()
+        {
+            IPackageRepository _mockPackageRepository = new MockPackageRepository();
+            PackageService _packageServices = new PackageService(_mockPackageRepository);
+            DistributionCentre _senderLocation = MockDataAccess.GetDistributionCentre(1);
+            DistributionCentre _destinationLocation = MockDataAccess.GetDistributionCentre(2);
+            DateTime _sendDate = DateTime.Today;
+            Package _package = MockDataAccess.GetPackage(15);
+            var _result = _packageServices.Send(_package, _package.CurrentLocation, null, _sendDate);
+            Assert.AreEqual<string>("Please Select the Correct Receiver Centre", _result.ErrorMessage);
+        }
+        
+        [TestMethod]
+        // Try to send package which already is in destination centre
+        public void TestSendPackage_SendToSenderCenter()
+        {
+            var _result = SendPackage(15, 4, 4);
+            Assert.AreEqual<string>("Package appears as being already at the Destination Centre", _result.ErrorMessage);
+        }
+        
+        [TestMethod]
+        // Try to send Discarded Package
+        public void TestSendPackage_SendNotInStockPackage()
+        {
+            var _result = SendPackage(14, 2, 2);
+            Assert.AreEqual<string>("That Package is Not in Stock", _result.ErrorMessage);
+        }
+        
+        [TestMethod]
+        // try to send InTransit Packagepubl
+        public void TestSendPackage_SendInTransitPackage()
+        {
+            var _result = SendPackage(13, 2, 1);
+            Assert.AreEqual<string>("That Package is Not in Stock", _result.ErrorMessage);
+        }
+        
+        [TestMethod]
+        //try to send package that located in somewhere else
+        public void TestSendPackage_AnotherCenter()
+        {
+            var _result = SendPackage(12, 3, 1);
+            Assert.AreEqual<string>("That Package is NOT located in this distribution centre", _result.ErrorMessage);
+        }
+
     }
 }
