@@ -10,6 +10,7 @@ namespace ENetCare.BusinessService
     {
         public const string BarCodeNotFound = "Bar Code not found";
         public const string PackageElsewhere = "That Package is NOT located in this distribution centre";
+        public const string PackageIsNotInStock = "That Package is Not in Stock";
         public const string PackageAlreadyDistributed = "That Package has been distributed";
         public const string PackageInTransit = "That Package is in Transit";
         public const string PackageAlreadyDiscarded = "That Package has been Discarded";
