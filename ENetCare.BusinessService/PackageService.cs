@@ -144,7 +144,11 @@ namespace ENetCare.BusinessService
         }
 
         /// <summary>
-        /// Extended Send method which take Sender and Receiver Center and also do more check
+        /// Extended Send method which take Sender and Receiver Center and also do more check, 
+        /// do some check in package, sender and reciever center and also ckeck the sendDate.
+        /// If the checks are passed the set the Package.CurrentStatus = InTransit,
+        /// Set the Package.CurrentLocation = Null and Update(Package)
+        /// and instantiate new PackageTransit object
         /// </summary>
         /// <param name="barCode"></param>
         /// <param name="senderCentre"></param>
@@ -154,43 +158,48 @@ namespace ENetCare.BusinessService
         public Result Send(Package package, DistributionCentre senderCentre, DistributionCentre receiverCentre, DateTime sendDate)
         {                                                          
             Result sendResult = new Result();
-            //Package package;
-            //package = _packageRepository.GetPackageWidthBarCode(barCode);
-
-            if (package == null)                         // Case: not found
+            
+            if (package == null)                                                  // Case: not found
             {
-                sendResult.ErrorMessage = TransitResult.BarCodeNotFound;
+                sendResult.ErrorMessage = PackageResult.BarCodeNotFound;
                 sendResult.Success = false;
                 return sendResult;
             }
-            if (package.CurrentStatus != PackageStatus.InStock)  // Case: not in stock 
+            if (package.CurrentStatus != PackageStatus.InStock)                   // Case: not in stock 
             {
-                sendResult.ErrorMessage = TransitResult.PackageNotInStock;
+                sendResult.ErrorMessage = PackageResult.PackageIsNotInStock;
                 sendResult.Success = false;
                 return sendResult;
             }
-            if (package.CurrentLocation.CentreId != senderCentre.CentreId)    //  Case: not in this centre
+            if (package.CurrentLocation.CentreId == null)                         // Cass: Package already in Transit
             {
-                sendResult.ErrorMessage = TransitResult.PackageElsewhere;
+                sendResult.ErrorMessage = PackageResult.PackageInTransit + " or" + PackageResult.PackageElsewhere;
                 sendResult.Success = false;
                 return sendResult;
             }
-            if (package.CurrentLocation.Name == receiverCentre.Name)          // Case:  Desitiny = Sending Centre
+            if (package.CurrentLocation.CentreId != senderCentre.CentreId)        //  Case: not in this centre
             {
-                sendResult.ErrorMessage = TransitResult.PackageAlreadyAtDestination;
+                sendResult.ErrorMessage = PackageResult.PackageElsewhere;
                 sendResult.Success = false;
                 return sendResult;
             }
-            if (receiverCentre == null)         // Case: Receiver Centre 
+            if (receiverCentre == null)                                           // Case: Receiver Centre 
             {
                 sendResult.ErrorMessage = TransitResult.ReceiverCentreNull;
                 sendResult.Success = false;
                 return sendResult;
             }
+            if (senderCentre.CentreId == receiverCentre.CentreId)
+            {
+                sendResult.ErrorMessage = TransitResult.PackageAlreadyAtDestination;
+                sendResult.Success = false;
+                return sendResult;
+            }
+            
             // System.DateTime.Now.AddDays(-1) -> to get yesterday. might send the package on the same day
-            int timeCompare = DateTime.Compare(System.DateTime.Now.AddDays(-1), sendDate);
             //timeCompare DateTime.Compare(t1,t2) 
             //Less than zero t1 is earlier than t2. | Zero t1 is the same as t2. | Greater than zero t1 is later than t2. 
+            int timeCompare = DateTime.Compare(System.DateTime.Now.AddDays(-1), sendDate);
             if (timeCompare > zero)
             {
                 sendResult.ErrorMessage = TransitResult.InvalidSendDate;
@@ -198,11 +207,13 @@ namespace ENetCare.BusinessService
                 return sendResult;
             }
             
+            //Update the package
             package.CurrentStatus = PackageStatus.InTransit;        // Proceed to set it as intransit
             package.CurrentLocation = null;                         // Remove current location 
             _packageRepository.Update(package);                     // Update package
             sendResult.Success = true;
-
+            
+            //Create new PackageTransit
             PackageTransit packageTransit = new PackageTransit
             {
                 Package = package,
@@ -213,9 +224,7 @@ namespace ENetCare.BusinessService
                 ReceiverCentre = receiverCentre,
             };
             int TransitId = _packageRepository.InsertTransit(packageTransit);
-            //packageTransit.TransitId = TransitId;
-            //_packageRepository.UpdateTransit(packageTransit);
-
+            
             return sendResult;
         }
 
