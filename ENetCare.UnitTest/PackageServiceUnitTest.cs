@@ -13,7 +13,6 @@ namespace ENetCare.UnitTest
     [TestClass]
     public class PackageServiceUnitTest
     {
-
         public PackageServiceUnitTest()
         {
             MockDataAccess.LoadMockTables();
@@ -57,6 +56,21 @@ namespace ENetCare.UnitTest
             Assert.AreEqual<string>(compareBarCode, barCode);
         }
 
+        [TestMethod]
+        public void TestRegisterPackageExpirationDateTooEarly()
+        {
+            IPackageRepository packageRepository = new MockPackageRepository();
+            PackageService packageService = new PackageService(packageRepository);
+            StandardPackageType packageType = MockDataAccess.GetPackageType(3);
+            DistributionCentre location = MockDataAccess.GetDistributionCentre(2);
+            DateTime expirationDate = DateTime.Today.AddDays(-1);
+            string barCode;
+            var result = packageService.Register(packageType, location, expirationDate, out barCode);
+            int newPackageId = result.Id;
+
+            Assert.AreEqual<bool>(result.Success, false);
+            Assert.AreEqual<string>(result.ErrorMessage, PackageResult.ExpirationDateCannotBeEarlierThanToday);
+        }
             
         private Result DistributePackage(int currentCentreId, string userName, string barCode)
         {
@@ -150,6 +164,19 @@ namespace ENetCare.UnitTest
             Result res = packageService.CancelTransit(package1.BarCode, DateTime.Today);                // cancel transit
             int foundTransits = myMockPackageRepo.GetActiveTransitsByPackage(package1).Count;
             Assert.IsTrue(res.Success && foundTransits == 0);
+        }
+
+        [TestMethod]
+        public void TestReceivePackage_ReceiveDateTooEarly()
+        {
+            MockPackageRepository myMockPackageRepo = new MockPackageRepository();
+            PackageService packageService = new PackageService(myMockPackageRepo);
+            Package package1 = MockDataAccess.GetPackage(3);
+            DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(3);
+            int newTransitId = InsertMockTransit(package1, 2, 3);                                       // insert transit
+            Result res = packageService.Receive(package1.BarCode, myReceiverCentre, DateTime.Today.AddMonths(-1));                // receive            
+            Assert.AreEqual<bool>(res.Success, false);
+            Assert.AreEqual<string>(res.ErrorMessage, PackageResult.ReceiveDateCannotBeEarlierThanSend);
         }
 
         public int InsertMockTransit(Package Package, int SenderId, int ReceiverId)

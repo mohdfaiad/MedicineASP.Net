@@ -51,6 +51,15 @@ namespace ENetCare.BusinessService
                 Success = true
             };
 
+            barcode = string.Empty;
+
+            if (expirationDate < DateTime.Today)
+            {
+                result.Success = false;
+                result.ErrorMessage = PackageResult.ExpirationDateCannotBeEarlierThanToday;                
+                return result;
+            }
+
             Package package = new Package
             {
                 PackageType = packageType,
@@ -107,6 +116,7 @@ namespace ENetCare.BusinessService
             //return string.Format("00001{0:yyMMdd}00001", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
         }
 
+        // This send method is old and redundant please remove
         public Result Send(string barCode, DistributionCentre senderCentre, DateTime date)
         {                                                          // (P. 24-03-2015)
             Result sendResult = new Result();
@@ -229,14 +239,22 @@ namespace ENetCare.BusinessService
                 receiveResult.Success = false;
                 return receiveResult;
             }
+
             PackageTransit activeTransit = _packageRepository.GetTransit(package, null);
 
             // If there is an active transit set Date Received or Date Cancelled and update
             // Even if there is no transit record the receive should still work
             if (activeTransit != null)
             {
-                if (activeTransit.ReceiverCentre.CentreId == receiverCentre.CentreId)
-                    activeTransit.DateReceived = date;
+                if (date < activeTransit.DateSent)
+                {
+                    receiveResult.Success = false;
+                    receiveResult.ErrorMessage = PackageResult.ReceiveDateCannotBeEarlierThanSend;
+                    return receiveResult;
+                }
+
+                if (activeTransit.ReceiverCentre.CentreId == receiverCentre.CentreId)                                   
+                    activeTransit.DateReceived = date;                
                 else
                     activeTransit.DateCancelled = date; // something went wrong with the transit so just cancel it
 
@@ -247,6 +265,7 @@ namespace ENetCare.BusinessService
             package.CurrentLocation = receiverCentre;               // set package location
             _packageRepository.Update(package);                     // update packages DB
             receiveResult.Success = true;
+            receiveResult.Id = package.PackageId;
             return receiveResult;
         }
 
