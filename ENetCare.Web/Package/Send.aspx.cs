@@ -64,9 +64,6 @@ namespace ENetCare.Web
             int selectedCentreId = int.Parse(ddlDestination.SelectedValue);
             DistributionCentre _receiverCentre = _employeeService.GetDistributionCentre(selectedCentreId);
 
-            //EmployeeMembershipUser user = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
-            //DistributionCentre _senderCentre = _employeeService.GetDistributionCentre(user.DistributionCentreId);
-
             DistributionCentre _senderCentre = (DistributionCentre)ViewState["senderCentre"];
             List<string> barcodes = ucPackageBarcode.GetBarcodes();
             for (int i = 0; i < barcodes.Count(); i++)
@@ -91,7 +88,7 @@ namespace ENetCare.Web
                 else
                 {
                     pnlSuccessMsg.Visible = true;
-                    LitSuccessMsg.Text = "Package(s) Send Successfully! Click OK to Home Page or Next To Continue";
+                    LitSuccessMsg.Text = "Package(s) SEND successfully! Click Close to Home-Page or Next to Continue";
                     ucPackageBarcode.Visible = false;
                 }
 
@@ -125,7 +122,12 @@ namespace ENetCare.Web
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.BarCodeNotFound;
             }
-            if (eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
+            if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageInTransit;
+            }
+            if (eventArgs.Package.CurrentLocation == null || eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageElsewhere;
@@ -134,11 +136,6 @@ namespace ENetCare.Web
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageAlreadyDistributed;
-            }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
-            {
-                eventArgs.Success = false;
-                eventArgs.ErrorMessage = PackageResult.PackageInTransit;
             }
             if (eventArgs.Package.CurrentStatus == PackageStatus.Discarded)
             {
@@ -151,7 +148,5 @@ namespace ENetCare.Web
         {
             txtSendDate.Text = string.Format("{0:dd/MM/yyyy}", sendDate);
         }
-
-        
     }
 }
