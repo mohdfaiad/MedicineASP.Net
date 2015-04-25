@@ -81,12 +81,15 @@ namespace ENetCare.Web
                 }
             }
 
-            Response.Redirect("Distribute.aspx");
+            pnlErrorMessage.Visible = true;
+            litErrorMessage.Text = "Package(s) have been successfully distributed";
+
+            ucPackageBarcode.Clear();
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/Distribute.aspx");
+            Response.Redirect("/home.aspx");
         }
 
         private void PackageBarcodeOnAdd(object sender, BarCodeAddValidateEventArgs eventArgs)
@@ -100,25 +103,37 @@ namespace ENetCare.Web
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.BarCodeNotFound;
             }
-            if (eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
+            else if (eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageElsewhere;
             }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.Distributed)
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.Lost)
             {
                 eventArgs.Success = false;
-                eventArgs.ErrorMessage = PackageResult.PackageAlreadyDistributed;
+                eventArgs.ErrorMessage = PackageResult.PackageIsLost;
             }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageInTransit;
             }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.Discarded)
+
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.Distributed)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageAlreadyDistributed;
+            }
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.Discarded)
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageAlreadyDiscarded;
+            }
+
+            if (eventArgs.Package.ExpirationDate <= DateTime.Now)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageHasExpired;
             }
         }
     }
