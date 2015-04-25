@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
     <div>
     <asp:Login ID = "Login1" runat = "server" DestinationPageUrl="~/Home.aspx"
-        OnAuthenticate= "ValidateUser"></asp:Login>
+        DisplayRememberMe="False" OnAuthenticate= "ValidateUser"></asp:Login>
     </div>
     </form>
 </body>

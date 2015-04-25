@@ -575,7 +575,7 @@ namespace ENetCare.Repository
         public static int UpdateInstockFromAudit(SqlConnection connection, int auditId, DistributionCentre location, StandardPackageType packageType)
         {            // define INSERT query with parameters 
 
-            string query = "UPDATE Package SET CurrentStatus = 'INSTOCK', CurrentLocationCentreId = @DistributionCentreId " +
+            string query = "UPDATE Package SET CurrentStatus = 'INSTOCK', CurrentLocationCentreId = @DistributionCentreId, DistributedByEmployeeId = null " +
                             "FROM Package p " +
                             "INNER JOIN AuditPackage a ON a.PackageId = p.PackageId AND a.AuditId = @AuditId " +
                             "WHERE p.PackageTypeId = @PackageTypeId AND " +

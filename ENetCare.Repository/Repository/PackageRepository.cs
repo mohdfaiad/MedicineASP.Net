@@ -78,28 +78,15 @@ namespace ENetCare.Repository.Repository
             return package;
         }
 
-        /*
-        public Package Get(int? packageId)                           // Added by Pablo on 24-03-15
-        {                                                             // overload for get with single argument
+        public Package GetPackageWidthBarCode(string barCode)                           // Added by Pablo on 24-03-15
+        { 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                List<Package> allPackages = DataAccess.GetAllPackages(connection);
-                foreach (Package p in allPackages) if (p.PackageId == packageId) return p;
+                connection.Open();
+
+                return DataAccess.GetPackage(connection, null, barCode);                
             }
-            return null;
-        }
-        */
-
-
-       public Package GetPackageWidthBarCode(string barCode)                           // Added by Pablo on 24-03-15
-        { 
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            connection.Open();  
-            List<Package> allPackages = DataAccess.GetAllPackages(connection);
-            foreach(Package p in allPackages) if(p.BarCode==barCode) return p;
-        }
-           return null;     
+            return null;     
         }
 
         public List<StandardPackageType> GetAllStandardPackageTypes()

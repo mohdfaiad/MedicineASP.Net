@@ -95,6 +95,8 @@ namespace ENetCare.Web.UserControl
                 dr["PackageId"] = package.PackageId;
 
                 dt.Rows.Add(dr);
+
+                txtBarcode.Text = string.Empty;
             }
 
             grd.DataSource = dt; // bind new datatable to grid
