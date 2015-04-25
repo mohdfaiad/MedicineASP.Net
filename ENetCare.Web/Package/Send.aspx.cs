@@ -59,10 +59,15 @@ namespace ENetCare.Web
                 return;
             }
 
+            StringBuilder successMessage = new StringBuilder(10);
+
             DateTime sendDate = DateTime.Parse(Request.Form[txtSendDate.UniqueID]);
 
             int selectedCentreId = int.Parse(ddlDestination.SelectedValue);
             DistributionCentre _receiverCentre = _employeeService.GetDistributionCentre(selectedCentreId);
+
+            //EmployeeMembershipUser user = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
+            //DistributionCentre _senderCentre = _employeeService.GetDistributionCentre(user.DistributionCentreId);
 
             DistributionCentre _senderCentre = (DistributionCentre)ViewState["senderCentre"];
             List<string> barcodes = ucPackageBarcode.GetBarcodes();
@@ -78,22 +83,30 @@ namespace ENetCare.Web
                     var err = new CustomValidator();
                     err.ValidationGroup = "sendDetails";
                     err.IsValid = false;
-                    err.ErrorMessage = result.ErrorMessage;
+                    err.ErrorMessage = string.Format("{0} - {1}", barcodes[i], result.ErrorMessage);
                     Page.Validators.Add(err);
 
                     pnlErrorMessage.Visible = true;
                     litErrorMessage.Text = "There are errors";
-                    return;
                 }
                 else
                 {
-                    pnlSuccessMsg.Visible = true;
-                    LitSuccessMsg.Text = "Package(s) SEND successfully! Click Close to Home-Page or Next to Continue";
-                    ucPackageBarcode.Visible = false;
-                }
+                    if (successMessage.Length == 0)
+                    {
+                        successMessage.Append("The following barcodes were sent");
+                    }
 
+                    successMessage.AppendFormat(", {0}", barcodes[i]);
+                }
             }
 
+            if (successMessage.Length > 0)
+            {
+                pnlMessage.Visible = true;
+                litMessage.Text = successMessage.ToString();
+            }
+
+            ucPackageBarcode.Visible = false;
             txtSendDate.Enabled = false;
             ddlDestination.Enabled = false;
             btnSave.Enabled = false;
@@ -122,12 +135,7 @@ namespace ENetCare.Web
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.BarCodeNotFound;
             }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
-            {
-                eventArgs.Success = false;
-                eventArgs.ErrorMessage = PackageResult.PackageInTransit;
-            }
-            if (eventArgs.Package.CurrentLocation == null || eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
+            if (eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageElsewhere;
@@ -136,6 +144,11 @@ namespace ENetCare.Web
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageAlreadyDistributed;
+            }
+            if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageInTransit;
             }
             if (eventArgs.Package.CurrentStatus == PackageStatus.Discarded)
             {
@@ -148,5 +161,7 @@ namespace ENetCare.Web
         {
             txtSendDate.Text = string.Format("{0:dd/MM/yyyy}", sendDate);
         }
+
+        
     }
 }
