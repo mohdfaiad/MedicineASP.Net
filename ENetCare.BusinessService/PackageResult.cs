@@ -15,6 +15,8 @@ namespace ENetCare.BusinessService
         public const string PackageInTransit = "That Package is in Transit";
         public const string PackageAlreadyDiscarded = "That Package has been Discarded";
         public const string PackageNotExpired = "That package cannot be discarded until it has expired on ";
+        public const string PackageIsLost = "Unfortunetly That package has been lost";
+        public const string PackageHasExpired = "That package has expired, cannot distribute an expired package";
         public const string EmployeeNotAuthorized = "You are not authorized to distribute packages";
         public const string EmployeeInDifferentLocation = "That Package is NOT located in this distribution centre";
     }
