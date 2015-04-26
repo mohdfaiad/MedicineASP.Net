@@ -44,7 +44,7 @@ namespace ENetCare.UnitTest
                 }
             }
 
-            return MockDataAccess.GetEmployee(5);
+            return null;
         }     
     }
 }
