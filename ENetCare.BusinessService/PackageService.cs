@@ -116,43 +116,6 @@ namespace ENetCare.BusinessService
             //return string.Format("00001{0:yyMMdd}00001", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
         }
 
-        // This send method is old and redundant please remove
-        public Result Send(string barCode, DistributionCentre senderCentre, DateTime date)
-        {                                                          // (P. 24-03-2015)
-            Result sendResult = new Result();
-            Package package;
-            package = _packageRepository.GetPackageWidthBarCode(barCode);
-            if (package == null)                         // Case: not found
-            {
-                sendResult.ErrorMessage = TransitResult.BarCodeNotFound;
-                sendResult.Success = false;
-                return sendResult;
-            }
-            if (package.CurrentLocation != senderCentre)    //  Case: not in this centre
-            {
-                sendResult.ErrorMessage = TransitResult.PackageElsewhere;
-                sendResult.Success = false;
-                return sendResult;
-            }
-            if (package.CurrentStatus != PackageStatus.InStock)  // Case: not in stock 
-            {
-                sendResult.ErrorMessage = TransitResult.PackageNotInStock;
-                sendResult.Success = false;
-                return sendResult;
-            }
-            if (package.CurrentLocation == senderCentre)          // Case:  Desitiny = Sending Centre
-            {
-                sendResult.ErrorMessage = TransitResult.PackageAlreadyAtDestination;
-                sendResult.Success = false;
-                return sendResult;
-            }
-            package.CurrentStatus = PackageStatus.InTransit;        // Proceed to set it as intransit
-            package.CurrentLocation = null;                         // Remove current location 
-            _packageRepository.Update(package);                     // Update package
-            sendResult.Success = true;
-            return sendResult;
-        }
-
         /// <summary>
         /// Extended Send method which take Sender and Receiver Center and also do more check, 
         /// do some check in package, sender and reciever center and also ckeck the sendDate.
