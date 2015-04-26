@@ -107,10 +107,15 @@ namespace ENetCare.UnitTest
         [TestMethod]
         public void TestDistribute_DistributedCurrentLocationError()
         {
-            //"ihab" works in centre 4 and the package "45634271234" is already distributed
-            string barCode = "11623542734";
-            var result = DistributePackage(4, "ihab", barCode);
-            Assert.AreEqual("Package has been already distributed: " + barCode, result.ErrorMessage);
+            MockPackageRepository packageRepository = new MockPackageRepository();
+            PackageService _packageService = new PackageService(packageRepository);
+            Employee emp = MockDataAccess.GetEmployee(2);
+            Package p = MockDataAccess.GetPackage(3);
+            p.CurrentStatus = PackageStatus.Distributed;
+            p.CurrentLocation = MockDataAccess.GetDistributionCentre(4);
+            Result result = _packageService.Distribute(p.BarCode, p.CurrentLocation, emp, p.ExpirationDate, p.PackageType, p.PackageId);
+            Assert.AreEqual(false, result.Success);
+            //Assert.AreEqual("Package has been already distributed: " + barCode, result.ErrorMessage);
         }
 
         [TestMethod]
@@ -132,9 +137,9 @@ namespace ENetCare.UnitTest
         {
             MockPackageRepository myMockPackageRepo = new MockPackageRepository();
             PackageService packageService = new PackageService(myMockPackageRepo);
-            Package package1 = MockDataAccess.GetPackage(3);
             DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(3);
-            Result res = packageService.Receive("0001015042500004", myReceiverCentre, DateTime.Today);
+            string bCode = "0001015042500004";        // package1.BarCode; //
+            Result res = packageService.Receive(bCode, myReceiverCentre, DateTime.Today);
             Assert.AreEqual<bool>(res.Success, false);
             Assert.AreEqual<string>(res.ErrorMessage, TransitResult.BarCodeNotFound);
         }

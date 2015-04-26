@@ -207,6 +207,8 @@ namespace ENetCare.BusinessService
 
         /// <summary>
         /// Attempts to update package with "barCode" and its associated transit
+        /// sets packages location and status
+        /// sets transit's "date received" as today
         /// </summary>
         /// <param name="barCode"></param>
         /// <param name="receiverCentre"></param>
@@ -254,6 +256,7 @@ namespace ENetCare.BusinessService
 
         /// <summary>
         /// Attempts to update Transit with "barCode" and its associated package so as to cancel transit
+        /// sets transit's "DateCancelled" as today
         /// </summary>
         /// <param name="barCode"></param>
         /// <param name="dateCancelled"></param>
@@ -308,7 +311,15 @@ namespace ENetCare.BusinessService
                 return result;
             }
 
-            Package package = new Package
+            Package package = _packageRepository.GetPackageWidthBarCode(barCode);
+            if(package.CurrentStatus==PackageStatus.Distributed)
+            {
+                result.Success = false;
+                result.ErrorMessage = PackageResult.PackageAlreadyDistributed;
+                return result;
+            }
+
+            Package package2 = new Package
             {
                 PackageType = packageType,
                 CurrentLocation = distributionCentre,
@@ -319,7 +330,7 @@ namespace ENetCare.BusinessService
                 BarCode = barCode
             };
 
-            _packageRepository.Update(package);
+            _packageRepository.Update(package2);
 
             result.Id = package.PackageId;
 
@@ -328,6 +339,7 @@ namespace ENetCare.BusinessService
 
         /// <summary>
         /// Attempts to update package with "packageId" to discard it, if currently logged employee is autorized
+        /// Sets package's status as discarded
         /// </summary>
         /// <param name="barCode"></param>
         /// <param name="distributionCentre"></param>

@@ -85,7 +85,6 @@ namespace ENetCare.UnitTest
             MockReportRepository repo = new MockReportRepository();
             ReportService _reportService = new ReportService(repo);
             List<StocktakingPackage> spList = _reportService.GetStocktaking(4);
-
             foreach (StocktakingPackage p in spList) Debug.WriteLine(p.ToString());
             Debug.WriteLine("Number of items: " + spList.Count());
             Assert.IsTrue(spList.Count() > 0); 
