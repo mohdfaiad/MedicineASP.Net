@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ENetCare.BusinessService
 {
+    /// <summary>
+    /// This class holds constants to be used by the "Result" Class
+    /// </summary>
     public static class EmployeeResult
     {
         public const string UserNameCannotByEmpty = "User Name cannot be empty";

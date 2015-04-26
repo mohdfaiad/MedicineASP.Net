@@ -12,7 +12,11 @@ namespace ENetCare.BusinessService
     {
         private readonly int zero = 0;
         private IPackageRepository _packageRepository;
-     
+
+        /// <summary>
+        /// This constructor simply sets the packageRepository to the one passed as parameter
+        /// </summary>
+        /// <param name="packageRepository"></param>
         public PackageService(IPackageRepository packageRepository)
         {
             _packageRepository = packageRepository;
@@ -201,6 +205,13 @@ namespace ENetCare.BusinessService
             return sendResult;
         }
 
+        /// <summary>
+        /// Attempts to update package with "barCode" and its associated transit
+        /// </summary>
+        /// <param name="barCode"></param>
+        /// <param name="receiverCentre"></param>
+        /// <param name="date"></param>
+        /// <returns> Result object according to success or failure </returns>
         public Result Receive(string barCode, DistributionCentre receiverCentre, DateTime date)
         {                                                                 // (P. 24-03-2015)
             Result receiveResult = new Result();
@@ -241,6 +252,12 @@ namespace ENetCare.BusinessService
             return receiveResult;
         }
 
+        /// <summary>
+        /// Attempts to update Transit with "barCode" and its associated package so as to cancel transit
+        /// </summary>
+        /// <param name="barCode"></param>
+        /// <param name="dateCancelled"></param>
+        /// <returns> Result object according to success or failure </returns>
         public Result CancelTransit(string barCode, DateTime dateCancelled)        // (P. 07-04-2015)
         {
             Result cResult = new Result();
@@ -267,7 +284,16 @@ namespace ENetCare.BusinessService
             return cResult;
         }
 
-
+        /// <summary>
+        /// Attempts to update package with "packageId" so as to distibute it, if currently logged employee is autorized 
+        /// </summary>
+        /// <param name="barCode"></param>
+        /// <param name="distributionCentre"></param>
+        /// <param name="employee"></param>
+        /// <param name="expirationDate"></param>
+        /// <param name="packageType"></param>
+        /// <param name="packageId"></param>
+        /// <returns> Result object according to success or failure </returns>
         public Result Distribute(string barCode, DistributionCentre distributionCentre, Employee employee, DateTime expirationDate, StandardPackageType packageType, int packageId)
         {
             var result = new Result
@@ -300,6 +326,16 @@ namespace ENetCare.BusinessService
             return result;
         }
 
+        /// <summary>
+        /// Attempts to update package with "packageId" to discard it, if currently logged employee is autorized
+        /// </summary>
+        /// <param name="barCode"></param>
+        /// <param name="distributionCentre"></param>
+        /// <param name="employee"></param>
+        /// <param name="expirationDate"></param>
+        /// <param name="packageType"></param>
+        /// <param name="packageId"></param>
+        /// <returns> Result object according to success or failure </returns>
         public Result Discard(string barCode, DistributionCentre distributionCentre, Employee employee, DateTime expirationDate, StandardPackageType packageType, int packageId)
         {
             var result = new Result

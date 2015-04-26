@@ -10,6 +10,10 @@ namespace ENetCare.Repository
 {
     public class Populator
     {
+        /// <summary>
+        /// This method inserts records into database
+        /// </summary>
+        /// <param name="connection"></param>
         public void Run(SqlConnection connection)
         {
             InsertCentreSamples(connection);
@@ -19,6 +23,10 @@ namespace ENetCare.Repository
             InsertTransitSamples(connection);
         }
 
+        /// <summary>
+        /// Inserts sample Distribution Centres records into database
+        /// </summary>
+        /// <param name="connection"></param>
         public void InsertCentreSamples(SqlConnection connection) 
         {
             connection.Open();
@@ -46,9 +54,10 @@ namespace ENetCare.Repository
             connection.Close();   
         }
 
-
-
-
+        /// <summary>
+        /// Inserts sample standard package types into database 
+        /// </summary>
+        /// <param name="connection"></param>
         public void InsertPackageTypeSamples(SqlConnection connection)
         {
             connection.Open();
@@ -73,8 +82,10 @@ namespace ENetCare.Repository
             connection.Close();
         }
 
-
-
+        /// <summary>
+        /// inserts sample employees records into database
+        /// </summary>
+        /// <param name="connection"></param>
         public void InsertEmployeeSamples(SqlConnection connection)
         {
             connection.Open();
@@ -98,21 +109,37 @@ namespace ENetCare.Repository
             connection.Close();
         }
 
-
-
+        /// <summary>
+        /// Inserts sample package records into database
+        /// </summary>
+        /// <param name="connection"></param>
         public void InsertPackageSamples(SqlConnection connection)
         {
             connection.Open();
             string queryFirstBit = "INSERT Package VALUES (";
             string queryLastBit = ")";
-            string[] ins = new string[7];
-            ins[0] = "'012365423', '2015/5/20', 1, 1, 'INSTOCK', NULL";
-            ins[1] = "'092312332', '2015/4/12', 1, NULL, 'INTRANSIT', NULL";
-            ins[2] = "'086312442', '2015/6/05', 1, 2, 'DISTRIBUTED', 2";
-            ins[3] = "'076315662', '2015/9/12', 2, 1, 'INSTOCK', NULL";
-            ins[4] = "'075518862', '2015/10/5', 2, NULL, 'INTRANSIT', NULL";
-            ins[5] = "'074445689', '2015/9/22', 2, 2, 'DISTRIBUTED', 2";
-            ins[6] = "'073243688', '2015/8/22', 2, 2, 'LOST', 2";
+            string[] ins = new string[21];
+            ins[0]  = "'012365423', '2015/5/20', 1, 1, 'INSTOCK', NULL";
+            ins[1]  = "'092312332', '2015/4/12', 1, NULL, 'INTRANSIT', NULL";
+            ins[2]  = "'086312442', '2015/6/05', 1, 2, 'DISTRIBUTED', 2";
+            ins[3]  = "'076315662', '2015/9/12', 2, 1, 'INSTOCK', NULL";
+            ins[4]  = "'075518862', '2015/10/5', 2, NULL, 'INTRANSIT', NULL";
+            ins[5]  = "'074445689', '2015/9/22', 2, 2, 'DISTRIBUTED', 2";
+            ins[6]  = "'073243688', '2015/8/22', 2, 2, 'LOST', 2";
+            ins[7]  = "'022365423', '2015/2/20', 1, 1, 'INSTOCK', NULL";
+            ins[8]  = "'022312332', '2015/2/12', 1, NULL, 'INTRANSIT', NULL";
+            ins[9]  = "'026312442', '2015/2/05', 1, 2, 'DISTRIBUTED', 2";
+            ins[10] = "'026315662', '2015/2/12', 2, 1, 'INSTOCK', NULL";
+            ins[11] = "'025518862', '2015/3/5', 2, NULL, 'INTRANSIT', NULL";
+            ins[12] = "'024445689', '2015/3/22', 2, 2, 'DISTRIBUTED', 2";
+            ins[13] = "'023243688', '2015/3/22', 2, 2, 'LOST', 2";
+            ins[14] = "'032365423', '2015/5/20', 1, 1, 'INSTOCK', NULL";
+            ins[15] = "'032312332', '2015/4/12', 1, 2, 'INSTOCK', NULL";
+            ins[16] = "'036312442', '2015/6/05', 1, 2, 'INSTOCK', NULL";
+            ins[17] = "'036315662', '2015/9/12', 2, 1, 'INSTOCK', NULL";
+            ins[18] = "'035518862', '2015/10/5', 2, 2, 'INSTOCK', NULL";
+            ins[19] = "'034445689', '2015/9/22', 2, 2, 'INSTOCK', NULL";
+            ins[20] = "'033243688', '2015/8/22', 2, 2, 'INSTOCK', NULL";
             foreach (string queryVals in ins)
             {
                 string query = queryFirstBit + queryVals + queryLastBit;
@@ -122,9 +149,10 @@ namespace ENetCare.Repository
             connection.Close();
         }
 
-
-
-
+        /// <summary>
+        /// Inserts sample transit records into database
+        /// </summary>
+        /// <param name="connection"></param>
         public void InsertTransitSamples(SqlConnection connection)
         {
             connection.Open();
@@ -143,9 +171,6 @@ namespace ENetCare.Repository
             }
             connection.Close();
         }
-
-
-
 
 
     }
