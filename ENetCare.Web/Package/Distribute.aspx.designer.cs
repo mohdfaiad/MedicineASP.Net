@@ -76,13 +76,13 @@ namespace ENetCare.Web {
         protected global::System.Web.UI.WebControls.Literal litBarcodeList;
         
         /// <summary>
-        /// btnCancel control.
+        /// btnClose control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCancel;
+        protected global::System.Web.UI.WebControls.Button btnClose;
         
         /// <summary>
         /// btnSave control.

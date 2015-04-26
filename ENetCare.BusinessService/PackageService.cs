@@ -271,6 +271,7 @@ namespace ENetCare.BusinessService
 
             package.CurrentStatus = PackageStatus.InStock;          // set packagestatus
             package.CurrentLocation = receiverCentre;               // set package location
+            package.DistributedBy = null;                           // set distributed by employee to null
             _packageRepository.Update(package);                     // update packages DB
             receiveResult.Success = true;
             receiveResult.Id = package.PackageId;
@@ -357,7 +358,7 @@ namespace ENetCare.BusinessService
                 CurrentStatus = PackageStatus.Discarded,
                 PackageId = packageId,
                 ExpirationDate = expirationDate,
-                DistributedBy = employee,
+                DistributedBy = null,
                 BarCode = barCode
             };
 

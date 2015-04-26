@@ -26,7 +26,7 @@
         <asp:Literal ID="litBarcodeList" runat="Server"/>
     </p>
     
-    <asp:Button ID="btnCancel" runat="server" CssClass="fd-add" CausesValidation="true" Text="Cancel" OnClick="btnCancel_Click" />
+    <asp:Button ID="btnClose" runat="server" CssClass="fd-add" CausesValidation="false" Text="Close" OnClick="btnClose_Click" />
     <asp:Button ID="btnSave" runat="server" CssClass="fd-add" CausesValidation="true" Text="Save" OnClick="btnSave_Click" />
 
 </asp:Content>

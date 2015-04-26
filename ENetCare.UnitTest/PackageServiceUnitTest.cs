@@ -128,30 +128,15 @@ namespace ENetCare.UnitTest
         }
 
         [TestMethod]
-        public void TestReceivePackage_NotFound()
+        public void TestReceivePackage_BarcodeNotFound()
         {
             MockPackageRepository myMockPackageRepo = new MockPackageRepository();
             PackageService packageService = new PackageService(myMockPackageRepo);
             Package package1 = MockDataAccess.GetPackage(3);
             DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(3);
-            Result res = packageService.Receive(package1.BarCode, myReceiverCentre, DateTime.Today);
-            Assert.AreEqual("Transit not found", res.ErrorMessage);
-        }
-
-        [TestMethod]
-        public void TestReceivePackage_WrongLocation()
-        {
-            MockPackageRepository myMockPackageRepo = new MockPackageRepository();
-            PackageService packageService = new PackageService(myMockPackageRepo);
-            Package package1 = MockDataAccess.GetPackage(3);
-            DistributionCentre myReceiverCentre = MockDataAccess.GetDistributionCentre(5);
-            int newTransitId = InsertMockTransit(package1, 2, 3);                                       // insert transit
-            Result res = packageService.Receive(package1.BarCode, myReceiverCentre, DateTime.Today);
-            PackageTransit finishedTransit = MockDataAccess.GetPackageTransit(newTransitId);
-            Debug.WriteLine(finishedTransit.ToString());
-            Result wrongDestiResult = new Result();
-            wrongDestiResult.ErrorMessage = TransitResult.WrongReceiver;
-            Assert.IsTrue(finishedTransit.IsPastTransit() &&  res.ErrorMessage==wrongDestiResult.ErrorMessage);
+            Result res = packageService.Receive("0001015042500004", myReceiverCentre, DateTime.Today);
+            Assert.AreEqual<bool>(res.Success, false);
+            Assert.AreEqual<string>(res.ErrorMessage, TransitResult.BarCodeNotFound);
         }
 
         [TestMethod]
