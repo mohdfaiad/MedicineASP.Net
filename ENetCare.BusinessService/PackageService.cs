@@ -95,9 +95,9 @@ namespace ENetCare.BusinessService
         }
 
         /// <summary>
-        /// List all the Standard Package Types in the database
+        /// Returns a List object with all the Standard Package Types in the database
         /// </summary>
-        /// <returns></returns>
+        /// <returns> List object </returns>
         public List<StandardPackageType> GetAllStandardPackageTypes()
         {
             return _packageRepository.GetAllStandardPackageTypes();
@@ -224,6 +224,7 @@ namespace ENetCare.BusinessService
                 receiveResult.Success = false;
                 return receiveResult;
             }
+
             PackageTransit activeTransit = _packageRepository.GetTransit(package, null);
 
             // If there is an active transit set Date Received or Date Cancelled and update
