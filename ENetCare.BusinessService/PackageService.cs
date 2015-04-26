@@ -51,6 +51,15 @@ namespace ENetCare.BusinessService
                 Success = true
             };
 
+            barcode = string.Empty;
+
+            if (expirationDate < DateTime.Today)
+            {
+                result.Success = false;
+                result.ErrorMessage = PackageResult.ExpirationDateCannotBeEarlierThanToday;
+                return result;
+            }
+
             Package package = new Package
             {
                 PackageType = packageType,
@@ -107,6 +116,7 @@ namespace ENetCare.BusinessService
             //return string.Format("00001{0:yyMMdd}00001", package.PackageType.PackageTypeId, package.ExpirationDate, package.PackageId);
         }
 
+        // This send method is old and redundant please remove
         public Result Send(string barCode, DistributionCentre senderCentre, DateTime date)
         {                                                          // (P. 24-03-2015)
             Result sendResult = new Result();
@@ -244,6 +254,13 @@ namespace ENetCare.BusinessService
             // Even if there is no transit record the receive should still work
             if (activeTransit != null)
             {
+                if (date < activeTransit.DateSent)
+                {
+                    receiveResult.Success = false;
+                    receiveResult.ErrorMessage = PackageResult.ReceiveDateCannotBeEarlierThanSend;
+                    return receiveResult;
+                }
+                
                 if (activeTransit.ReceiverCentre.CentreId == receiverCentre.CentreId)
                     activeTransit.DateReceived = date;
                 else
@@ -256,6 +273,7 @@ namespace ENetCare.BusinessService
             package.CurrentLocation = receiverCentre;               // set package location
             _packageRepository.Update(package);                     // update packages DB
             receiveResult.Success = true;
+            receiveResult.Id = package.PackageId;
             return receiveResult;
         }
 

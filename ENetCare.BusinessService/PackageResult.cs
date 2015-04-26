@@ -19,5 +19,7 @@ namespace ENetCare.BusinessService
         public const string PackageHasExpired = "That package has expired, cannot distribute an expired package";
         public const string EmployeeNotAuthorized = "You are not authorized to distribute packages";
         public const string EmployeeInDifferentLocation = "That Package is NOT located in this distribution centre";
+        public const string ExpirationDateCannotBeEarlierThanToday = "The expiration date cannot be earlier than today";
+        public const string ReceiveDateCannotBeEarlierThanSend = "The receive date cannot be earlier than the send date";
     }
 }

@@ -94,9 +94,14 @@ namespace ENetCare.UnitTest
         }
 
         public PackageTransit GetTransit(Package Package, DistributionCentre receiver) // dc
-        {
-            foreach(PackageTransit t in MockDataAccess.GetAllPackageTransits())
-                if(t.Package==Package && t.ReceiverCentre==receiver) return t;
+        {            
+            foreach (PackageTransit t in MockDataAccess.GetAllPackageTransits())
+                if (t.Package == Package &&
+                    (receiver == null || t.ReceiverCentre == receiver) &&
+                    t.DateReceived == null &&
+                    t.DateCancelled == null)
+                    return t;
+    
             return null;
         }
 
