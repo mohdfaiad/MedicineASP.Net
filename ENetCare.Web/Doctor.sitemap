@@ -1,11 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
     <siteMapNode title="Home" url="~/Home.aspx">
-        <siteMapNode title="Agency" url="~/Agency.aspx" >
-            <siteMapNode title="Services" url="~/Services.aspx">
-                <siteMapNode title="Training" url="~/Training.aspx"/>
-            </siteMapNode>
-        </siteMapNode>
         <siteMapNode title="Package">
           <siteMapNode title="Register" url="~/Package/Register.aspx" />
           <siteMapNode title="Send" url="~/Package/Send.aspx" />
@@ -21,9 +16,6 @@
         </siteMapNode>
         <siteMapNode url="" title="Reports"  description="">
           <siteMapNode title="Stocktaking" url="~/Report/Stocktaking.aspx" />
-        </siteMapNode>
-        <siteMapNode title="Utilities">
-            <siteMapNode title="Types" url="~/PackageTypes.aspx" />
         </siteMapNode>
         <siteMapNode title="About" url="~/About.aspx" />
     </siteMapNode>

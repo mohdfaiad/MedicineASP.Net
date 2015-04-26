@@ -17,7 +17,8 @@ namespace ENetCare.Web.MasterPages
             {
                 EmployeeMembershipUser user = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
 
-                litEmployeeName.Text = user.UserName;
+                litEmployeeUsername.Text = user.UserName;
+                litEmployeeFullName.Text = user.Comment;
                 litEmployeeType.Text = user.EmployeeType.ToString();
                 litLocationCentreName.Text = user.DistributionCentreName;
 

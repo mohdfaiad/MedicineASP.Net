@@ -68,7 +68,7 @@
                 <asp:Label ID="lblEmployeeType" runat="server" AssociatedControlID="rblEmployeeType" Text="Employee Type:" />
             </td>
             <td>
-                <asp:RadioButtonList ID="rblEmployeeType" RepeatDirection="Horizontal" runat="server">
+                <asp:RadioButtonList ID="rblEmployeeType" RepeatDirection="Horizontal" enabled="false" runat="server">
                     <asp:ListItem Text="Agent" Value="Agent" />
                     <asp:ListItem Text="Doctor" Value="Doctor" />
                     <asp:ListItem Text="Manager" Value="Manager"/>

@@ -17,7 +17,8 @@
 
 <div style="position: absolute; top: 30px; left: 600px">
     <table>
-        <tr><td style="text-align:right;">Name:     </td><td>  <b><asp:Literal ID="litEmployeeName" runat="server"/> (<asp:Literal ID="litEmployeeType" runat="server"/></b>)</td></tr>
+        <tr><td style="text-align:right;">Username:  </td><td>  <b><asp:Literal ID="litEmployeeUsername" runat="server"/> (<asp:Literal ID="litEmployeeType" runat="server"/></b>)</td></tr>
+        <tr><td style="text-align:right;">Full Name: </td><td>  <b><asp:Literal ID="litEmployeeFullName" runat="server"/></td></tr>
         <tr><td style="text-align:right;">Location: </td><td>  <b><asp:Literal ID="litLocationCentreName" runat="server"/></b></td></tr>
     </table>
 </div>

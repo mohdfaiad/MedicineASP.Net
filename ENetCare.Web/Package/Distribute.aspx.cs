@@ -118,6 +118,11 @@ namespace ENetCare.Web
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.BarCodeNotFound;
             }
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageInTransit;
+            }
             else if (eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
             {
                 eventArgs.Success = false;
@@ -128,12 +133,6 @@ namespace ENetCare.Web
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageIsLost;
             }
-            else if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
-            {
-                eventArgs.Success = false;
-                eventArgs.ErrorMessage = PackageResult.PackageInTransit;
-            }
-
             else if (eventArgs.Package.CurrentStatus == PackageStatus.Distributed)
             {
                 eventArgs.Success = false;

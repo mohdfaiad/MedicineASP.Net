@@ -1,14 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
     <siteMapNode title="Home" url="~/Home.aspx" >
-      <siteMapNode title="Agency Services" >
-          <siteMapNode title="Agency Training" url="~/Training.aspx"/>
-      </siteMapNode>
       <siteMapNode title="Package">
         <siteMapNode title="Register" url="~/Package/Register.aspx" />
         <siteMapNode title="Send" url="~/Package/Send.aspx" />
-        <siteMapNode title="Receive" url="~/Package/ReceivePackage.aspx" />
-        <siteMapNode title="Distribute" url="~/Package/Distribute.aspx" />
+        <siteMapNode title="Receive" url="~/Package/ReceivePackage.aspx" />        
         <siteMapNode title="Discard" url="~/Package/Discard.aspx" />
         <siteMapNode title="Audit" url="~/Package/Audit.aspx" />
       </siteMapNode>
