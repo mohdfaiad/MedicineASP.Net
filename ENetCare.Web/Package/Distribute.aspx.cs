@@ -38,6 +38,7 @@ namespace ENetCare.Web
                 EmployeeMembershipUser user = (EmployeeMembershipUser)System.Web.Security.Membership.GetUser();
                 DistributionCentre centre = employeeService.GetDistributionCentre(user.DistributionCentreId);
 
+                //Save centre and username in the viewstate
                 ViewState["DistributionCentre"] = centre;
                 ViewState["EmployeeUsername"] = user.UserName;
             }
@@ -81,7 +82,7 @@ namespace ENetCare.Web
 
                 StandardPackageType spt = _packageService.GetStandardPackageType(package.PackageType.PackageTypeId);
 
-                //Update the database
+                //Update the database and change status to distrubted for selected packages
                 var result = _packageService.Distribute(barcodes[i], centre, employee, expirationDate, spt, package.PackageId);
                 if (!result.Success)
                 {
@@ -97,6 +98,7 @@ namespace ENetCare.Web
                 }
                 else
                 {
+                    //Else if the item was successfully updated, append a success message to a placeholder
                     if (successMessage.Length == 0)
                     {
                         successMessage.Append("The following barcodes were distributed");
