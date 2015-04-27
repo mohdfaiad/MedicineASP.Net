@@ -72,6 +72,23 @@ namespace ENetCare.UnitTest
             Assert.AreEqual<bool>(result.Success, false);
             Assert.AreEqual<string>(result.ErrorMessage, PackageResult.ExpirationDateCannotBeEarlierThanToday);
         }
+
+        [TestMethod]
+        public void TestDiscard_HandleCentreNullReference()
+        {
+            DistributionCentre centre = new DistributionCentre();
+            centre = null;
+            MockPackageRepository packageRepository = new MockPackageRepository();
+            PackageService _packageService = new PackageService(packageRepository);
+            MockEmployeeRepository repository = new MockEmployeeRepository();
+            var employeeService = new EmployeeService(repository);
+            Employee authEmployee = employeeService.Retrieve("rsmith");
+            DateTime expirationDate = DateTime.Now;
+            Package package = _packageService.Retrieve("1232655456");
+            StandardPackageType spt2 = _packageService.GetStandardPackageType(package.PackageType.PackageTypeId);
+            var result = _packageService.Discard(package.BarCode, centre, authEmployee, expirationDate, spt2, package.PackageId);
+            Assert.IsNotNull(result);
+        }
             
         private Result DistributePackage(int currentCentreId, string userName, string barCode)
         {
