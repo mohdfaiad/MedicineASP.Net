@@ -14,6 +14,10 @@ using System.Web.UI.WebControls;
 
 namespace ENetCare.Web
 {
+    /// <summary>
+    /// This class implements all the methods that is required to distrubte a package
+    /// This class is also the code behind for the Distribute Page
+    /// </summary>
     public partial class Distribute : System.Web.UI.Page
     {
         private PackageService _packageService;
@@ -38,6 +42,12 @@ namespace ENetCare.Web
             }
         }
 
+        /// <summary>
+        /// This method is invoked up clicking the save button on the distribute page
+        /// This method sets up everything, it also process the items in the Distribute table
+        /// then one-by-one each item is processed and updated in the database
+        /// If there is any error, it will display an error message on the page
+        /// </summary>
         protected void btnSave_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid)
@@ -107,6 +117,11 @@ namespace ENetCare.Web
             Response.Redirect("~/Home.aspx");
         }
 
+        /// <summary>
+        /// In this method all the validations are carried out, they check for package availability, the correct centre
+        /// Permission to dsitribute and if any of them fail the validation an error message is shown to the user and the
+        /// item is never added to the table.
+        /// </summary>
         private void PackageBarcodeOnAdd(object sender, BarCodeAddValidateEventArgs eventArgs)
         {
             eventArgs.Success = true;
