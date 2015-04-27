@@ -127,8 +127,8 @@ namespace ENetCare.Web
         }
 
         /// <summary>
-        /// In this method all the validations are carried out, they check for package availability, the correct centre
-        /// Permission to dsitribute and if any of them fail the validation an error message is shown to the user and the
+        /// In this method all the validations are carried out, they check for package availability, the correct centre,
+        /// permission to discard. If any of them fail the validation an error message is shown to the user and the
         /// item is never added to the table.
         /// </summary>
         private void PackageBarcodeOnAdd(object sender, BarCodeAddValidateEventArgs eventArgs)
