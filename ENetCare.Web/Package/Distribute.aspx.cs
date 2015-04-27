@@ -143,8 +143,7 @@ namespace ENetCare.Web
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageAlreadyDiscarded;
             }
-
-            if (eventArgs.Package.ExpirationDate <= DateTime.Now)
+            else if (eventArgs.Package.ExpirationDate <= DateTime.Now)
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageHasExpired;

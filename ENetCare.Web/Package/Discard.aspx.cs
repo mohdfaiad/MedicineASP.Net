@@ -118,25 +118,15 @@ namespace ENetCare.Web
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.BarCodeNotFound;
             }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.Lost)
-            {
-                eventArgs.Success = true;
-                eventArgs.ErrorMessage = PackageResult.PackageIsLost;
-            }
-            else if (eventArgs.Package.ExpirationDate >= DateTime.Now)
-            {
-                eventArgs.Success = false;
-                eventArgs.ErrorMessage = PackageResult.PackageNotExpired + eventArgs.Package.ExpirationDate.ToShortDateString();
-            }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
-            {
-                eventArgs.Success = false;
-                eventArgs.ErrorMessage = PackageResult.PackageInTransit;
-            }
-            else if (eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
+            else if (eventArgs.Package.CurrentLocation != null && eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageElsewhere;
+            }
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.Lost)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageIsLost;
             }
             else if (eventArgs.Package.CurrentStatus == PackageStatus.Distributed)
             {
@@ -147,6 +137,16 @@ namespace ENetCare.Web
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageAlreadyDiscarded;
+            }
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageInTransit;
+            }
+            else if (eventArgs.Package.ExpirationDate >= DateTime.Now)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageNotExpired + eventArgs.Package.ExpirationDate.ToShortDateString();
             }
         }
     }

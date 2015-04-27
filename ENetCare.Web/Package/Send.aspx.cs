@@ -135,25 +135,30 @@ namespace ENetCare.Web
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.BarCodeNotFound;
             }
-            if (eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
-            {
-                eventArgs.Success = false;
-                eventArgs.ErrorMessage = PackageResult.PackageElsewhere;
-            }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.Distributed)
-            {
-                eventArgs.Success = false;
-                eventArgs.ErrorMessage = PackageResult.PackageAlreadyDistributed;
-            }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.InTransit)
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageInTransit;
             }
-            if (eventArgs.Package.CurrentStatus == PackageStatus.Discarded)
+            else if (eventArgs.Package.CurrentLocation.CentreId != centre.CentreId)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageElsewhere;
+            }
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.Distributed)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageAlreadyDistributed;
+            }
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.Discarded)
             {
                 eventArgs.Success = false;
                 eventArgs.ErrorMessage = PackageResult.PackageAlreadyDiscarded;
+            }
+            else if (eventArgs.Package.CurrentStatus == PackageStatus.Lost)
+            {
+                eventArgs.Success = false;
+                eventArgs.ErrorMessage = PackageResult.PackageIsLost;
             }
         }
 
