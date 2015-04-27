@@ -27,6 +27,7 @@ namespace ENetCare.Web
             IPackageRepository packageRepository = new PackageRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             _packageService = new PackageService(packageRepository);
 
+            //Use the custom Barcode event which is triggered when a new barcode is to be added
             ucPackageBarcode.AddValidate += PackageBarcodeOnAdd;
 
             if (!Page.IsPostBack)
@@ -63,12 +64,14 @@ namespace ENetCare.Web
             IEmployeeRepository repository = new EmployeeRepository(ConfigurationManager.ConnectionStrings["ENetCare"].ConnectionString);
             var employeeService = new EmployeeService(repository);
 
+            //Retrieve the viewstate for Employee Username
             string employeeUsername = (string)ViewState["EmployeeUsername"];
 
             employee = employeeService.Retrieve(employeeUsername);
 
             DateTime expirationDate = DateTime.Now;
 
+            //Go through each item in the list of packages that are to be distributed, and process them
             List<string> barcodes = ucPackageBarcode.GetBarcodes();
             for (int i = 0; i < barcodes.Count(); i++)
             {
@@ -78,6 +81,7 @@ namespace ENetCare.Web
 
                 StandardPackageType spt = _packageService.GetStandardPackageType(package.PackageType.PackageTypeId);
 
+                //Update the database
                 var result = _packageService.Distribute(barcodes[i], centre, employee, expirationDate, spt, package.PackageId);
                 if (!result.Success)
                 {
