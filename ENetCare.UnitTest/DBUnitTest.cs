@@ -20,7 +20,7 @@ namespace ENetCare.UnitTest                             // (P. 04-04-2015)
     public class DBUnitTest
     {   
         //static string _connectionString = ConfigurationManager.ConnectionStrings["EnetCare"].ConnectionString;
-        static string _connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=ENetCare;Integrated Security=True;MultipleActiveResultSets=True";
+        static string _connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=ENetCareDiff;Integrated Security=True;MultipleActiveResultSets=True";
         SqlConnection enetConnection = new SqlConnection(_connectionString);
         
  
