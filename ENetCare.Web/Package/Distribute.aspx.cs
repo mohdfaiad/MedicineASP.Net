@@ -85,6 +85,7 @@ namespace ENetCare.Web
                 var result = _packageService.Distribute(barcodes[i], centre, employee, expirationDate, spt, package.PackageId);
                 if (!result.Success)
                 {
+                    //if there was error updating the package then show error message
                     var err = new CustomValidator();
                     err.ValidationGroup = "destinationDetails";
                     err.IsValid = false;
@@ -105,12 +106,14 @@ namespace ENetCare.Web
                 }
             }
 
+            //If the packages were successfully Distributed then show a success message
             if (successMessage.Length > 0)
             {
                 pnlMessage.Visible = true;
                 litMessage.Text = successMessage.ToString();
             }
 
+            //Disable Save button, and hide the barcode control
             ucPackageBarcode.Visible = false;
             btnSave.Enabled = false;
             btnClose.Enabled = true;
